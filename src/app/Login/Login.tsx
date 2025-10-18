@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import './Login.css';
+import { useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+ const navigate=useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Login attempt:', { email, password });
-    // Burada login logic'i ekleyebilirsin
+    navigate("/dashboard");
   };
 
   return (
@@ -37,7 +39,6 @@ const Login: React.FC = () => {
               required
             />
           </div>
-          
           <button type="submit" className="login-btn">
             Giriş Yap
           </button>
@@ -48,3 +49,5 @@ const Login: React.FC = () => {
 };
 
 export default Login;
+
+

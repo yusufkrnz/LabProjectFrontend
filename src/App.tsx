@@ -1,17 +1,23 @@
-import { useState } from 'react'
-
-import './App.css'
-import Login from './components/Login/Login'
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import "./App.css";
+import Dashboard from "./app/Dashboard/Dashboard";
+import Login from "./app/Login";
 
 function App() {
- // const [count, setCount] = useState(0)
+    return (
+        <Router>
+            <Routes>
+                {/* Login Sayfası */}
+                <Route path="/login" element={<Login />} />
 
-  return (
-    <>
-      <Login></Login>
-      
-    </>
-  )
+                {/* Dashboard Sayfası */}
+                <Route path="/dashboard" element={<Dashboard />} />
+
+                {/* Herhangi başka bir route -> login'e yönlendir */}
+                <Route path="*" element={<Navigate to="/login" replace />} />
+            </Routes>
+        </Router>
+    );
 }
 
-export default App
+export default App;
