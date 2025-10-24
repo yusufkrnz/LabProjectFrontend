@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import SideBar from "./components/SideBar/SideBar";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function Dashboard() {
     const [sidebarExpanded, setSidebarExpanded] = useState(true);
     const [isMobile, setIsMobile] = useState(false);
+    const {user,isLoading}=useAuth();
 
     useEffect(() => {
         // Check if mobile
@@ -59,7 +61,7 @@ export default function Dashboard() {
                                 Dashboard
                             </h1>
                             <p className="text-gray-600">
-                                Hoş geldiniz! Dashboard içeriğiniz burada görüntülenecek.
+                                Hoş geldiniz! {user?.username || 'Kullanıcı'} Dashboard'dasınız şuan .
                             </p>
                         </div>
                         

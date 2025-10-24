@@ -2,9 +2,11 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import "./App.css";
 import Dashboard from "./app/Dashboard/Dashboard";
 import Login from "./app/Login";
+import { AuthProvider } from "./contexts/AuthContext";
 
 function App() {
     return (
+        <AuthProvider>
         <Router>
             <Routes>
                 {/* Login Sayfası */}
@@ -17,6 +19,7 @@ function App() {
                 <Route path="*" element={<Navigate to="/login" replace />} />
             </Routes>
         </Router>
+        </AuthProvider>
     );
 }
 
