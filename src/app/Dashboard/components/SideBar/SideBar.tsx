@@ -12,6 +12,8 @@ import {
   ChevronRight
 } from "lucide-react";
 import './SideBar.css';
+import Dock from '../SideBar/DockComponents/Dock';
+import { VscHome, VscArchive, VscAccount, VscSettingsGear } from "react-icons/vsc";
 
 export default function SideBar() {
   const [isExpanded, setIsExpanded] = useState(true);
@@ -25,6 +27,13 @@ export default function SideBar() {
     { id: "contacts", name: "Networks", icon: <Users size={20} /> },
   ];
 
+  const dockItems = [
+    { icon: <VscHome size={18} />, label: 'Home', onClick: () => alert('Home!') },
+    { icon: <VscArchive size={18} />, label: 'Archive', onClick: () => alert('Archive!') },
+    { icon: <VscAccount size={18} />, label: 'Profile', onClick: () => alert('Profile!') },
+    { icon: <VscSettingsGear size={18} />, label: 'Settings', onClick: () => alert('Settings!') },
+  ];
+
   const accountItems = [
     { id: "notifications", name: "Notifications", icon: <Bell size={20} />, badge: "24" },
     { id: "chat", name: "Chat", icon: <MessageSquare size={20} />, badge: "8" },
@@ -34,16 +43,13 @@ export default function SideBar() {
   const toggleSidebar = () => {
     const newState = !isExpanded;
     setIsExpanded(newState);
-    
-    // Dispatch custom event to notify Dashboard
-    const event = new CustomEvent('sidebarToggle', {
-      detail: { isExpanded: newState }
-    });
+    const event = new CustomEvent('sidebarToggle', { detail: { isExpanded: newState } });
     window.dispatchEvent(event);
   };
 
   return (
     <aside className={`sidebar ${isExpanded ? 'expanded' : 'collapsed'}`}>
+      
       {/* Header */}
       <div className="sidebar-header">
         <button 
@@ -54,7 +60,6 @@ export default function SideBar() {
           {isExpanded ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
         </button>
       </div>
-
 
       {/* Main Navigation */}
       <nav className="main-nav">
@@ -114,6 +119,17 @@ export default function SideBar() {
           <span>⋯</span>
         </button>
       </div>
+
+      {/* Dock at the bottom of sidebar */}
+      <div className="sidebar-dock">
+        <Dock 
+          items={dockItems}
+          panelHeight={68}
+          baseItemSize={50}
+          magnification={70}
+        />
+      </div>
+
     </aside>
   );
 }

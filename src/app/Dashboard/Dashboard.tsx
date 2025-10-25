@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import SideBar from "./components/SideBar/SideBar";
 import { useAuth } from "../../contexts/AuthContext";
 
+
 export default function Dashboard() {
     const [sidebarExpanded, setSidebarExpanded] = useState(true);
     const [isMobile, setIsMobile] = useState(false);

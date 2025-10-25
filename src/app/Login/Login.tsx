@@ -3,7 +3,6 @@ import './Login.css';
 import { useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { Eye, EyeOff, ArrowRight, Mail, Lock } from 'lucide-react';
-import { authAPI } from '../../services/api';
 import { useAuth } from '../../contexts/AuthContext';
 
 const Login: React.FC = () => {
