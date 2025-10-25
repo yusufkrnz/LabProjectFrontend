@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { 
   LayoutDashboard,
   Package,
@@ -12,12 +12,40 @@ import {
   ChevronRight
 } from "lucide-react";
 import './SideBar.css';
-import Dock from '../SideBar/DockComponents/Dock';
-import { VscHome, VscArchive, VscAccount, VscSettingsGear } from "react-icons/vsc";
+
+interface UserInfo {
+  username: string;
+  surname: string;
+  eMail: string;
+  avatar?: string;
+}
 
 export default function SideBar() {
   const [isExpanded, setIsExpanded] = useState(true);
   const [activeItem, setActiveItem] = useState("dashboard");
+  const [user, setUser] = useState<UserInfo | null>(null);
+
+  useEffect(() => {
+    // Giriş yapan kullanıcı bilgilerini localStorage'dan al
+    const storedUser = localStorage.getItem('user');
+    
+    if (storedUser) {
+      try {
+        const userData = JSON.parse(storedUser);
+        
+        const userInfo = {
+          username: userData.username || userData.name?.split(' ')[0] || "User",
+          surname: userData.surname || userData.name?.split(' ')[1] || "",
+          eMail: userData.eMail || userData.email || "user@example.com",
+          avatar: userData.avatar || userData.profilePicture || ""
+        };
+        
+        setUser(userInfo);
+      } catch (error) {
+        console.error('Error parsing user data:', error);
+      }
+    }
+  }, []);
 
   const menuItems = [
     { id: "dashboard", name: "Ana Sayfa", icon: <LayoutDashboard size={20} /> },
@@ -25,13 +53,6 @@ export default function SideBar() {
     { id: "mail", name: "Mesajlar", icon: <Mail size={20} /> },
     { id: "calendar", name: "Calendar", icon: <Calendar size={20} /> },
     { id: "contacts", name: "Networks", icon: <Users size={20} /> },
-  ];
-
-  const dockItems = [
-    { icon: <VscHome size={18} />, label: 'Home', onClick: () => alert('Home!') },
-    { icon: <VscArchive size={18} />, label: 'Archive', onClick: () => alert('Archive!') },
-    { icon: <VscAccount size={18} />, label: 'Profile', onClick: () => alert('Profile!') },
-    { icon: <VscSettingsGear size={18} />, label: 'Settings', onClick: () => alert('Settings!') },
   ];
 
   const accountItems = [
@@ -102,33 +123,25 @@ export default function SideBar() {
       </div>
 
       {/* User Profile */}
-      <div className="user-profile">
-        <div className="user-avatar">
-          <img 
-            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" 
-            alt="User Avatar"
-          />
-        </div>
-        {isExpanded && (
-          <div className="user-info">
-            <div className="user-name">Nina Ergemla</div>
-            <div className="user-email">nina_erg@ergemla.com</div>
+      {user && (
+        <div className="user-profile">
+          <div className="user-avatar">
+            <img 
+              src={user.avatar || "https://ui-avatars.com/api/?name=" + encodeURIComponent(`${user.username} ${user.surname}`)} 
+              alt={`${user.username} ${user.surname}`}
+            />
           </div>
-        )}
-        <button className="user-menu-btn">
-          <span>⋯</span>
-        </button>
-      </div>
-
-      {/* Dock at the bottom of sidebar */}
-      <div className="sidebar-dock">
-        <Dock 
-          items={dockItems}
-          panelHeight={68}
-          baseItemSize={50}
-          magnification={70}
-        />
-      </div>
+          {isExpanded && (
+            <div className="user-info">
+              <div className="user-name">{`${user.username} ${user.surname}`.trim()}</div>
+              <div className="user-email">{user.eMail}</div>
+            </div>
+          )}
+          <button className="user-menu-btn">
+            <span>⋯</span>
+          </button>
+        </div>
+      )}
 
     </aside>
   );

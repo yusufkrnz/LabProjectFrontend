@@ -1,22 +1,25 @@
-/* ---------------- Sidebar ---------------- */
+/* ---------------- Sidebar (Dock Style) ---------------- */
 .sidebar {
   position: fixed;
   left: 0;
   top: 0;
   height: 100vh;
-  background: white;
-  border-right: 1px solid #e5e7eb;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(135deg, rgba(6, 0, 16, 0.95), rgba(17, 24, 39, 0.95));
+  backdrop-filter: blur(20px);
+  border-right: 1px solid rgba(34, 34, 34, 0.6);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1000;
   display: flex;
   flex-direction: column;
   width: 280px;
-  overflow: visible; /* Dock için önemli */
+  overflow: visible;
 }
 
 .sidebar.collapsed {
-  width: 70px;
+  width: 80px;
 }
 
 /* Header */
@@ -24,34 +27,37 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 16px;
-  border-bottom: 1px solid #f3f4f6;
+  padding: 20px;
+  border-bottom: 1px solid rgba(34, 34, 34, 0.4);
   min-height: 70px;
 }
 
 .toggle-btn {
-  width: 24px;
-  height: 24px;
-  border: none;
-  background: #f3f4f6;
-  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #6b7280;
-  transition: all 0.2s ease;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .toggle-btn:hover {
-  background: #e5e7eb;
-  color: #374151;
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 1);
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* Navigation */
 .main-nav {
   flex: 1;
-  padding: 16px 8px;
+  padding: 16px 12px;
   overflow-y: auto;
 }
 
@@ -66,28 +72,39 @@
   width: 100%;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  border: none;
-  background: none;
-  border-radius: 8px;
+  gap: 14px;
+  padding: 14px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  color: #6b7280;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: rgba(255, 255, 255, 0.7);
   font-size: 14px;
   font-weight: 500;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
   position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .nav-item:hover {
-  background: #f9fafb;
-  color: #374151;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 1);
+  transform: translateX(4px) scale(1.02);
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .nav-item.active {
-  background: #eff6ff;
-  color: #3b82f6;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(167, 139, 250, 0.2));
+  border-color: rgba(139, 92, 246, 0.5);
+  color: rgba(255, 255, 255, 1);
+  box-shadow: 
+    0 4px 20px rgba(139, 92, 246, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .nav-icon {
@@ -104,29 +121,31 @@
 }
 
 .badge {
-  background: #fbbf24;
-  color: #92400e;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 2px 6px;
-  border-radius: 10px;
-  min-width: 18px;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 12px;
+  min-width: 20px;
   text-align: center;
+  box-shadow: 0 2px 8px rgba(251, 191, 36, 0.4);
 }
 
 /* Account Section */
 .account-section {
-  padding: 16px 8px;
-  border-top: 1px solid #f3f4f6;
+  padding: 16px 12px;
+  border-top: 1px solid rgba(34, 34, 34, 0.4);
 }
 
 .section-title {
-  font-size: 11px;
-  font-weight: 600;
-  color: #9ca3af;
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
   margin-bottom: 12px;
-  padding: 0 16px;
-  letter-spacing: 0.5px;
+  padding: 0 18px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 /* User Profile */
@@ -134,17 +153,32 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 16px;
-  border-top: 1px solid #f3f4f6;
+  padding: 16px 18px;
+  border-top: 1px solid rgba(34, 34, 34, 0.4);
   margin-top: auto;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.user-profile:hover {
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .user-avatar {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
+  border: 2px solid rgba(139, 92, 246, 0.5);
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.3);
+  transition: all 0.3s ease;
+}
+
+.user-profile:hover .user-avatar {
+  border-color: rgba(139, 92, 246, 0.8);
+  transform: scale(1.1);
 }
 
 .user-avatar img {
@@ -159,39 +193,42 @@
 }
 
 .user-name {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
-  color: #111827;
+  color: rgba(255, 255, 255, 0.95);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .user-email {
-  font-size: 12px;
-  color: #6b7280;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .user-menu-btn {
-  width: 24px;
-  height: 24px;
-  border: none;
-  background: none;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
   cursor: pointer;
-  color: #6b7280;
+  color: rgba(255, 255, 255, 0.6);
   font-size: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
-  transition: all 0.2s ease;
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
 .user-menu-btn:hover {
-  background: #f3f4f6;
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 1);
+  transform: scale(1.1);
 }
 
 /* Collapsed State Adjustments */
@@ -218,84 +255,22 @@
 
 /* Scrollbar Styling */
 .main-nav::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
 }
 
 .main-nav::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 3px;
 }
 
 .main-nav::-webkit-scrollbar-thumb {
-  background: #e5e7eb;
-  border-radius: 2px;
+  background: rgba(139, 92, 246, 0.3);
+  border-radius: 3px;
+  transition: background 0.3s ease;
 }
 
 .main-nav::-webkit-scrollbar-thumb:hover {
-  background: #d1d5db;
-}
-
-/* ---------------- Dock Styles ---------------- */
-.sidebar-dock {
-  margin-top: 12px;
-  padding-bottom: 12px;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  position: relative;
-  z-index: 10;
-}
-
-.dock-outer {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  width: 100%;
-}
-
-.dock-panel {
-  display: flex;
-  align-items: flex-end;
-  gap: 1rem;
-  background-color: #060010;
-  padding: 0.5rem;
-  border-radius: 1rem;
-  border: 1px solid #222;
-}
-
-.dock-item {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  background-color: #060010;
-  border: 1px solid #222;
-  box-shadow:
-    0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  cursor: pointer;
-  outline: none;
-}
-
-.dock-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.dock-label {
-  position: absolute;
-  top: -1.5rem;
-  left: 50%;
-  width: fit-content;
-  white-space: pre;
-  border-radius: 0.375rem;
-  border: 1px solid #222;
-  background-color: #060010;
-  padding: 0.125rem 0.5rem;
-  font-size: 0.75rem;
-  color: #fff;
-  transform: translateX(-50%);
+  background: rgba(139, 92, 246, 0.6);
 }
 
 /* ---------------- Dashboard Main Content ---------------- */
