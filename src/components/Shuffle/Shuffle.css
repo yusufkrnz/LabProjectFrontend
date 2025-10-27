@@ -1,0 +1,35 @@
+.shuffle-parent {
+  display: inline-block;
+  white-space: normal;
+  word-wrap: break-word;
+  will-change: transform;
+  line-height: inherit; /* inherit line height instead of forcing 1 */
+  font-size: inherit;
+  font-family: inherit;
+  text-transform: inherit; /* inherit text transform */
+  visibility: hidden; /* hidden until initialized to avoid flash/jump */
+  margin: 0; /* reset margins */
+  padding: 0; /* reset padding */
+}
+
+.shuffle-parent.is-ready {
+  visibility: visible;
+}
+
+.shuffle-char-wrapper {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: baseline;
+  position: relative;
+}
+
+.shuffle-char-wrapper > span {
+  display: inline-flex;
+  will-change: transform;
+}
+
+.shuffle-char {
+  line-height: inherit; /* inherit line height */
+  display: inline-block;
+  text-align: center;
+}
