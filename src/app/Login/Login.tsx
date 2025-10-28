@@ -102,7 +102,7 @@ try {
         ease: "power2.in"
       });
       
-      setTimeout(() => navigate("/dashboard"), 800);
+      setTimeout(() => navigate("/landingpage"), 800);
     } catch (error) {
       console.error('Login error:', error);
       alert('Giriş başarısız!');

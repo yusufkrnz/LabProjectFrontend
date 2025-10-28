@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
-import Dashboard from "./app/Dashboard/Dashboard";
+import LandingPage from "./app/LandingPage";
 import Login from "./app/Login";
 import { AuthProvider } from "./contexts/AuthContext";
 
@@ -12,8 +12,8 @@ function App() {
                 {/* Login Sayfası */}
                 <Route path="/login" element={<Login />} />
 
-                {/* Dashboard Sayfası */}
-                <Route path="/dashboard" element={<Dashboard />} />
+                {/* Landing Page */}
+                <Route path="/landingpage" element={<LandingPage />} />
 
                 {/* Herhangi başka bir route -> login'e yönlendir */}
                 <Route path="*" element={<Navigate to="/login" replace />} />
