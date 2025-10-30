@@ -1,0 +1,142 @@
+.header-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #FFFFFF;
+  border-bottom: 1px solid #E5E5E5;
+  z-index: 1000;
+  padding: 1rem 3rem;
+}
+
+.header-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 20px;
+  color: #1A36B0; /* blue */
+  margin-right: 4px;
+}
+
+.header-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #021013;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.header-nav {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item a {
+  text-decoration: none;
+  color: #021013;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.nav-item a:hover {
+  color: #1A36B0;
+}
+
+.nav-item.has-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.dropdown-icon {
+  font-size: 0.7rem;
+  color: #666;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.login-link {
+  text-decoration: none;
+  color: #021013;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.cta-button {
+  background: #FFCA29;
+  color: #021013;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cta-button:hover {
+  background: #1A36B0;
+  color: #FFFFFF;
+  transform: translateY(-1px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-container {
+    padding: 0.75rem 1rem;
+  }
+
+  .header-title {
+    font-size: 1.2rem;
+  }
+
+  .user-greeting {
+    font-size: 0.75rem;
+  }
+
+  .user-name {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-content {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  .user-info {
+    align-items: flex-start;
+  }
+}
+
