@@ -22,6 +22,7 @@ import {
   DollarSign,
   TrendingUp
 } from 'lucide-react';
+import frontendIll from '../../media/frontendIll.png';
 import StepIndicator from './components/StepIndicator';
 import type { 
   UserRole, 
@@ -34,6 +35,7 @@ import type {
 const Onboarding: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState<OnboardingFormData & { roles: UserRole[] }>({
@@ -150,6 +152,8 @@ const Onboarding: React.FC = () => {
       );
     }
   }, []);
+
+  
 
   const updateFormData = (field: string, value: any) => {
     const keys = field.split('.');
@@ -498,7 +502,7 @@ const Onboarding: React.FC = () => {
                   <button
                     key={domain.id}
                     type="button"
-                    className={`domain-card ${selected ? 'selected' : ''}`}
+                    className={`domain-card domain-${domain.id} ${selected ? 'selected' : ''}`}
                     onClick={() => {
                       const currentDomains = formData.developerData?.domains || [];
                       const newDomains = selected
@@ -507,8 +511,15 @@ const Onboarding: React.FC = () => {
                       updateFormData('developerData.domains', newDomains);
                     }}
                   >
-                    <span className="domain-icon">{domain.icon}</span>
-                    <span>{domain.label}</span>
+                    <div className="domain-visual">
+                      {domain.id === 'frontend' ? (
+                        <img src={frontendIll} alt="Frontend" className="domain-img" />
+                      ) : (
+                        <span className="domain-icon">{domain.icon}</span>
+                      )}
+                    </div>
+                    <span className="domain-title">{domain.label}</span>
+                    <div className="domain-footer-bar" />
                     {selected && <Check size={16} className="domain-check" />}
                   </button>
                 );
@@ -1655,6 +1666,7 @@ const Onboarding: React.FC = () => {
 
   return (
     <div className="onboarding-container onboarding-dark" ref={containerRef}>
+      
       {/* Left Panel - Progress & Info */}
       <div className="onboarding-left-panel" ref={leftPanelRef}>
         <div className="left-panel-content">

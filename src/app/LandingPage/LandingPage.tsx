@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Header from "../../components/Header";
+import MagicBento from "./components/MagicBento";
 import "./LandingPage.css";
 // hero background image is set via CSS
 
@@ -61,6 +62,22 @@ export default function LandingPage() {
                                         </div>
                                     </div>
                                 </div>
+            {/* Magic Bento Feature Grid */}
+            <div className="section-white" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <MagicBento
+                    textAutoHide={true}
+                    enableStars={true}
+                    enableSpotlight={true}
+                    enableBorderGlow={true}
+                    enableTilt={true}
+                    enableMagnetism={true}
+                    clickEffect={true}
+                    spotlightRadius={300}
+                    particleCount={12}
+                    glowColor="37, 99, 235"
+                />
+            </div>
+
             {/* Sections - scroll için birden fazla bölüm */}
             {Array.from({ length: 10 }, (_, i) => (
                 <div key={i} className="section-white" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

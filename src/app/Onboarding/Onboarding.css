@@ -7,14 +7,16 @@
   overflow: hidden;
 }
 
+/* floating header styles removed; using global Header component */
+
 /* Dark Theme */
 .onboarding-container.onboarding-dark {
-  background: linear-gradient(180deg, #1a1a1a 0%, #2d2d3a 50%, #3a2d4a 100%);
+  background: #000000;
   color: #ffffff;
 }
 
 .onboarding-container.onboarding-dark .onboarding-right-panel {
-  background: #1a1a1a;
+  background: #000000;
   color: #ffffff;
 }
 
@@ -1365,46 +1367,91 @@
 /* Domain Selection */
 .domains-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
+  grid-template-columns: repeat(4, minmax(160px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.25rem;
 }
 
 .domain-card {
   position: relative;
-  padding: 1.5rem 1rem;
-  background: #f9fafb;
-  border: 2px solid #e5e7eb;
-  border-radius: 12px;
+  height: 220px;
+  background: #1f2937; /* dark */
+  border: 2px solid #4b5563;
+  border-radius: 20px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 0.95rem;
-  color: #374151;
-  font-weight: 500;
+  transition: all 0.25s ease;
+  color: #e5e7eb;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  min-height: 80px;
   flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1rem;
+  overflow: visible; /* let visual overflow for 3D feel */
 }
 
 .domain-card:hover {
-  border-color: #2563eb;
-  background: #fff7ed;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
 }
 
 .domain-card.selected {
-  background: linear-gradient(135deg, #2563eb 0%, #ea580c 100%);
+  background: linear-gradient(180deg, #2563eb 0%, #ea580c 100%);
   border-color: #2563eb;
-  color: white;
-  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
+  color: #ffffff;
+  box-shadow: 0 8px 32px rgba(37, 99, 235, 0.35);
 }
 
 .domain-icon {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 72px;
+  margin-top: 0.5rem;
   font-size: 2rem;
+}
+
+.domain-visual {
+  position: relative;
+  width: 100%;
+  height: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: visible;
+  perspective: 800px;
+}
+
+.domain-visual .domain-img {
+  width: 120%;
+  max-width: 180px;
+  height: 90px;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 30px rgba(0,0,0,0.45));
+  will-change: transform;
+}
+
+.domain-card.domain-frontend .domain-visual .domain-img {
+  position: absolute;
+  top: -48px;
+  left: -30px;
+  transform: scale(1.38) rotateX(6deg) rotateZ(-6deg);
+}
+
+.domain-title {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.domain-footer-bar {
+  width: 80%;
+  height: 8px;
+  border-radius: 6px;
+  background: #374151;
+}
+
+.domain-card.selected .domain-footer-bar {
+  background: rgba(255,255,255,0.35);
 }
 
 .domain-check {

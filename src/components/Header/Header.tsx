@@ -1,11 +1,38 @@
 import { useAuth } from "../../contexts/AuthContext";
+import { useEffect, useState } from "react";
 import "./Header.css";
 
 export default function Header() {
     const { user } = useAuth();
+    const [shrink, setShrink] = useState(false);
+
+    useEffect(() => {
+        // Listen to window + common in-app scroll containers
+        const landing = document.querySelector('.landingpage-container') as HTMLElement | null;
+        const onboardingRight = document.querySelector('.onboarding-right-panel') as HTMLElement | null;
+
+        const computeScroll = () => {
+            const winY = window.scrollY || document.documentElement.scrollTop || 0;
+            const landY = landing ? landing.scrollTop : 0;
+            const rightY = onboardingRight ? onboardingRight.scrollTop : 0;
+            const maxY = Math.max(winY, landY, rightY);
+            setShrink(maxY > 40);
+        };
+
+        const opts: AddEventListenerOptions = { passive: true };
+        window.addEventListener('scroll', computeScroll, opts);
+        landing?.addEventListener('scroll', computeScroll, opts);
+        onboardingRight?.addEventListener('scroll', computeScroll, opts);
+        computeScroll();
+        return () => {
+            window.removeEventListener('scroll', computeScroll);
+            landing?.removeEventListener('scroll', computeScroll as any);
+            onboardingRight?.removeEventListener('scroll', computeScroll as any);
+        };
+    }, []);
 
     return (
-        <header className="header-container">
+        <header className={`header-container ${shrink ? 'shrink' : ''}`}>
             <div className="header-content">
                 <div className="header-brand">
                     <div className="logo-icon" aria-label="Bridge logo">
@@ -24,15 +51,13 @@ export default function Header() {
                             <span className="dropdown-icon">▼</span>
                         </li>
                         <li className="nav-item"><a href="#home">Home</a></li>
-                        <li className="nav-item"><a href="#shop">Shop</a></li>
                         <li className="nav-item"><a href="#pages">Pages</a></li>
                         <li className="nav-item"><a href="#integrations">Integrations</a></li>
                         <li className="nav-item"><a href="#developers">Developers</a></li>
                     </ul>
                 </nav>
                 <div className="header-actions">
-                    <a href="#login" className="login-link">{user?.username ? user.username : 'Login'}</a>
-                    <button className="cta-button">Start for free</button>
+                    <a href="#login" className="login-link" title={user?.username ? `Signed in as ${user.username}` : 'Login'}>Login</a>
                 </div>
             </div>
         </header>
