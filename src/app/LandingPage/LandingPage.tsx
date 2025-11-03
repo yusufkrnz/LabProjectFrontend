@@ -23,7 +23,7 @@ export default function LandingPage() {
 
         handleScroll();
         container.addEventListener('scroll', handleScroll);
-        
+
         return () => {
             container.removeEventListener('scroll', handleScroll);
         };
@@ -58,9 +58,9 @@ export default function LandingPage() {
                             <button className="btn-orange">Başla</button>
                             <button className="btn-outline">Daha Fazla</button>
                         </div>
-                    </div>
-                </div>
-            </div>
+                                        </div>
+                                    </div>
+                                </div>
             {/* Sections - scroll için birden fazla bölüm */}
             {Array.from({ length: 10 }, (_, i) => (
                 <div key={i} className="section-white" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -70,7 +70,7 @@ export default function LandingPage() {
                             Scroll ederek köprünün inşa edilişini izleyin
                         </p>
                     </div>
-                </div>
+            </div>
             ))}
 
             <div className="scroll-indicator">

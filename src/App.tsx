@@ -2,7 +2,10 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import "./App.css";
 import LandingPage from "./app/LandingPage";
 import Login from "./app/Login";
+import Dashboard from "./app/Dashboard/Dashboard";
+import Onboarding from "./app/Onboarding";
 import { AuthProvider } from "./contexts/AuthContext";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 function App() {
     return (
@@ -14,6 +17,29 @@ function App() {
 
                 {/* Landing Page */}
                 <Route path="/landingpage" element={<LandingPage />} />
+
+                {/* Dashboard - Protected Route */}
+                <Route 
+                    path="/dashboard" 
+                    element={
+                        <ProtectedRoute>
+                            <Dashboard />
+                        </ProtectedRoute>
+                    } 
+                />
+
+                {/* Onboarding - Protected Route */}
+                <Route 
+                    path="/onboarding" 
+                    element={
+                        <ProtectedRoute>
+                            <Onboarding />
+                        </ProtectedRoute>
+                    } 
+                />
+
+                {/* Root path -> dashboard'a yönlendir (ProtectedRoute kontrol edecek) */}
+                <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
                 {/* Herhangi başka bir route -> login'e yönlendir */}
                 <Route path="*" element={<Navigate to="/login" replace />} />

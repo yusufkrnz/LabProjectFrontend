@@ -28,21 +28,62 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const userData = localStorage.getItem('user');
     
     if (token && userData) {
-      setUser(JSON.parse(userData));
+      try {
+        // userData'nın geçerli bir JSON string olup olmadığını kontrol et
+        if (!userData || userData === 'undefined' || userData === 'null' || userData.trim() === '' || !userData.startsWith('{')) {
+          // Geçersiz değerler için localStorage'ı temizle
+          localStorage.removeItem('user');
+          localStorage.removeItem('accessToken');
+        } else {
+          const parsedUser = JSON.parse(userData);
+          // Parse edilen verinin geçerli bir obje olup olmadığını kontrol et
+          if (parsedUser && typeof parsedUser === 'object' && parsedUser.id) {
+            setUser(parsedUser);
+          } else {
+            // Geçersiz obje - temizle
+            localStorage.removeItem('user');
+            localStorage.removeItem('accessToken');
+          }
+        }
+      } catch (error) {
+        // JSON parse hatası - localStorage'ı temizle
+        console.warn('Invalid user data in localStorage, clearing...', error);
+        localStorage.removeItem('user');
+        localStorage.removeItem('accessToken');
+      }
     }
     setIsLoading(false);
   }, []);
 
   const login = async (username: string, password: string) => {
-    const result = await authAPI.login({ username, password });
-    localStorage.setItem('accessToken', result.accessToken);
-    localStorage.setItem('user', JSON.stringify(result.user));
-    setUser(result.user);
+    try {
+      console.log('AuthContext - Login attempt:', { username });
+      const result = await authAPI.login({ username, password });
+      console.log('AuthContext - Login success, saving to localStorage');
+      
+      localStorage.setItem('accessToken', result.accessToken);
+      localStorage.setItem('user', JSON.stringify(result.user));
+      setUser(result.user);
+      
+      console.log('AuthContext - User set:', result.user);
+    } catch (error) {
+      console.error('AuthContext - Login error:', error);
+      // Hata mesajını yukarıya fırlat
+      throw error;
+    }
   };
 
   const logout = async () => {
-    await authAPI.logout();
-    setUser(null);
+    try {
+      await authAPI.logout();
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      // Her durumda localStorage'ı temizle
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('user');
+      setUser(null);
+    }
   };
 
   return (

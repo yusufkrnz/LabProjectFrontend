@@ -10,21 +10,25 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const{login}=useAuth();
+  const [errorMessage, setErrorMessage] = useState('');
+  const { login, isAuthenticated, isLoading: authLoading } = useAuth();
 
   const navigate = useNavigate();
-  
+
+  // Eğer zaten login olmuşsa dashboard'a yönlendir
+  useEffect(() => {
+    if (!authLoading && isAuthenticated) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [isAuthenticated, authLoading, navigate]);
+
   // Refs
   const containerRef = useRef<HTMLDivElement>(null);
   const leftPanelRef = useRef<HTMLDivElement>(null);
   const rightPanelRef = useRef<HTMLDivElement>(null);
   const morphingShapeRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    initializeAnimations();
-    startMorphingAnimation();
-  }, []);
-
+  // Fonksiyonları useEffect'ten önce tanımla
   const initializeAnimations = () => {
     // Gentle slide-in animations
     gsap.fromTo(leftPanelRef.current, 
@@ -64,6 +68,19 @@ const Login: React.FC = () => {
     });
   };
 
+  useEffect(() => {
+    // Sadece authLoading false olduğunda animasyonları başlat
+    if (!authLoading) {
+      initializeAnimations();
+      startMorphingAnimation();
+    }
+  }, [authLoading]);
+
+  // Loading durumunda render etme - TÜM HOOKS'LARDAN SONRA
+  if (authLoading) {
+    return <div>Yükleniyor...</div>;
+  }
+
   const handleInputFocus = (element: HTMLElement) => {
     gsap.to(element.parentElement, {
       scale: 1.02,
@@ -82,11 +99,25 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validasyon
+    if (!email || !password) {
+      setErrorMessage('Lütfen tüm alanları doldurun.');
+      return;
+    }
+
     setIsLoading(true);
-try {
+    setErrorMessage(''); // Hata mesajını temizle
+    
+    console.log('Login attempt started:', { email, passwordLength: password.length });
+    
+    try {
+      // Email'i username olarak kullan (API username bekliyor)
+      console.log('Calling login function...');
       await login(email, password);
+      console.log('Login successful!');
       
-      // Başarılı animasyon
+      // Başarılı animasyon (kısa)
       gsap.to('.login-btn', {
         scale: 0.98,
         duration: 0.1,
@@ -94,18 +125,14 @@ try {
         repeat: 1
       });
 
-      gsap.to([leftPanelRef.current, rightPanelRef.current], {
-        opacity: 0,
-        y: -30,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: "power2.in"
-      });
-      
-      setTimeout(() => navigate("/landingpage"), 800);
-    } catch (error) {
-      console.error('Login error:', error);
-      alert('Giriş başarısız!');
+      // Direkt navigate yap - localStorage'a kaydedildi, ProtectedRoute çalışacak
+      console.log('Navigating to dashboard...');
+      navigate("/dashboard", { replace: true });
+    } catch (error: any) {
+      console.error('Login error in handleSubmit:', error);
+      // Hata mesajını göster
+      const message = error?.message || 'Giriş başarısız! Kullanıcı adı veya şifre yanlış.';
+      setErrorMessage(message);
       setIsLoading(false);
     }
   };
@@ -202,6 +229,13 @@ try {
               </label>
               <a href="#" className="forgot-link">Şifremi unuttum</a>
             </div>
+
+            {/* Hata Mesajı */}
+            {errorMessage && (
+              <div className="error-message form-element">
+                {errorMessage}
+              </div>
+            )}
 
             <button 
               type="submit" 

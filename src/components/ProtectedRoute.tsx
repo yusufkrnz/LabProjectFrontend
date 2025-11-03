@@ -12,5 +12,14 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     return <div>Loading...</div>;
   }
 
-  return isAuthenticated ? <>{children}</> : <Navigate to="/login" />;
+  // localStorage'dan da kontrol et (state güncellenmemiş olabilir)
+  const token = localStorage.getItem('accessToken');
+  const userData = localStorage.getItem('user');
+  const hasLocalStorageAuth = token && userData && 
+    userData !== 'undefined' && 
+    userData !== 'null' && 
+    userData.trim() !== '' &&
+    userData.startsWith('{'); // JSON objesi olduğunu kontrol et
+
+  return (isAuthenticated || hasLocalStorageAuth) ? <>{children}</> : <Navigate to="/login" />;
 };
