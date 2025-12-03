@@ -1,26 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Login.css';
-import { useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { Eye, EyeOff, ArrowRight, Mail, Lock } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import ForgotPasswordCard from './components/ForgotPasswordCard';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [fullName, setFullName] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const { login, isAuthenticated, isLoading: authLoading } = useAuth();
-
-  const navigate = useNavigate();
-
-  // Eğer zaten login olmuşsa dashboard'a yönlendir
-  useEffect(() => {
-    if (!authLoading && isAuthenticated) {
-      navigate('/dashboard', { replace: true });
-    }
-  }, [isAuthenticated, authLoading, navigate]);
+  const [isForgotOpen, setIsForgotOpen] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(false);
+  const { login, isLoading: authLoading } = useAuth();
 
   // Refs
   const containerRef = useRef<HTMLDivElement>(null);
@@ -99,47 +94,56 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Validasyon
-    if (!email || !password) {
-      setErrorMessage('Lütfen tüm alanları doldurun.');
+
+    // Form validasyonu
+    if (!email || !password || (isFlipped && (!fullName || !confirmPassword))) {
+      setErrorMessage('Lütfen tüm alanları eksiksiz doldurun.');
+      return;
+    }
+
+    if (isFlipped && password !== confirmPassword) {
+      setErrorMessage('Şifreler birbiriyle eşleşmiyor.');
       return;
     }
 
     setIsLoading(true);
-    setErrorMessage(''); // Hata mesajını temizle
-    
-    console.log('Login attempt started:', { email, passwordLength: password.length });
-    
-    try {
-      // Email'i username olarak kullan (API username bekliyor)
-      console.log('Calling login function...');
-      await login(email, password);
-      console.log('Login successful!');
-      
-      // Başarılı animasyon (kısa)
-      gsap.to('.login-btn', {
-        scale: 0.98,
-        duration: 0.1,
-        yoyo: true,
-        repeat: 1
-      });
+    setErrorMessage('');
 
-      // Direkt navigate yap - localStorage'a kaydedildi, ProtectedRoute çalışacak
-      console.log('Navigating to dashboard...');
-      navigate("/dashboard", { replace: true });
-    } catch (error: any) {
-      console.error('Login error in handleSubmit:', error);
-      // Hata mesajını göster
-      const message = error?.message || 'Giriş başarısız! Kullanıcı adı veya şifre yanlış.';
-      setErrorMessage(message);
-      setIsLoading(false);
+    // Buton feedback animasyonu
+    gsap.to('.login-btn', {
+      scale: 0.98,
+      duration: 0.1,
+      yoyo: true,
+      repeat: 1
+    });
+
+    if (!isFlipped) {
+      // Normal login akışı
+      try {
+        console.log('Login attempt started:', { email, passwordLength: password.length });
+        await login(email, password);
+        console.log('Login successful!');
+        setIsLoading(false);
+      } catch (error: any) {
+        console.error('Login error in handleSubmit:', error);
+        const message = error?.message || 'Giriş başarısız! Kullanıcı adı veya şifre yanlış.';
+        setErrorMessage(message);
+        setIsLoading(false);
+      }
+    } else {
+      // Kayıt modu şu an sadece UI – backend entegrasyonu sonra bağlanabilir
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 900);
     }
   };
 
 
   return (
-    <div className="modern-login-container" ref={containerRef}>
+    <div
+      className={`modern-login-container ${isFlipped ? 'login-flipped' : ''}`}
+      ref={containerRef}
+    >
       {/* Left Panel - Welcome */}
       <div className="welcome-panel" ref={leftPanelRef}>
         <div className="welcome-content">
@@ -173,15 +177,52 @@ const Login: React.FC = () => {
         </div>
       </div>
 
-      {/* Right Panel - Login Form */}
+      {/* Right Panel - Login / Register Form */}
       <div className="login-panel" ref={rightPanelRef}>
         <div className="login-content">
           <div className="login-header form-element">
-            <h2>Giriş Yap</h2>
-            <p>Hesap bilgilerinizi girerek devam edin</p>
+            <h2>{isFlipped ? 'Hesap Oluştur' : 'Giriş Yap'}</h2>
+            <p>
+              {isFlipped
+                ? 'Kısa bir form ile Bridge hesabını oluştur.'
+                : 'Hesap bilgilerinizi girerek devam edin'}
+            </p>
+          </div>
+
+          <div className="social-row form-element">
+            <button type="button" className="social-btn social-google">
+              <span className="social-icon">G</span>
+              <span>Google ile devam et</span>
+            </button>
+            <button type="button" className="social-btn social-guest">
+              Misafir olarak devam et
+            </button>
+          </div>
+
+          <div className="divider form-element">
+            <span></span>
+            <p>veya email ile {isFlipped ? 'kayıt ol' : 'giriş yap'}</p>
+            <span></span>
           </div>
 
           <form className="login-form" onSubmit={handleSubmit}>
+            {isFlipped && (
+              <div className="input-group form-element">
+                <label>Ad Soyad</label>
+                <div className="input-wrapper">
+                  <input
+                    type="text"
+                    placeholder="Adınız ve soyadınız"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    onFocus={(e) => handleInputFocus(e.target)}
+                    onBlur={(e) => handleInputBlur(e.target)}
+                    required
+                  />
+                </div>
+              </div>
+            )}
+
             <div className="input-group form-element">
               <label>Email Adresi</label>
               <div className="input-wrapper">
@@ -204,7 +245,7 @@ const Login: React.FC = () => {
                 <Lock className="input-icon" size={18} />
                 <input
                   type={showPassword ? "text" : "password"}
-                  placeholder="Şifrenizi girin"
+                  placeholder={isFlipped ? 'Oluşturmak istediğiniz şifre' : 'Şifrenizi girin'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   onFocus={(e) => handleInputFocus(e.target)}
@@ -221,14 +262,39 @@ const Login: React.FC = () => {
               </div>
             </div>
 
-            <div className="form-options form-element">
-              <label className="checkbox-label">
-                <input type="checkbox" />
-                <span className="checkbox-custom"></span>
-                Beni hatırla
-              </label>
-              <a href="#" className="forgot-link">Şifremi unuttum</a>
-            </div>
+            {isFlipped && (
+              <div className="input-group form-element">
+                <label>Şifre Tekrar</label>
+                <div className="input-wrapper">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Şifrenizi tekrar yazın"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    onFocus={(e) => handleInputFocus(e.target)}
+                    onBlur={(e) => handleInputBlur(e.target)}
+                    required
+                  />
+                </div>
+              </div>
+            )}
+
+            {!isFlipped && (
+              <div className="form-options form-element">
+                <label className="checkbox-label">
+                  <input type="checkbox" />
+                  <span className="checkbox-custom"></span>
+                  Beni hatırla
+                </label>
+                <button
+                  type="button"
+                  className="forgot-link forgot-link-button"
+                  onClick={() => setIsForgotOpen(true)}
+                >
+                  Şifremi unuttum
+                </button>
+              </div>
+            )}
 
             {/* Hata Mesajı */}
             {errorMessage && (
@@ -245,11 +311,11 @@ const Login: React.FC = () => {
               {isLoading ? (
                 <>
                   <div className="spinner"></div>
-                  Giriş yapılıyor...
+                  {isFlipped ? 'İşleniyor...' : 'Giriş yapılıyor...'}
                 </>
               ) : (
                 <>
-                  Giriş Yap
+                  {isFlipped ? 'Hesap Oluştur' : 'Giriş Yap'}
                   <ArrowRight size={18} />
                 </>
               )}
@@ -257,10 +323,22 @@ const Login: React.FC = () => {
           </form>
 
           <div className="login-footer form-element">
-            <p>Hesabınız yok mu? <a href="#">Kayıt olun</a></p>
+            <p>
+              {isFlipped ? 'Zaten hesabın var mı?' : 'Hesabınız yok mu?'}{' '}
+              <button
+                type="button"
+                className="register-link"
+                onClick={() => setIsFlipped((prev) => !prev)}
+              >
+                {isFlipped ? 'Giriş yap' : 'Kayıt olun'}
+              </button>
+            </p>
           </div>
         </div>
       </div>
+      {isForgotOpen && (
+        <ForgotPasswordCard email={email} onClose={() => setIsForgotOpen(false)} />
+      )}
     </div>
   );
 };

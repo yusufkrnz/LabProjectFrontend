@@ -23,6 +23,11 @@ import {
   TrendingUp
 } from 'lucide-react';
 import frontendIll from '../../media/frontendIll.png';
+import fullstackIll from '../../media/fullstack.png';
+import mobileIll from '../../media/mobile.png';
+import devopsIll from '../../media/devops.png';
+import dbIll from '../../media/db.png';
+import aiIll from '../../media/ai.png';
 import StepIndicator from './components/StepIndicator';
 import type { 
   UserRole, 
@@ -483,8 +488,7 @@ const Onboarding: React.FC = () => {
           { id: 'mobile', label: 'Mobile', icon: '📱' },
           { id: 'devops', label: 'DevOps', icon: '🔧' },
           { id: 'database', label: 'Database', icon: '💾' },
-          { id: 'ai-ml', label: 'AI/ML', icon: '🤖' },
-          { id: 'blockchain', label: 'Blockchain', icon: '⛓️' }
+          { id: 'ai-ml', label: 'AI/ML', icon: '🤖' }
         ];
 
         return (
@@ -496,7 +500,8 @@ const Onboarding: React.FC = () => {
             </div>
             
             <div className="domains-grid">
-              {domains.map((domain) => {
+              <div className="domains-row row-3">
+              {domains.slice(0,3).map((domain) => {
                 const selected = formData.developerData?.domains?.includes(domain.id) || false;
                 return (
                   <button
@@ -514,6 +519,16 @@ const Onboarding: React.FC = () => {
                     <div className="domain-visual">
                       {domain.id === 'frontend' ? (
                         <img src={frontendIll} alt="Frontend" className="domain-img" />
+                      ) : domain.id === 'fullstack' ? (
+                        <img src={fullstackIll} alt="Full Stack" className="domain-img" />
+                      ) : domain.id === 'mobile' ? (
+                        <img src={mobileIll} alt="Mobile" className="domain-img" />
+                      ) : domain.id === 'devops' ? (
+                        <img src={devopsIll} alt="DevOps" className="domain-img" />
+                      ) : domain.id === 'database' ? (
+                        <img src={dbIll} alt="Database" className="domain-img" />
+                      ) : domain.id === 'ai-ml' ? (
+                        <img src={aiIll} alt="AI/ML" className="domain-img" />
                       ) : (
                         <span className="domain-icon">{domain.icon}</span>
                       )}
@@ -524,6 +539,47 @@ const Onboarding: React.FC = () => {
                   </button>
                 );
               })}
+              </div>
+              <div className="domains-row row-4">
+              {domains.slice(3).map((domain) => {
+                const selected = formData.developerData?.domains?.includes(domain.id) || false;
+                return (
+                  <button
+                    key={domain.id}
+                    type="button"
+                    className={`domain-card domain-${domain.id} ${selected ? 'selected' : ''}`}
+                    onClick={() => {
+                      const currentDomains = formData.developerData?.domains || [];
+                      const newDomains = selected
+                        ? currentDomains.filter(d => d !== domain.id)
+                        : [...currentDomains, domain.id];
+                      updateFormData('developerData.domains', newDomains);
+                    }}
+                  >
+                    <div className="domain-visual">
+                      {domain.id === 'frontend' ? (
+                        <img src={frontendIll} alt="Frontend" className="domain-img" />
+                      ) : domain.id === 'fullstack' ? (
+                        <img src={fullstackIll} alt="Full Stack" className="domain-img" />
+                      ) : domain.id === 'mobile' ? (
+                        <img src={mobileIll} alt="Mobile" className="domain-img" />
+                      ) : domain.id === 'devops' ? (
+                        <img src={devopsIll} alt="DevOps" className="domain-img" />
+                      ) : domain.id === 'database' ? (
+                        <img src={dbIll} alt="Database" className="domain-img" />
+                      ) : domain.id === 'ai-ml' ? (
+                        <img src={aiIll} alt="AI/ML" className="domain-img" />
+                      ) : (
+                        <span className="domain-icon">{domain.icon}</span>
+                      )}
+                    </div>
+                    <span className="domain-title">{domain.label}</span>
+                    <div className="domain-footer-bar" />
+                    {selected && <Check size={16} className="domain-check" />}
+                  </button>
+                );
+              })}
+              </div>
             </div>
             {(!formData.developerData?.domains || formData.developerData.domains.length === 0) && (
               <p className="helper-text">En az bir alan seçiniz</p>

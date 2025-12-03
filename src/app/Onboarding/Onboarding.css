@@ -71,10 +71,10 @@
 
 /* Left Panel - Progress & Info */
 .onboarding-left-panel {
-  width: 380px;
-  min-width: 380px;
-  max-width: 380px;
-  flex: 0 0 380px;
+  width: 320px;
+  min-width: 320px;
+  max-width: 320px;
+  flex: 0 0 320px;
   background: linear-gradient(135deg, #2563eb 0%, #ea580c 50%, #f97316 100%);
   display: flex;
   align-items: center;
@@ -231,19 +231,19 @@
   align-items: flex-start;
   justify-content: center;
   overflow-y: auto;
-  margin-left: 380px;
+  margin-left: 320px; /* match reduced left panel width */
 }
 
 .right-panel-content {
   width: 100%;
   max-width: 100%;
-  padding: 5rem 3rem 2rem;
+  padding: 2rem 3rem 1.25rem; /* move content further up */
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   justify-content: flex-start;
   position: relative;
-  padding-top: 5rem;
+  padding-top: 2rem; /* move content further up */
 }
 
 .step-content-wrapper {
@@ -261,20 +261,20 @@
 
 .step-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 0.75rem; /* tighter */
   margin-top: 0;
 }
 
 .step-header-icon {
   color: #2563eb;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem; /* tighter spacing */
 }
 
 .step-header h2 {
   font-size: 2.5rem;
   font-weight: 700;
   color: #1e293b;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.25rem; /* reduce gap above subtitle */
 }
 
 .step-header p {
@@ -1366,15 +1366,27 @@
 
 /* Domain Selection */
 .domains-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(160px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 1.25rem;
-  margin-top: 1.25rem;
+  margin-top: 2rem;
+  --domain-card-width: 210px;
 }
+
+.domains-row {
+  display: grid;
+  gap: 1.25rem;
+  align-items: end;
+}
+
+.domains-row.row-3 { grid-template-columns: repeat(3, var(--domain-card-width)); justify-content: center; }
+.domains-row.row-4 { grid-template-columns: repeat(4, var(--domain-card-width)); justify-content: center; gap: 1.75rem; padding-top: 0.25rem; }
 
 .domain-card {
   position: relative;
   height: 220px;
+  min-width: 0; /* let grid control width */
+  width: var(--domain-card-width);
   background: #1f2937; /* dark */
   border: 2px solid #4b5563;
   border-radius: 20px;
@@ -1387,6 +1399,30 @@
   justify-content: space-between;
   padding: 1.25rem 1rem;
   overflow: visible; /* let visual overflow for 3D feel */
+}
+
+/* Equal card sizes across all domains */
+.domains-row .domain-card { height: 220px; }
+
+/* Enlarge second row cards (Mobile, DevOps, Database, AI/ML) */
+.domains-row.row-4 .domain-card {
+  height: 260px;
+  width: calc(var(--domain-card-width) + 10px);
+}
+
+/* Increase icons for second row cards */
+.domains-row.row-4 .domain-card .domain-visual .domain-img {
+  transform: scale(2.3);
+}
+
+/* Give more vertical room for larger icons in second row */
+.domains-row.row-4 .domain-card .domain-visual {
+  height: 130px;
+}
+
+/* If a second-row card uses text/emoji icon, enlarge it too */
+.domains-row.row-4 .domain-card .domain-icon {
+  font-size: 2.4rem;
 }
 
 .domain-card:hover {
@@ -1420,6 +1456,7 @@
   align-items: center;
   overflow: visible;
   perspective: 800px;
+  pointer-events: none; /* prevent overlay region from blocking other cards */
 }
 
 .domain-visual .domain-img {
@@ -1429,13 +1466,40 @@
   object-fit: contain;
   filter: drop-shadow(0 10px 30px rgba(0,0,0,0.45));
   will-change: transform;
+  pointer-events: none; /* clicks fall through to the card buttons beneath */
+  user-select: none;
 }
 
 .domain-card.domain-frontend .domain-visual .domain-img {
-  position: absolute;
-  top: -48px;
-  left: -30px;
-  transform: scale(1.38) rotateX(6deg) rotateZ(-6deg);
+  position: relative; /* keep inside card */
+  top: 0;
+  left: 0;
+  transform: scale(1.2);
+  margin: 0 auto;
+  display: block;
+}
+
+/* Full Stack card uses the same image placement as Frontend */
+.domain-card.domain-fullstack .domain-visual .domain-img {
+  position: relative;
+  top: 0;
+  left: 0;
+  transform: scale(1.2);
+  margin: 0 auto;
+  display: block;
+}
+
+/* Mobile & DevOps images share the centered raised treatment */
+.domain-card.domain-mobile .domain-visual .domain-img,
+.domain-card.domain-devops .domain-visual .domain-img,
+.domain-card.domain-database .domain-visual .domain-img,
+.domain-card.domain-ai-ml .domain-visual .domain-img {
+  position: relative;
+  top: 0;
+  left: 0;
+  transform: scale(1.4);
+  margin: 0 auto;
+  display: block;
 }
 
 .domain-title {

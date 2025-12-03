@@ -9,6 +9,7 @@ export interface BentoCardProps {
   label?: string;
   textAutoHide?: boolean;
   disableAnimations?: boolean;
+  watermark?: string; // faint background brand text
 }
 
 export interface BentoProps {
@@ -23,6 +24,10 @@ export interface BentoProps {
   glowColor?: string;
   clickEffect?: boolean;
   enableMagnetism?: boolean;
+  lockUntilComplete?: boolean; // prevent leaving section until all cards revealed
+  snapToNextOnComplete?: boolean; // snap-scroll to next section when complete
+  lockAnchorSelector?: string; // optional anchor inside section that enables the lock when reached
+  lockAnchorThreshold?: number; // 0..1 of viewport height where anchor triggers lock
 }
 
 const DEFAULT_PARTICLE_COUNT = 12;
@@ -31,12 +36,14 @@ const DEFAULT_GLOW_COLOR = '132, 0, 255';
 const MOBILE_BREAKPOINT = 768;
 
 const cardData: BentoCardProps[] = [
-  { color: '#060010', title: 'Analytics', description: 'Track user behavior', label: 'Insights' },
-  { color: '#060010', title: 'Dashboard', description: 'Centralized data view', label: 'Overview' },
-  { color: '#060010', title: 'Collaboration', description: 'Work together seamlessly', label: 'Teamwork' },
-  { color: '#060010', title: 'Automation', description: 'Streamline workflows', label: 'Efficiency' },
-  { color: '#060010', title: 'Integration', description: 'Connect favorite tools', label: 'Connectivity' },
-  { color: '#060010', title: 'Security', description: 'Enterprise-grade protection', label: 'Protection' }
+  { color: '#060010', title: 'Freelancer Dostu', description: 'Esnek iş modelleri, güvenli ödeme ve profil puanı ile destek.', label: 'Freelancers', watermark: 'GitHub' },
+  { color: '#060010', title: 'Geliştiriciyi Güçlendir', description: 'Repo analizleri, issue-match ve task önerisi ile hız kazandır.', label: 'Developers', watermark: 'GitHub' },
+  { color: '#060010', title: 'İşveren Güveni', description: 'Doğrulanmış profiller, proje pipeline ve hızlı eşleştirme.', label: 'Employers', watermark: 'HF' },
+  { color: '#060010', title: 'Yetenek Arayanlar', description: 'Kriter bazlı arama, shortlist ve görüşme planlama tek ekranda.', label: 'Talent', watermark: 'LinkedIn' },
+  { color: '#060010', title: 'Öğren & Katıl', description: 'Projeye katıl, mentor bul, gerçek dünyada öğren.', label: 'Learners', watermark: 'Kaggle' },
+  { color: '#060010', title: 'AI Destekli Eşleştirme', description: 'Profil sinyalleriyle akıllı öneriler: ekip, proje, iş.', label: 'Matchmaking', watermark: 'HF' },
+  { color: '#060010', title: 'Topluluk & Projeler', description: 'Hackathonlar, açık kaynak ve domain bazlı kanallar.', label: 'Community', watermark: 'OSS' },
+  { color: '#060010', title: 'Portföy & İtibar', description: 'Rozetler, metrikler, başarı hikâyeleriyle görünürlüğünü artır.', label: 'Portfolio', watermark: 'GitHub' }
 ];
 
 const createParticleElement = (x: number, y: number, color: string = DEFAULT_GLOW_COLOR): HTMLDivElement => {
@@ -328,7 +335,11 @@ const GlobalSpotlight: React.FC<{
 };
 
 const BentoCardGrid: React.FC<{ children: React.ReactNode; gridRef?: React.RefObject<HTMLDivElement | null>; }> = ({ children, gridRef }) => (
-  <div className="card-grid bento-section" ref={gridRef}>{children}</div>
+  <div className="card-grid" ref={gridRef}>
+    {children}
+    {/* Anchor inside section to trigger locking when it reaches threshold */}
+    <div className="bridge-anchor" aria-hidden="true" />
+  </div>
 );
 
 const useMobileDetection = () => {
@@ -353,11 +364,179 @@ const MagicBento: React.FC<BentoProps> = ({
   enableTilt = false,
   glowColor = DEFAULT_GLOW_COLOR,
   clickEffect = true,
-  enableMagnetism = true
+  enableMagnetism = true,
+  lockUntilComplete = true,
+  snapToNextOnComplete = false,
+  lockAnchorSelector = '.bridge-anchor',
+  lockAnchorThreshold = 0.9
 }) => {
   const gridRef = useRef<HTMLDivElement>(null);
   const isMobile = useMobileDetection();
   const shouldDisableAnimations = disableAnimations || isMobile;
+
+  // Scroll-reveal: reveal one card per scroll gesture while section is in view
+  useEffect(() => {
+    if (shouldDisableAnimations) return;
+    document.body.classList.add('js-enabled');
+    const grid = gridRef.current;
+    if (!grid) return;
+
+    const cards = Array.from(grid.querySelectorAll('.magic-bento-card')) as HTMLElement[];
+    cards.forEach((c) => {
+      c.classList.remove('reveal-in');
+      c.classList.add('reveal-init');
+    });
+
+    let revealed = 0;
+    let lastRevealTs = 0;
+    const minIntervalMs = 200; // throttle per gesture
+
+    const isInView = () => {
+      const section = grid.closest('.bento-section');
+      if (!section) return false;
+      const rect = section.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      // Consider in view if top is above 85% viewport and bottom below 15%
+      return rect.top < vh * 0.85 && rect.bottom > vh * 0.15;
+    };
+
+    // Lock becomes active only after a specific anchor inside the section (e.g., the bridge at bottom-left) enters threshold
+    const isLockActive = () => {
+      if (!lockUntilComplete) return false;
+      const section = grid.closest('.bento-section');
+      if (!section) return false;
+      // Only lock on the second section (index 1)
+      const allSections = Array.from(document.querySelectorAll('.bento-section')) as HTMLElement[];
+      const sectionIndex = allSections.indexOf(section as HTMLElement);
+      if (sectionIndex !== 1) return false;
+      // Early lock as soon as section top gets near viewport
+      const secRect = (section as HTMLElement).getBoundingClientRect();
+      const vh2 = window.innerHeight || document.documentElement.clientHeight;
+      if (secRect.top <= vh2 * lockAnchorThreshold) return true;
+      const anchor = (section as HTMLElement).querySelector(lockAnchorSelector) as HTMLElement | null;
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      if (!anchor) {
+        // fallback: activate once the section top passes threshold of viewport
+        const rect = (section as HTMLElement).getBoundingClientRect();
+        return rect.top <= vh * lockAnchorThreshold;
+      }
+      const rect = anchor.getBoundingClientRect();
+      return rect.top <= vh * lockAnchorThreshold;
+    };
+
+    const revealNext = () => {
+      if (revealed >= cards.length) return;
+      const now = Date.now();
+      if (now - lastRevealTs < minIntervalMs) return;
+      const el = cards[revealed];
+      el.classList.add('reveal-in');
+      el.classList.remove('reveal-init');
+      revealed += 1;
+      lastRevealTs = now;
+    };
+
+    // Ensure at least the first card is visible immediately
+    revealNext();
+
+    const enforceSectionLock = () => {
+      if (!lockUntilComplete) return;
+      const section = grid.closest('.bento-section') as HTMLElement | null;
+      if (!section) return;
+      const rect = section.getBoundingClientRect();
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      const sectionTop = window.scrollY + rect.top;
+      const sectionBottom = sectionTop + rect.height;
+      const minScroll = sectionTop;
+      const maxScroll = Math.max(sectionTop, sectionBottom - vh);
+      // Pin to vertical center of the section while locked
+      const centerScroll = Math.min(maxScroll, Math.max(minScroll, sectionTop + Math.max(0, (rect.height - vh) / 2)));
+      if (Math.abs(window.scrollY - centerScroll) > 2) {
+        window.scrollTo({ top: centerScroll, behavior: 'instant' as any });
+      }
+    };
+
+    const onWheel = (e: WheelEvent) => {
+      if (!isInView()) return;
+      if (e.deltaY > 0) {
+        if (revealed < cards.length && isLockActive()) {
+          e.preventDefault();
+          revealNext();
+          enforceSectionLock();
+        } else if (revealed >= cards.length && snapToNextOnComplete) {
+          const section = grid.closest('.bento-section');
+          const nextSection = section?.nextElementSibling as HTMLElement | null;
+          if (nextSection) {
+            e.preventDefault();
+            nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      } else if (e.deltaY < 0 && isLockActive()) {
+        enforceSectionLock();
+      }
+    };
+
+    let touchStartY = 0;
+    const onTouchStart = (e: TouchEvent) => {
+      if (!isInView()) return;
+      touchStartY = e.touches[0].clientY;
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      if (!isInView()) return;
+      const deltaY = touchStartY - e.touches[0].clientY;
+      if (deltaY > 10) {
+        if (revealed < cards.length && isLockActive()) {
+          e.preventDefault();
+          revealNext();
+          enforceSectionLock();
+        } else if (revealed >= cards.length && snapToNextOnComplete) {
+          const section = grid.closest('.bento-section');
+          const nextSection = section?.nextElementSibling as HTMLElement | null;
+          if (nextSection) {
+            e.preventDefault();
+            nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      }
+    };
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (!isInView()) return;
+      const keys = ['ArrowDown', 'PageDown', 'Space', ' '];
+      if (keys.includes(e.key)) {
+        if (revealed < cards.length && isLockActive()) {
+          e.preventDefault();
+          revealNext();
+          enforceSectionLock();
+        } else if (revealed >= cards.length && snapToNextOnComplete) {
+          const section = grid.closest('.bento-section');
+          const nextSection = section?.nextElementSibling as HTMLElement | null;
+          if (nextSection) {
+            e.preventDefault();
+            nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      }
+    };
+
+    const onScroll = () => {
+      if (!isInView() || revealed >= cards.length || !isLockActive()) return;
+      enforceSectionLock();
+    };
+
+    const scrollRoot: any = document.querySelector('.landingpage-container') || window;
+    scrollRoot.addEventListener('wheel', onWheel, { passive: false });
+    scrollRoot.addEventListener('touchstart', onTouchStart, { passive: true });
+    scrollRoot.addEventListener('touchmove', onTouchMove, { passive: false });
+    window.addEventListener('keydown', onKeyDown);
+    scrollRoot.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      scrollRoot.removeEventListener('wheel', onWheel as any);
+      scrollRoot.removeEventListener('touchstart', onTouchStart as any);
+      scrollRoot.removeEventListener('touchmove', onTouchMove as any);
+      window.removeEventListener('keydown', onKeyDown as any);
+      scrollRoot.removeEventListener('scroll', onScroll as any);
+    };
+  }, [shouldDisableAnimations]);
   return (
     <>
       {enableSpotlight && (
@@ -375,6 +554,7 @@ const MagicBento: React.FC<BentoProps> = ({
               <ParticleCard key={index} {...cardProps} disableAnimations={shouldDisableAnimations} particleCount={particleCount} glowColor={glowColor} enableTilt={enableTilt} clickEffect={clickEffect} enableMagnetism={enableMagnetism}>
                 <div className="magic-bento-card__header"><div className="magic-bento-card__label">{card.label}</div></div>
                 <div className="magic-bento-card__content"><h2 className="magic-bento-card__title">{card.title}</h2><p className="magic-bento-card__description">{card.description}</p></div>
+                {card.watermark && <div className="magic-bento-card__watermark">{card.watermark}</div>}
               </ParticleCard>
             );
           }
@@ -382,6 +562,7 @@ const MagicBento: React.FC<BentoProps> = ({
             <div key={index} {...cardProps}>
               <div className="magic-bento-card__header"><div className="magic-bento-card__label">{card.label}</div></div>
               <div className="magic-bento-card__content"><h2 className="magic-bento-card__title">{card.title}</h2><p className="magic-bento-card__description">{card.description}</p></div>
+              {card.watermark && <div className="magic-bento-card__watermark">{card.watermark}</div>}
             </div>
           );
         })}

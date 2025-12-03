@@ -34,8 +34,8 @@ export default function LandingPage() {
     return (
         <div className="landingpage-container" ref={containerRef}>
             <Header />
-            {/* Orange Background Section */}
-            <div className="hero-background">
+            {/* Section 1 - Hero */}
+            <div className="hero-background bento-section">
                 {/* SVG mask tanımı - üst mavi için dalgalı büküm */}
                 <svg width="0" height="0" style={{ position: 'absolute' }}>
                     <defs>
@@ -62,8 +62,8 @@ export default function LandingPage() {
                                         </div>
                                     </div>
                                 </div>
-            {/* Magic Bento Feature Grid */}
-            <div className="section-white" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            {/* Section 2 - Magic Bento (locked until complete) */}
+            <div className="section-white bento-section" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <MagicBento
                     textAutoHide={true}
                     enableStars={true}
@@ -80,7 +80,7 @@ export default function LandingPage() {
 
             {/* Sections - scroll için birden fazla bölüm */}
             {Array.from({ length: 10 }, (_, i) => (
-                <div key={i} className="section-white" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div key={i} className="section-white bento-section" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <div className="hero-content">
                         <h2 style={{ fontSize: '3rem', color: '#1A36B0', textAlign: 'center' }}>Section {i + 1}</h2>
                         <p style={{ fontSize: '1.2rem', color: '#666', textAlign: 'center', marginTop: '1rem' }}>
