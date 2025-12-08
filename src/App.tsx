@@ -10,41 +10,37 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 function App() {
     return (
         <AuthProvider>
-        <Router>
-            <Routes>
-                {/* Login Sayfası */}
-                <Route path="/login" element={<Login />} />
+            <Router>
+                <Routes>
+                    {/* Login Sayfası */}
+                    <Route path="/login" element={<Login />} />
 
-                {/* Landing Page */}
-                <Route path="/landingpage" element={<LandingPage />} />
+                    {/* Landing Page */}
+                    <Route path="/landingpage" element={<LandingPage />} />
 
-                {/* Dashboard - Protected Route */}
-                <Route 
-                    path="/dashboard" 
-                    element={
-                        <ProtectedRoute>
-                            <Dashboard />
-                        </ProtectedRoute>
-                    } 
-                />
+                    {/* Dashboard - Protected Route */}
+                    <Route
+                        path="/dashboard"
+                        element={<Dashboard />}
+                    />
 
-                {/* Onboarding - Protected Route */}
-                <Route 
-                    path="/onboarding" 
-                    element={
-                        <ProtectedRoute>
-                            <Onboarding />
-                        </ProtectedRoute>
-                    } 
-                />
+                    {/* Onboarding - Protected Route */}
+                    <Route
+                        path="/onboarding"
+                        element={
+                            <ProtectedRoute>
+                                <Onboarding />
+                            </ProtectedRoute>
+                        }
+                    />
 
-                {/* Root path -> dashboard'a yönlendir (ProtectedRoute kontrol edecek) */}
-                <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                    {/* Root path -> dashboard'a yönlendir (ProtectedRoute kontrol edecek) */}
+                    <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
-                {/* Herhangi başka bir route -> login'e yönlendir */}
-                <Route path="*" element={<Navigate to="/login" replace />} />
-            </Routes>
-        </Router>
+                    {/* Herhangi başka bir route -> login'e yönlendir */}
+                    <Route path="*" element={<Navigate to="/login" replace />} />
+                </Routes>
+            </Router>
         </AuthProvider>
     );
 }
