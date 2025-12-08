@@ -1,0 +1,12 @@
+.message-block {
+    background: #000000;
+    border-radius: 0px;
+    padding: 28px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    border: 1px solid #334155;
+    width: 300px;
+    height: 100vh;
+    min-width: 300px;
+
+}

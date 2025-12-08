@@ -1,32 +1,36 @@
 import Sidebar from './components/Sidebar';
 import './Dashboard.css';
+import HeaderMenu from '../Dashboard/components/HeaderMenu/HeaderMenu';
+import React from 'react';
+import { useState } from 'react';
+import Content from './components/Content/Content';
+import Message from './components/Message/Message';
+
+
 
 export default function Dashboard() {
+  const [isSidebarOpen, setIsSiderbarOpen] = useState<boolean>(true);
+  const [activePage, setActivePage] = useState<string>("market-place-pool");
+
+
   return (
-    <div className="dashboard-container">
-      <Sidebar />
+    <div className={`dashboard-container ${isSidebarOpen ? "sidebar-open" : "sidebar-closed"}`}>
+      <Sidebar
+        isOpen={isSidebarOpen}
+        toggleSidebar={() => setIsSiderbarOpen(prev => !prev)} />
+      <main>
 
-      <main className="dashboard-content">
-        <div className="content-header">
-          <h1>Hoş Geldiniz!</h1>
-          <p>Dashboard içeriğiniz buraya gelecek.</p>
+        <HeaderMenu toggleSidebar={() => setIsSiderbarOpen((prev: boolean) => !prev)}
+          setActivePage={setActivePage}
+        />
+
+
+        <div className="page-content">
+          <Content activePage={activePage} />
         </div>
 
-        <div className="dashboard-grid">
-          <div className="dashboard-card">
-            <h3>Projeler</h3>
-            <p className="card-number">15</p>
-          </div>
-          <div className="dashboard-card">
-            <h3>Görevler</h3>
-            <p className="card-number">8</p>
-          </div>
-          <div className="dashboard-card">
-            <h3>Kullanıcılar</h3>
-            <p className="card-number">24</p>
-          </div>
-        </div>
       </main>
+      <Message />
     </div>
-  );
+  )
 }

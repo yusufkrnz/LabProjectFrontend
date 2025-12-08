@@ -1,0 +1,47 @@
+.header-menu {
+  display: flex;
+  justify-content: center;
+  /* MENÜYÜ ORTALAR */
+  gap: 10px;
+  padding: 5px;
+  background: #d78827;
+  position: absolute;
+  top: 0;
+  z-index: 10;
+  width: fit-content;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50px;
+}
+
+.header-menu button {
+  padding: 10px 5px;
+  border: none;
+  background: #e97f0d;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+
+.header-menu button:hover {
+  background: #3e53d8;
+}
+
+/* Sidebar açıkken (260px genişlik) */
+.dashboard-container.sidebar-open .header-menu {
+  padding-left: 260px;
+
+}
+
+/* Sidebar kapalıyken (70px genişlik) */
+.dashboard-container.sidebar-closed .header-menu {
+  padding-left: 260px;
+
+}
+
+/* Mobil mod — header sabit kalsın */
+@media (max-width: 768px) {
+  .dashboard-container .header-menu {
+    margin-left: 0 !important;
+  }
+}
