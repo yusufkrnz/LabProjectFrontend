@@ -1,0 +1,75 @@
+.user-profile-detail-card-main {
+    /* position: fixed; -> Parent yönetiyor */
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 400px;
+    display: flex;
+    right: 0%;
+    flex-direction: column;
+    background-color: #fff;
+    border-right: 1px solid #282424;
+
+}
+
+.user-cover-image {
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+}
+
+.user-cover-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user-avatar-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 20px;
+    margin-top: -50px;
+    padding-bottom: 20px;
+    position: relative;
+}
+
+.user-avatar-img {
+    width: 100px;
+    height: 100%;
+    object-fit: cover;
+    border: 4px solid #fff;
+    border-radius: 0px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.user-profile-content {
+    padding: 0 20px;
+    text-align: left;
+}
+
+.user-profile-content h2 {
+    font-size: 20px;
+    margin: 0;
+    color: #1a1a1a;
+}
+
+.user-profile-content p {
+    color: #666;
+    margin-top: 5px;
+}
+
+.user-profile-detail-card-main .MuiCard-root {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-chart-card {
+    width: 100%;
+    border: 1px solid #eee;
+    background: transparent;
+}

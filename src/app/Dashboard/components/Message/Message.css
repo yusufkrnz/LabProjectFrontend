@@ -1,5 +1,5 @@
 .message-block {
-    background: #000000;
+    background: #ffffff;
     border-radius: 0px;
     padding: 28px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
@@ -9,4 +9,11 @@
     height: 100vh;
     min-width: 300px;
 
+}
+
+.message-header h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #000000;
+    margin: center;
 }

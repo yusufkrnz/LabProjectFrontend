@@ -4,7 +4,7 @@
   width: 100%;
   min-height: 100vh;
   position: relative;
-  background-color: #000000;
+  background-color: #ffffff;
 }
 
 /* Main content */
@@ -167,9 +167,8 @@
     padding: 20px;
     display: flex;
     justify-content: center;
-    /* İÇERİĞİ ORTALAYAN SATIR */
     align-items: center;
-    background: #f5f5f5;
+    background: #ffffff;
     width: 100%;
   }
 

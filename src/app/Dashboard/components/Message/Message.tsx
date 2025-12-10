@@ -9,7 +9,12 @@ export default function Message() {
 
     return (
         <div className="message-block">
-            <h2>Message</h2>
+            <div className="message-header">
+                <h2>Messages</h2>
+            </div>
+            <div className="message-content">
+
+            </div>
         </div>
     );
 }

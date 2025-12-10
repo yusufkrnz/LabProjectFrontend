@@ -20,15 +20,6 @@ export default function Dashboard() {
         toggleSidebar={() => setIsSiderbarOpen(prev => !prev)} />
       <main>
 
-        <HeaderMenu toggleSidebar={() => setIsSiderbarOpen((prev: boolean) => !prev)}
-          setActivePage={setActivePage}
-        />
-
-
-        <div className="page-content">
-          <Content activePage={activePage} />
-        </div>
-
       </main>
       <Message />
     </div>

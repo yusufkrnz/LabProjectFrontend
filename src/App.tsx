@@ -6,6 +6,8 @@ import Dashboard from "./app/Dashboard/Dashboard";
 import Onboarding from "./app/Onboarding";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import Discover from "./app/Discover/Discover";
+import UserProfile from "./app/UserProfile/UserProfile";
 
 function App() {
     return (
@@ -22,6 +24,14 @@ function App() {
                     <Route
                         path="/dashboard"
                         element={<Dashboard />}
+                    />
+                    <Route
+                        path="/discover"
+                        element={<Discover />}
+                    />
+                    <Route
+                        path="/userprofile"
+                        element={<UserProfile />}
                     />
 
                     {/* Onboarding - Protected Route */}

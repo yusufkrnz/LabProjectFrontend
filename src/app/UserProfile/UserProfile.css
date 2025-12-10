@@ -1,0 +1,10 @@
+.user-profile {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center;  <- Bunu kaldırıyoruz ki sola yaslansın */
+    padding: 0;
+    /*  <- Boşluğu kaldırıyoruz ki sidebar'a yapışsın */
+    background-color: #ffffff;
+    min-height: 100vh;
+    width: 100%;
+}
