@@ -1,0 +1,19 @@
+.inbox-container {
+    min-height: 100vh;
+    background-color: #f6f8fa;
+    position: relative;
+}
+
+.inbox-content {
+    display: flex;
+    min-height: calc(100vh - 64px);
+    padding-top: 64px;
+    /* Space for fixed header */
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+    .inbox-content {
+        flex-direction: column;
+    }
+}

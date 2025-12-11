@@ -8,6 +8,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import Discover from "./app/Discover/Discover";
 import UserProfile from "./app/UserProfile/UserProfile";
+import Inbox from "./app/Inbox/Inbox";
 
 function App() {
     return (
@@ -32,6 +33,10 @@ function App() {
                     <Route
                         path="/userprofile"
                         element={<UserProfile />}
+                    />
+                    <Route
+                        path="/inbox"
+                        element={<Inbox />}
                     />
 
                     {/* Onboarding - Protected Route */}
