@@ -1,12 +1,12 @@
 import Sidebar from './components/Sidebar';
 import './Dashboard.css';
-import HeaderMenu from '../Dashboard/components/HeaderMenu/HeaderMenu';
 import React from 'react';
 import { useState } from 'react';
-import Content from './components/Content/Content';
 import Message from './components/Message/Message';
 
 
+
+import DashboardFeed from './components/DashboardFeed';
 
 export default function Dashboard() {
   const [isSidebarOpen, setIsSiderbarOpen] = useState<boolean>(true);
@@ -15,13 +15,14 @@ export default function Dashboard() {
 
   return (
     <div className={`dashboard-container ${isSidebarOpen ? "sidebar-open" : "sidebar-closed"}`}>
-      <Sidebar
-        isOpen={isSidebarOpen}
-        toggleSidebar={() => setIsSiderbarOpen(prev => !prev)} />
-      <main>
+      <Sidebar />
+      <div className='content-wrapper'>
+        <main>
+          <DashboardFeed />
+        </main>
+        <Message />
 
-      </main>
-      <Message />
+      </div>
     </div>
   )
 }

@@ -8,3 +8,14 @@
     min-height: 100vh;
     width: 100%;
 }
+
+.user-profile-tech-stack {
+    margin-top: 20px;
+    position: fixed;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding-left: 700px;
+    padding-top: 30px;
+}

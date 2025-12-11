@@ -1,192 +1,76 @@
-/* Dashboard Container - Dark Mode */
+/* Dashboard Container */
 .dashboard-container {
-  display: flex;
-  width: 100%;
   min-height: 100vh;
-  position: relative;
   background-color: #ffffff;
+  /* Light gray background */
+  position: relative;
 }
 
-/* Main content */
-.dashboard-content {
-  flex: 1;
-  margin-left: 260px;
-  /* Sidebar açıkken genişlik */
-  padding: 40px;
-  overflow-y: auto;
-  background: linear-gradient(135deg, #0a0e27 0%, #1e293b 100%);
-  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-@media (max-width: 768px) {
-  .dashboard-content {
-    margin-left: 0;
-  }
-}
-
-.content-header {
+/* Content Wrapper: Contains Main and Message */
+.content-wrapper {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  margin-bottom: 40px;
+  flex-direction: row;
+  min-height: 100vh;
+  padding-top: 64px;
+  /* Space for fixed Header/Sidebar */
+  box-sizing: border-box;
 }
 
-.content-header>div {
+/* Main Content Area */
+.dashboard-container main {
   flex: 1;
+  /* Take remaining internal width */
+  padding: 24px;
+  overflow-x: hidden;
+  /* Add max-width/margin auto here if you want centered content */
 }
 
-.content-header h1 {
-  font-size: 36px;
-  font-weight: 700;
-  color: #ffffff;
-  margin: 0 0 10px 0;
-  letter-spacing: -0.5px;
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .content-wrapper {
+    flex-direction: column;
+    /* Stack on smaller screens */
+  }
+
+  .dashboard-container main {
+    width: 100%;
+  }
+
+  /* Adjust Message component visibility or layout on mobile if needed */
 }
 
-.content-header p {
-  font-size: 18px;
-  color: #94a3b8;
-  margin: 0;
-}
-
-.mobile-menu-btn {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  border: none;
-  background: linear-gradient(135deg, #1A36B0 0%, #272244 100%);
-  color: #ffffff;
-  font-size: 20px;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.mobile-menu-btn:active {
-  transform: scale(0.96);
-}
-
-/* Dashboard Grid */
+/* --- Legacy / Utility Classes (Optional - Keep only if needed) --- */
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 24px;
-  margin-top: 30px;
 }
 
-/* Dashboard Card */
 .dashboard-card {
-  background: #1e293b;
+  background: #ffffff;
   border-radius: 16px;
-  padding: 28px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease;
-  border: 1px solid #334155;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  border: 1px solid #e2e8f0;
 }
 
 .dashboard-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(26, 54, 176, 0.2);
-  border-color: #1A36B0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .dashboard-card h3 {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
-  color: #94a3b8;
-  margin: 0 0 16px 0;
+  color: #64748b;
+  margin: 0 0 12px 0;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 .dashboard-card .card-number {
-  font-size: 48px;
+  font-size: 32px;
   font-weight: 700;
-  color: #1A36B0;
+  color: #0f172a;
   margin: 0;
-  line-height: 1;
-}
-
-/* Responsive */
-@media (max-width: 1280px) {
-  .dashboard-content {
-    padding: 32px;
-  }
-}
-
-@media (max-width: 1024px) {
-  .dashboard-container {
-    padding-left: 0;
-  }
-
-  .dashboard-content {
-    padding: 28px 20px;
-  }
-
-  .content-header {
-    align-items: flex-start;
-    gap: 16px;
-  }
-
-  .content-header h1 {
-    font-size: 30px;
-    margin-bottom: 6px;
-  }
-
-  .mobile-menu-btn {
-    display: inline-flex;
-    box-shadow: 0 8px 18px rgba(26, 54, 176, 0.32);
-  }
-}
-
-@media (max-width: 768px) {
-  .dashboard-content {
-    padding: 24px 18px;
-  }
-
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .content-header h1 {
-    font-size: 28px;
-  }
-
-  .content-header p {
-    font-size: 16px;
-  }
-
-
-
-  /* Sayfa içeriği */
-  .page-content {
-    flex: 1;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #ffffff;
-    width: 100%;
-  }
-
-
-
-}
-
-.dashboard-container main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  transition: margin-left 0.3s ease;
-}
-
-.dashboard-container.sidebar-open main {
-  margin-left: 260px;
-}
-
-.dashboard-container.sidebar-closed main {
-  margin-left: 70px;
 }

@@ -12,6 +12,8 @@ import {
 } from '@mui/x-charts/RadarChart';
 import { ChartsSurface } from '@mui/x-charts/ChartsSurface';
 import { ChartsLegend } from '@mui/x-charts/ChartsLegend';
+import ContactMenu from '../ContactMenu/ContactMenu';
+
 
 /* VERİ YAPILARI VE VARSAYILANLAR */
 const DEFAULT_METRICS = ['Frontend', 'Backend', 'Cloud', 'Database', 'Security', 'Testing'];
@@ -50,12 +52,39 @@ export default function UserProfileDetailCard() {
                         src="https://ui-avatars.com/api/?name=User+Name&background=0D8ABC&color=fff"
                         alt="Avatar"
                     />
+                    <ContactMenu />
                 </div>
             </div>
 
             <div className='user-profile-content'>
-                <h2>Kullanıcı Adı</h2>
-                <p>Yazılım Geliştirici</p>
+                <h1>Ahmet Yılmaz</h1>
+                <p>Full Stack Developer</p>
+                {/* değişecek burası */}
+                <div className='user-profile-social-info'>
+                    <span><b>21</b> followers</span>
+                    ·
+                    <span><b>27</b> following</span>
+                </div>
+
+                <div className='user-profile-actions'>
+                    <button className='edit-profile-btn'>Edit Profile</button>
+                </div>
+            </div>
+            <div className='profile-info-detail-card'>
+                <p>Merhabalar bilgilerimm vs </p>
+                {/*kişi bilgilerini burada gösterceğiz  */}
+            </div>
+            <div className='profile-archivement-card'>
+
+                <h3>Archivement</h3>
+                <img src="../../public/media/KaggleArc.png" alt=""
+                    width={50}
+                    height={50} />
+                {/*kişi başarılarını burada gösterceğiz */}
+            </div>
+            <div className='user-profile-detail-card-location'>
+                {/* Location  information */}
+                <p>İstanbul, Turkey</p>
             </div>
 
             <Card className='profile-chart-card' sx={{ m: 0, mt: 1, backgroundColor: 'transparent', boxShadow: 'none', border: 'none' }}>

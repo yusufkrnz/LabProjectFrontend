@@ -1,0 +1,38 @@
+.download-cv-main-container {
+    width: 180px;
+    height: 50px;
+    border-radius: 5%;
+    border: none;
+    background: #0077b5;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+    position: fixed;
+    right: 0;
+}
+
+.download-cv-button {
+    width: 180px;
+    height: 50px;
+    border-radius: 5%;
+    border: none;
+    background: #ffffff;
+    color: #000000;
+    font-size: 20px;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    /* Icon ile text arası boşluk */
+}
+
+.download-cv-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}

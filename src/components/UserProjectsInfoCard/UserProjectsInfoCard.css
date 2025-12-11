@@ -1,0 +1,18 @@
+.user-project-info-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 200px;
+    width: 200px;
+}
+
+.user-project-info-card-item-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    align-items: center;
+}
+
+.user-project-info-card-main h2 {
+    padding-left: 30%;
+}
