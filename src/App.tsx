@@ -2,14 +2,16 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import "./App.css";
 import LandingPage from "./app/LandingPage";
 import Login from "./app/Login";
-import Dashboard from "./app/Dashboard/Dashboard";
-import Onboarding from "./app/Onboarding";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import Discover from "./app/Discover/Discover";
 import UserProfile from "./app/UserProfile/UserProfile";
+import Settings from "./app/Settings/Settings";
+import Dashboard from "./app/Dashboard/Dashboard";
+import Onboarding from "./app/Onboarding/Onboarding";
 
 function App() {
+    console.log("DEBUG: App Component Rendered");
     return (
         <AuthProvider>
             <Router>
@@ -25,13 +27,23 @@ function App() {
                         path="/dashboard"
                         element={<Dashboard />}
                     />
+
+                    {/* Discover Page */}
                     <Route
                         path="/discover"
                         element={<Discover />}
                     />
+
+                    {/* User Profile Page */}
                     <Route
                         path="/userprofile"
                         element={<UserProfile />}
+                    />
+
+                    {/* Settings Page */}
+                    <Route
+                        path="/settings"
+                        element={<Settings />}
                     />
 
                     {/* Onboarding - Protected Route */}
@@ -44,7 +56,7 @@ function App() {
                         }
                     />
 
-                    {/* Root path -> dashboard'a yönlendir (ProtectedRoute kontrol edecek) */}
+                    {/* Root path -> dashboard'a yönlendir */}
                     <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
                     {/* Herhangi başka bir route -> login'e yönlendir */}
