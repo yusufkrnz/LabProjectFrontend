@@ -1,7 +1,7 @@
 import './Discover.css';
 import React from 'react';
 import UserProfileDetailCard from '../../components/UserProfileDetailCard/UserProfileDetailCard';
-import HeaderMenu from '../Dashboard/components/HeaderMenu/HeaderMenu';
+import Header from '../Dashboard/components/Header/Header';
 
 
 

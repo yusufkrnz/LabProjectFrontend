@@ -1,0 +1,240 @@
+.dashboard-header {
+    width: 100%;
+    height: 64px;
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+}
+
+.header-logo {
+    font-size: 24px;
+    font-weight: 500;
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-decoration: none;
+    letter-spacing: -0.1px;
+    display: flex;
+    align-items: center;
+    line-height: 1.2;
+    padding-bottom: 2px;
+    margin-right: 24px;
+}
+
+.header-nav {
+    display: flex;
+    gap: 20px;
+}
+
+.header-nav-item {
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.header-nav-item:hover {
+    color: #2563eb;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.header-search {
+    display: flex;
+    align-items: center;
+    background: #f1f5f9;
+    padding: 8px 12px;
+    border-radius: 999px;
+    width: 240px;
+}
+
+.header-search input {
+    border: none;
+    background: transparent;
+    outline: none;
+    margin-left: 8px;
+    font-size: 14px;
+    width: 100%;
+}
+
+.header-icon-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #64748b;
+    padding: 8px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-icon-btn:hover {
+    background: #f1f5f9;
+    color: #2563eb;
+}
+
+.profile-dropdown {
+    position: relative;
+}
+
+.header-profile {
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.header-profile:hover {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+.profile-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    min-width: 180px;
+    padding: 8px;
+    z-index: 1001;
+}
+
+.profile-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    color: #374151;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.profile-menu-item:hover {
+    background: #eff6ff;
+    color: #1e40af;
+}
+
+.profile-menu-item svg {
+    color: #64748b;
+}
+
+.profile-menu-item:hover svg {
+    color: #2563eb;
+}
+
+/* Create Dropdown */
+.create-dropdown {
+    position: relative;
+}
+
+.create-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 10px;
+    background: #f1f5f9;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.create-btn:hover {
+    background: #e0f2fe;
+    border-color: #bfdbfe;
+    color: #1e40af;
+}
+
+.create-btn.active {
+    background: #dbeafe;
+    border-color: #3b82f6;
+    color: #1e40af;
+}
+
+.header-divider {
+    width: 1px;
+    height: 24px;
+    background: #e2e8f0;
+    margin: 0 8px;
+}
+
+.create-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    min-width: 200px;
+    padding: 8px;
+    z-index: 1001;
+}
+
+.create-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    color: #374151;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.create-menu-item:hover {
+    background: #eff6ff;
+    color: #1e40af;
+}
+
+.create-menu-item svg {
+    color: #64748b;
+}
+
+.create-menu-item:hover svg {
+    color: #2563eb;
+}
+
+.create-menu-divider {
+    height: 1px;
+    background: #e2e8f0;
+    margin: 8px 0;
+}

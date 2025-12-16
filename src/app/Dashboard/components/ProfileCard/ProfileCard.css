@@ -1,0 +1,131 @@
+.profile-card-wrapper {
+    position: relative;
+}
+
+.profile-card-trigger {
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    overflow: hidden;
+    padding: 0;
+}
+
+.profile-card-trigger:hover {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+.profile-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-avatar-initials {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.profile-card-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    min-width: 240px;
+    z-index: 1001;
+    overflow: hidden;
+}
+
+.profile-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+}
+
+.profile-card-image {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-card-initials {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.profile-card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.profile-card-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.profile-card-role {
+    font-size: 13px;
+    color: #64748b;
+}
+
+.profile-card-divider {
+    height: 1px;
+    background: #e2e8f0;
+    margin: 0 16px;
+}
+
+.profile-card-menu {
+    padding: 8px;
+}
+
+.profile-card-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    color: #374151;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.profile-card-menu-item:hover {
+    background: #eff6ff;
+    color: #1e40af;
+}
+
+.profile-card-menu-item svg {
+    color: #64748b;
+}
+
+.profile-card-menu-item:hover svg {
+    color: #2563eb;
+}
