@@ -9,6 +9,7 @@ import UserProfile from "./app/UserProfile/UserProfile";
 import Settings from "./app/Settings/Settings";
 import Dashboard from "./app/Dashboard/Dashboard";
 import Onboarding from "./app/Onboarding/Onboarding";
+import Marketplace from "./app/Marketplace";
 
 function App() {
     console.log("DEBUG: App Component Rendered");
@@ -44,6 +45,12 @@ function App() {
                     <Route
                         path="/settings"
                         element={<Settings />}
+                    />
+
+                    {/* Marketplace Page */}
+                    <Route
+                        path="/marketplace"
+                        element={<Marketplace />}
                     />
 
                     {/* Onboarding - Protected Route */}
