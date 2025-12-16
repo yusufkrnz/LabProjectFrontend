@@ -25,7 +25,7 @@ export default function Inbox() {
                 />
 
                 {/* Notification List */}
-                <InboxNotificationList />
+                <InboxNotificationList activeFilter={activeFilter} />
             </div>
         </div>
     );

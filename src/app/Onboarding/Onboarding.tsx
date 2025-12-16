@@ -2,14 +2,14 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import './Onboarding.css';
 import { useNavigate } from 'react-router-dom';
 import { gsap } from 'gsap';
-import { 
-  ArrowRight, 
-  ArrowLeft, 
-  Check, 
-  User, 
-  Mail, 
-  Briefcase, 
-  Building2, 
+import {
+  ArrowRight,
+  ArrowLeft,
+  Check,
+  User,
+  Mail,
+  Briefcase,
+  Building2,
   Sparkles,
   Target,
   Settings,
@@ -29,18 +29,18 @@ import devopsIll from '../../media/devops.png';
 import dbIll from '../../media/db.png';
 import aiIll from '../../media/ai.png';
 import StepIndicator from './components/StepIndicator';
-import type { 
-  UserRole, 
-  Gender, 
-  ExperienceLevel, 
+import type {
+  UserRole,
+  Gender,
+  ExperienceLevel,
   WorkModel,
-  OnboardingFormData 
+  OnboardingFormData
 } from '../../types/userProfile';
 
 const Onboarding: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState<OnboardingFormData & { roles: UserRole[] }>({
@@ -81,7 +81,7 @@ const Onboarding: React.FC = () => {
   const stepContentRef = useRef<HTMLDivElement>(null);
 
   // Adım yapısını rol bazında dinamik oluştur
-  const getSteps = (): Array<{id: string; title: string; subtitle: string; icon: any}> => {
+  const getSteps = (): Array<{ id: string; title: string; subtitle: string; icon: any }> => {
     const baseSteps = [
       { id: 'welcome', title: 'Hoş Geldiniz!', subtitle: 'Profesyonel ağınızı oluşturmaya başlayın', icon: Sparkles },
       { id: 'basic', title: 'Temel Bilgiler', subtitle: 'Kendiniz hakkında bilgi verin', icon: User },
@@ -92,7 +92,7 @@ const Onboarding: React.FC = () => {
       return [...baseSteps, { id: 'complete', title: 'Tamamlandı!', subtitle: 'Hesabınız hazır', icon: Check }];
     }
 
-    const roleSpecificSteps: Record<UserRole, Array<{id: string; title: string; subtitle: string; icon: any}>> = {
+    const roleSpecificSteps: Record<UserRole, Array<{ id: string; title: string; subtitle: string; icon: any }>> = {
       developer: [
         { id: 'domains', title: 'Alan Seçimi', subtitle: 'Hangi alanlarda çalışıyorsunuz?', icon: Code },
         { id: 'frontend', title: 'Frontend Teknolojileri', subtitle: 'Frontend stack\'inizi seçin', icon: Code },
@@ -150,7 +150,7 @@ const Onboarding: React.FC = () => {
         { x: -100, opacity: 0 },
         { x: 0, opacity: 1, duration: 1.2, ease: "power3.out" }
       );
-      
+
       gsap.fromTo(rightPanelRef.current,
         { x: 100, opacity: 0 },
         { x: 0, opacity: 1, duration: 1.2, ease: "power3.out", delay: 0.3 }
@@ -158,19 +158,19 @@ const Onboarding: React.FC = () => {
     }
   }, []);
 
-  
+
 
   const updateFormData = (field: string, value: any) => {
     const keys = field.split('.');
     setFormData(prev => {
       const newData = { ...prev };
       let current: any = newData;
-      
+
       for (let i = 0; i < keys.length - 1; i++) {
         if (!current[keys[i]]) current[keys[i]] = {};
         current = current[keys[i]];
       }
-      
+
       current[keys[keys.length - 1]] = value;
       return newData;
     });
@@ -204,14 +204,14 @@ const Onboarding: React.FC = () => {
 
   const canProceed = (): boolean => {
     const currentStepId = steps[currentStep]?.id;
-    
+
     switch (currentStepId) {
       case 'welcome':
         return true;
       case 'basic':
-        return formData.firstName.trim() !== '' && 
-               formData.lastName.trim() !== '' && 
-               formData.email.trim() !== '';
+        return formData.firstName.trim() !== '' &&
+          formData.lastName.trim() !== '' &&
+          formData.email.trim() !== '';
       case 'role':
         return ((formData as any).roles?.length || 0) > 0;
       case 'domains':
@@ -226,37 +226,37 @@ const Onboarding: React.FC = () => {
         return true;
       case 'experience':
         return formData.developerData?.yearsOfExperience !== undefined &&
-               formData.developerData.yearsOfExperience >= 0;
+          formData.developerData.yearsOfExperience >= 0;
       case 'company':
         return formData.employerData?.companyName?.trim() !== '' &&
-               formData.employerData?.companyWebsite?.trim() !== '';
+          formData.employerData?.companyWebsite?.trim() !== '';
       case 'looking-for':
-        return !!(formData.employerData?.lookingForRoles && 
-               formData.employerData.lookingForRoles.length > 0);
+        return !!(formData.employerData?.lookingForRoles &&
+          formData.employerData.lookingForRoles.length > 0);
       case 'project-details':
         return true;
       case 'services':
-        return !!(formData.freelancerData?.serviceAreas && 
-               formData.freelancerData.serviceAreas.length > 0);
+        return !!(formData.freelancerData?.serviceAreas &&
+          formData.freelancerData.serviceAreas.length > 0);
       case 'tech-stack':
         return true;
       case 'pricing':
         return formData.freelancerData?.hourlyRate?.min !== undefined &&
-               formData.freelancerData?.hourlyRate?.max !== undefined;
+          formData.freelancerData?.hourlyRate?.max !== undefined;
       case 'current-level':
         return formData.learnerData?.currentLevel !== undefined;
       case 'goals':
         return formData.learnerData?.learningGoals?.primary?.trim() !== '';
       case 'interests':
-        return !!(formData.learnerData?.interests?.domains && 
-               formData.learnerData.interests.domains.length > 0);
+        return !!(formData.learnerData?.interests?.domains &&
+          formData.learnerData.interests.domains.length > 0);
       case 'mentorship':
         return true;
       case 'github':
         return true; // Opsiyonel
       case 'location':
-        return formData.location.country.trim() !== '' && 
-               formData.location.city.trim() !== '';
+        return formData.location.country.trim() !== '' &&
+          formData.location.city.trim() !== '';
       case 'preferences':
         return true;
       case 'complete':
@@ -307,7 +307,7 @@ const Onboarding: React.FC = () => {
               <h2>Temel Bilgiler</h2>
               <p>Hesabınız için gerekli bilgileri girin</p>
             </div>
-            
+
             <div className="form-fields">
               <div className="input-group">
                 <label>Ad</label>
@@ -403,62 +403,61 @@ const Onboarding: React.FC = () => {
               <h2>Choose your persona</h2>
               <p>Select personas that best represent you. Customize your experience to match your style and preferences.</p>
             </div>
-            
+
             <div className="persona-grid">
               {roles.map((role) => {
                 const Icon = role.icon;
-                const isSelected = (formData as any).roles?.includes(role.id) || false;
+                const isSelected = formData.role === role.id;
                 return (
                   <button
                     key={role.id}
                     type="button"
                     className={`persona-card ${isSelected ? 'selected' : ''}`}
                     onClick={() => {
-                      const currentRoles = (formData as any).roles || [];
-                      const newRoles = isSelected
-                        ? currentRoles.filter((r: UserRole) => r !== role.id)
-                        : [...currentRoles, role.id];
-                      
-                      updateFormData('roles', newRoles);
-                      
-                      // İlk seçilen rolü primary role olarak ayarla
-                      if (newRoles.length > 0 && !formData.role) {
-                        updateFormData('role', newRoles[0]);
-                      }
-                      
-                      // Role'e göre başlangıç verilerini oluştur
-                      if (role.id === 'developer' && !formData.developerData) {
-                        updateFormData('developerData', {
-                          domains: [],
-                          yearsOfExperience: 0,
-                          workModel: [],
-                          availability: 'available'
-                        });
-                      } else if (role.id === 'employer' && !formData.employerData) {
-                        updateFormData('employerData', {
-                          companyName: '',
-                          companyWebsite: '',
-                          companySize: 'startup',
-                          industry: '',
-                          lookingForRoles: [],
-                          preferredWorkModel: []
-                        });
-                      } else if (role.id === 'freelancer' && !formData.freelancerData) {
-                        updateFormData('freelancerData', {
-                          serviceAreas: [],
-                          specialization: '',
-                          hourlyRate: { min: 0, max: 0, currency: 'USD' },
-                          workModel: []
-                        });
-                      } else if (role.id === 'learner' && !formData.learnerData) {
-                        updateFormData('learnerData', {
-                          currentLevel: 'beginner',
-                          currentOccupation: '',
-                          learningGoals: { primary: '', secondary: [], timeline: 'flexible' },
-                          interests: { domains: [], preferredLearningMethod: [] },
-                          seekingMentorship: false,
-                          lookingForTeam: false
-                        });
+                      // Toggle mantığı: aynı role tekrar basılırsa kaldır, farklı ise değiştir
+                      if (formData.role === role.id) {
+                        // Aynı role tekrar basıldı - seçimi kaldır
+                        updateFormData('role', null);
+                        updateFormData('roles', []);
+                      } else {
+                        // Farklı bir role basıldı - bu rolü seç
+                        updateFormData('role', role.id);
+                        updateFormData('roles', [role.id]);
+
+                        // Role'e göre başlangıç verilerini oluştur
+                        if (role.id === 'developer' && !formData.developerData) {
+                          updateFormData('developerData', {
+                            domains: [],
+                            yearsOfExperience: 0,
+                            workModel: [],
+                            availability: 'available'
+                          });
+                        } else if (role.id === 'employer' && !formData.employerData) {
+                          updateFormData('employerData', {
+                            companyName: '',
+                            companyWebsite: '',
+                            companySize: 'startup',
+                            industry: '',
+                            lookingForRoles: [],
+                            preferredWorkModel: []
+                          });
+                        } else if (role.id === 'freelancer' && !formData.freelancerData) {
+                          updateFormData('freelancerData', {
+                            serviceAreas: [],
+                            specialization: '',
+                            hourlyRate: { min: 0, max: 0, currency: 'USD' },
+                            workModel: []
+                          });
+                        } else if (role.id === 'learner' && !formData.learnerData) {
+                          updateFormData('learnerData', {
+                            currentLevel: 'beginner',
+                            currentOccupation: '',
+                            learningGoals: { primary: '', secondary: [], timeline: 'flexible' },
+                            interests: { domains: [], preferredLearningMethod: [] },
+                            seekingMentorship: false,
+                            lookingForTeam: false
+                          });
+                        }
                       }
                     }}
                   >
@@ -498,87 +497,91 @@ const Onboarding: React.FC = () => {
               <h2>Hangi Alanlarda Çalışıyorsunuz?</h2>
               <p>Bir veya daha fazla alan seçebilirsiniz</p>
             </div>
-            
+
             <div className="domains-grid">
               <div className="domains-row row-3">
-              {domains.slice(0,3).map((domain) => {
-                const selected = formData.developerData?.domains?.includes(domain.id) || false;
-                return (
-                  <button
-                    key={domain.id}
-                    type="button"
-                    className={`domain-card domain-${domain.id} ${selected ? 'selected' : ''}`}
-                    onClick={() => {
-                      const currentDomains = formData.developerData?.domains || [];
-                      const newDomains = selected
-                        ? currentDomains.filter(d => d !== domain.id)
-                        : [...currentDomains, domain.id];
-                      updateFormData('developerData.domains', newDomains);
-                    }}
-                  >
-                    <div className="domain-visual">
-                      {domain.id === 'frontend' ? (
-                        <img src={frontendIll} alt="Frontend" className="domain-img" />
-                      ) : domain.id === 'fullstack' ? (
-                        <img src={fullstackIll} alt="Full Stack" className="domain-img" />
-                      ) : domain.id === 'mobile' ? (
-                        <img src={mobileIll} alt="Mobile" className="domain-img" />
-                      ) : domain.id === 'devops' ? (
-                        <img src={devopsIll} alt="DevOps" className="domain-img" />
-                      ) : domain.id === 'database' ? (
-                        <img src={dbIll} alt="Database" className="domain-img" />
-                      ) : domain.id === 'ai-ml' ? (
-                        <img src={aiIll} alt="AI/ML" className="domain-img" />
-                      ) : (
-                        <span className="domain-icon">{domain.icon}</span>
-                      )}
-                    </div>
-                    <span className="domain-title">{domain.label}</span>
-                    <div className="domain-footer-bar" />
-                    {selected && <Check size={16} className="domain-check" />}
-                  </button>
-                );
-              })}
+                {domains.slice(0, 3).map((domain) => {
+                  const selected = formData.developerData?.domains?.includes(domain.id) || false;
+                  return (
+                    <button
+                      key={domain.id}
+                      type="button"
+                      className={`domain-card domain-${domain.id} ${selected ? 'selected' : ''}`}
+                      onClick={() => {
+                        const currentDomains = formData.developerData?.domains || [];
+                        const newDomains = selected
+                          ? currentDomains.filter(d => d !== domain.id)
+                          : [...currentDomains, domain.id];
+                        updateFormData('developerData.domains', newDomains);
+                      }}
+                    >
+                      <div className="domain-visual">
+                        {domain.id === 'frontend' ? (
+                          <img src={frontendIll} alt="Frontend" className="domain-img" />
+                        ) : domain.id === 'backend' ? (
+                          <img src={dbIll} alt="Backend" className="domain-img" />
+                        ) : domain.id === 'fullstack' ? (
+                          <img src={fullstackIll} alt="Full Stack" className="domain-img" />
+                        ) : domain.id === 'mobile' ? (
+                          <img src={mobileIll} alt="Mobile" className="domain-img" />
+                        ) : domain.id === 'devops' ? (
+                          <img src={devopsIll} alt="DevOps" className="domain-img" />
+                        ) : domain.id === 'database' ? (
+                          <img src={dbIll} alt="Database" className="domain-img" />
+                        ) : domain.id === 'ai-ml' ? (
+                          <img src={aiIll} alt="AI/ML" className="domain-img" />
+                        ) : (
+                          <img src={dbIll} alt={domain.label} className="domain-img" />
+                        )}
+                      </div>
+                      <span className="domain-title">{domain.label}</span>
+                      <div className="domain-footer-bar" />
+                      {selected && <Check size={16} className="domain-check" />}
+                    </button>
+                  );
+                })}
               </div>
               <div className="domains-row row-4">
-              {domains.slice(3).map((domain) => {
-                const selected = formData.developerData?.domains?.includes(domain.id) || false;
-                return (
-                  <button
-                    key={domain.id}
-                    type="button"
-                    className={`domain-card domain-${domain.id} ${selected ? 'selected' : ''}`}
-                    onClick={() => {
-                      const currentDomains = formData.developerData?.domains || [];
-                      const newDomains = selected
-                        ? currentDomains.filter(d => d !== domain.id)
-                        : [...currentDomains, domain.id];
-                      updateFormData('developerData.domains', newDomains);
-                    }}
-                  >
-                    <div className="domain-visual">
-                      {domain.id === 'frontend' ? (
-                        <img src={frontendIll} alt="Frontend" className="domain-img" />
-                      ) : domain.id === 'fullstack' ? (
-                        <img src={fullstackIll} alt="Full Stack" className="domain-img" />
-                      ) : domain.id === 'mobile' ? (
-                        <img src={mobileIll} alt="Mobile" className="domain-img" />
-                      ) : domain.id === 'devops' ? (
-                        <img src={devopsIll} alt="DevOps" className="domain-img" />
-                      ) : domain.id === 'database' ? (
-                        <img src={dbIll} alt="Database" className="domain-img" />
-                      ) : domain.id === 'ai-ml' ? (
-                        <img src={aiIll} alt="AI/ML" className="domain-img" />
-                      ) : (
-                        <span className="domain-icon">{domain.icon}</span>
-                      )}
-                    </div>
-                    <span className="domain-title">{domain.label}</span>
-                    <div className="domain-footer-bar" />
-                    {selected && <Check size={16} className="domain-check" />}
-                  </button>
-                );
-              })}
+                {domains.slice(3).map((domain) => {
+                  const selected = formData.developerData?.domains?.includes(domain.id) || false;
+                  return (
+                    <button
+                      key={domain.id}
+                      type="button"
+                      className={`domain-card domain-${domain.id} ${selected ? 'selected' : ''}`}
+                      onClick={() => {
+                        const currentDomains = formData.developerData?.domains || [];
+                        const newDomains = selected
+                          ? currentDomains.filter(d => d !== domain.id)
+                          : [...currentDomains, domain.id];
+                        updateFormData('developerData.domains', newDomains);
+                      }}
+                    >
+                      <div className="domain-visual">
+                        {domain.id === 'frontend' ? (
+                          <img src={frontendIll} alt="Frontend" className="domain-img" />
+                        ) : domain.id === 'backend' ? (
+                          <img src={dbIll} alt="Backend" className="domain-img" />
+                        ) : domain.id === 'fullstack' ? (
+                          <img src={fullstackIll} alt="Full Stack" className="domain-img" />
+                        ) : domain.id === 'mobile' ? (
+                          <img src={mobileIll} alt="Mobile" className="domain-img" />
+                        ) : domain.id === 'devops' ? (
+                          <img src={devopsIll} alt="DevOps" className="domain-img" />
+                        ) : domain.id === 'database' ? (
+                          <img src={dbIll} alt="Database" className="domain-img" />
+                        ) : domain.id === 'ai-ml' ? (
+                          <img src={aiIll} alt="AI/ML" className="domain-img" />
+                        ) : (
+                          <img src={dbIll} alt={domain.label} className="domain-img" />
+                        )}
+                      </div>
+                      <span className="domain-title">{domain.label}</span>
+                      <div className="domain-footer-bar" />
+                      {selected && <Check size={16} className="domain-check" />}
+                    </button>
+                  );
+                })}
               </div>
             </div>
             {(!formData.developerData?.domains || formData.developerData.domains.length === 0) && (
@@ -592,8 +595,8 @@ const Onboarding: React.FC = () => {
         const frontendLanguages = ['JavaScript', 'TypeScript', 'HTML/CSS'];
         const stylingTools = ['Tailwind CSS', 'Styled Components', 'CSS Modules', 'SCSS/SASS', 'Material-UI', 'Chakra UI'];
 
-        const hasFrontend = formData.developerData?.domains?.includes('frontend') || 
-                           formData.developerData?.domains?.includes('fullstack');
+        const hasFrontend = formData.developerData?.domains?.includes('frontend') ||
+          formData.developerData?.domains?.includes('fullstack');
 
         if (!hasFrontend) {
           handleNext();
@@ -607,7 +610,7 @@ const Onboarding: React.FC = () => {
               <h2>Frontend Teknolojileri</h2>
               <p>Kullandığınız frontend teknolojilerini seçin</p>
             </div>
-            
+
             <div className="tech-stack-section">
               <div className="tech-group">
                 <label>Framework'ler</label>
@@ -682,8 +685,8 @@ const Onboarding: React.FC = () => {
         const backendLanguages = ['Node.js', 'Python', 'Java', 'Go', 'Rust', 'PHP', 'C#', 'Ruby'];
         const backendFrameworks = ['Express', 'Django', 'Spring', 'FastAPI', 'NestJS', 'Laravel', 'ASP.NET'];
 
-        const hasBackend = formData.developerData?.domains?.includes('backend') || 
-                          formData.developerData?.domains?.includes('fullstack');
+        const hasBackend = formData.developerData?.domains?.includes('backend') ||
+          formData.developerData?.domains?.includes('fullstack');
 
         if (!hasBackend) {
           handleNext();
@@ -697,7 +700,7 @@ const Onboarding: React.FC = () => {
               <h2>Backend Teknolojileri</h2>
               <p>Kullandığınız backend teknolojilerini seçin</p>
             </div>
-            
+
             <div className="tech-stack-section">
               <div className="tech-group">
                 <label>Diller & Runtime'lar</label>
@@ -750,9 +753,9 @@ const Onboarding: React.FC = () => {
         const sqlDatabases = ['PostgreSQL', 'MySQL', 'SQL Server', 'SQLite', 'Oracle'];
         const nosqlDatabases = ['MongoDB', 'Redis', 'Elasticsearch', 'Cassandra', 'DynamoDB'];
 
-        const hasDatabase = formData.developerData?.domains?.includes('database') || 
-                           formData.developerData?.domains?.includes('fullstack') ||
-                           formData.developerData?.domains?.includes('backend');
+        const hasDatabase = formData.developerData?.domains?.includes('database') ||
+          formData.developerData?.domains?.includes('fullstack') ||
+          formData.developerData?.domains?.includes('backend');
 
         if (!hasDatabase) {
           handleNext();
@@ -766,7 +769,7 @@ const Onboarding: React.FC = () => {
               <h2>Database Teknolojileri</h2>
               <p>Kullandığınız veritabanı teknolojilerini seçin</p>
             </div>
-            
+
             <div className="tech-stack-section">
               <div className="tech-group">
                 <label>SQL Veritabanları</label>
@@ -819,8 +822,8 @@ const Onboarding: React.FC = () => {
         const cloudProviders = ['AWS', 'Azure', 'GCP', 'DigitalOcean', 'Heroku', 'Vercel', 'Netlify'];
         const devopsTools = ['Docker', 'Kubernetes', 'Terraform', 'CI/CD', 'Jenkins', 'GitHub Actions'];
 
-        const hasDevOps = formData.developerData?.domains?.includes('devops') || 
-                         formData.developerData?.domains?.includes('fullstack');
+        const hasDevOps = formData.developerData?.domains?.includes('devops') ||
+          formData.developerData?.domains?.includes('fullstack');
 
         if (!hasDevOps) {
           handleNext();
@@ -834,7 +837,7 @@ const Onboarding: React.FC = () => {
               <h2>Bulut & DevOps</h2>
               <p>Kullandığınız bulut ve DevOps araçlarını seçin</p>
             </div>
-            
+
             <div className="tech-stack-section">
               <div className="tech-group">
                 <label>Bulut Sağlayıcıları</label>
@@ -900,7 +903,7 @@ const Onboarding: React.FC = () => {
               <h2>Deneyim Bilgileri</h2>
               <p>Deneyim seviyenizi ve çalışma tercihlerinizi belirtin</p>
             </div>
-            
+
             <div className="form-fields">
               <div className="input-group">
                 <label>Deneyim Seviyesi</label>
@@ -911,9 +914,9 @@ const Onboarding: React.FC = () => {
                   >
                     {experienceLevels.map(level => (
                       <option key={level} value={level}>
-                        {level === 'beginner' ? 'Başlangıç' : 
-                         level === 'intermediate' ? 'Orta' :
-                         level === 'advanced' ? 'İleri' : 'Uzman'}
+                        {level === 'beginner' ? 'Başlangıç' :
+                          level === 'intermediate' ? 'Orta' :
+                            level === 'advanced' ? 'İleri' : 'Uzman'}
                       </option>
                     ))}
                   </select>
@@ -951,9 +954,9 @@ const Onboarding: React.FC = () => {
                       }}
                     >
                       {model === 'full-time' ? 'Tam Zamanlı' :
-                       model === 'part-time' ? 'Yarı Zamanlı' :
-                       model === 'contract' ? 'Sözleşmeli' :
-                       model === 'freelance' ? 'Freelance' : 'Stajyer'}
+                        model === 'part-time' ? 'Yarı Zamanlı' :
+                          model === 'contract' ? 'Sözleşmeli' :
+                            model === 'freelance' ? 'Freelance' : 'Stajyer'}
                     </button>
                   ))}
                 </div>
@@ -985,7 +988,7 @@ const Onboarding: React.FC = () => {
               <h2>Şirket Bilgileri</h2>
               <p>Şirketiniz hakkında bilgi verin</p>
             </div>
-            
+
             <div className="form-fields">
               <div className="input-group">
                 <label>Şirket Adı</label>
@@ -1047,7 +1050,14 @@ const Onboarding: React.FC = () => {
         );
 
       case 'looking-for':
-        const rolesToFind = ['Frontend Developer', 'Backend Developer', 'Full Stack Developer', 'Mobile Developer', 'DevOps Engineer', 'UI/UX Designer'];
+        const rolesToFind = [
+          { id: 'Frontend Developer', label: 'Frontend Developer', img: frontendIll },
+          { id: 'Backend Developer', label: 'Backend Developer', img: dbIll },
+          { id: 'Full Stack Developer', label: 'Full Stack Developer', img: fullstackIll },
+          { id: 'Mobile Developer', label: 'Mobile Developer', img: mobileIll },
+          { id: 'DevOps Engineer', label: 'DevOps Engineer', img: devopsIll },
+          { id: 'AI/ML Engineer', label: 'AI/ML Engineer', img: aiIll }
+        ];
 
         return (
           <div className="step-content form-step">
@@ -1056,24 +1066,60 @@ const Onboarding: React.FC = () => {
               <h2>Aradığınız Profil</h2>
               <p>Hangi pozisyonlar için geliştirici arıyorsunuz?</p>
             </div>
-            
-            <div className="tech-chips">
-              {rolesToFind.map((role) => (
-                <button
-                  key={role}
-                  type="button"
-                  className={`tech-chip ${formData.employerData?.lookingForRoles?.includes(role) ? 'selected' : ''}`}
-                  onClick={() => {
-                    const current = formData.employerData?.lookingForRoles || [];
-                    const updated = current.includes(role)
-                      ? current.filter(r => r !== role)
-                      : [...current, role];
-                    updateFormData('employerData.lookingForRoles', updated);
-                  }}
-                >
-                  {role}
-                </button>
-              ))}
+
+            <div className="domains-grid">
+              <div className="domains-row row-3">
+                {rolesToFind.slice(0, 3).map((role) => {
+                  const selected = formData.employerData?.lookingForRoles?.includes(role.id) || false;
+                  return (
+                    <button
+                      key={role.id}
+                      type="button"
+                      className={`domain-card ${selected ? 'selected' : ''}`}
+                      onClick={() => {
+                        const current = formData.employerData?.lookingForRoles || [];
+                        const updated = current.includes(role.id)
+                          ? current.filter(r => r !== role.id)
+                          : [...current, role.id];
+                        updateFormData('employerData.lookingForRoles', updated);
+                      }}
+                    >
+                      <div className="domain-visual">
+                        <img src={role.img} alt={role.label} className="domain-img" />
+                      </div>
+                      <span className="domain-title">{role.label}</span>
+                      <div className="domain-footer-bar" />
+                      {selected && <Check size={16} className="domain-check" />}
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="domains-row row-3">
+                {rolesToFind.slice(3).map((role) => {
+                  const selected = formData.employerData?.lookingForRoles?.includes(role.id) || false;
+                  return (
+                    <button
+                      key={role.id}
+                      type="button"
+                      className={`domain-card ${selected ? 'selected' : ''}`}
+                      onClick={() => {
+                        const current = formData.employerData?.lookingForRoles || [];
+                        const updated = current.includes(role.id)
+                          ? current.filter(r => r !== role.id)
+                          : [...current, role.id];
+                        updateFormData('employerData.lookingForRoles', updated);
+                      }}
+                    >
+                      <div className="domain-visual">
+                        <img src={role.img} alt={role.label} className="domain-img" />
+                      </div>
+                      <span className="domain-title">{role.label}</span>
+                      <div className="domain-footer-bar" />
+                      {selected && <Check size={16} className="domain-check" />}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
             {(!formData.employerData?.lookingForRoles || formData.employerData.lookingForRoles.length === 0) && (
               <p className="helper-text">En az bir pozisyon seçiniz</p>
@@ -1083,7 +1129,7 @@ const Onboarding: React.FC = () => {
 
       case 'project-details':
         const workModelsEmp: WorkModel[] = ['full-time', 'part-time', 'contract', 'freelance', 'internship'];
-        
+
         return (
           <div className="step-content form-step">
             <div className="step-header">
@@ -1091,7 +1137,7 @@ const Onboarding: React.FC = () => {
               <h2>Proje Detayları</h2>
               <p>Proje gereksinimlerinizi belirtin</p>
             </div>
-            
+
             <div className="form-fields">
               <div className="input-group">
                 <label>Tercih Edilen Çalışma Modeli</label>
@@ -1110,9 +1156,9 @@ const Onboarding: React.FC = () => {
                       }}
                     >
                       {model === 'full-time' ? 'Tam Zamanlı' :
-                       model === 'part-time' ? 'Yarı Zamanlı' :
-                       model === 'contract' ? 'Sözleşmeli' :
-                       model === 'freelance' ? 'Freelance' : 'Stajyer'}
+                        model === 'part-time' ? 'Yarı Zamanlı' :
+                          model === 'contract' ? 'Sözleşmeli' :
+                            model === 'freelance' ? 'Freelance' : 'Stajyer'}
                     </button>
                   ))}
                 </div>
@@ -1165,14 +1211,12 @@ const Onboarding: React.FC = () => {
       // Freelancer Steps
       case 'services':
         const serviceAreas = [
-          'Web Development',
-          'Mobile App Development',
-          'E-commerce Solutions',
-          'API Development',
-          'Database Design',
-          'UI/UX Design',
-          'DevOps & Cloud',
-          'Data Analytics'
+          { id: 'Web Development', label: 'Web Development', img: frontendIll },
+          { id: 'Mobile App Development', label: 'Mobile Development', img: mobileIll },
+          { id: 'Backend Development', label: 'Backend Development', img: dbIll },
+          { id: 'Full Stack Development', label: 'Full Stack', img: fullstackIll },
+          { id: 'DevOps & Cloud', label: 'DevOps & Cloud', img: devopsIll },
+          { id: 'AI/ML Solutions', label: 'AI/ML Solutions', img: aiIll }
         ];
 
         return (
@@ -1182,24 +1226,60 @@ const Onboarding: React.FC = () => {
               <h2>Hizmet Alanları</h2>
               <p>Sunmak istediğiniz hizmetleri seçin</p>
             </div>
-            
-            <div className="tech-chips">
-              {serviceAreas.map((service) => (
-                <button
-                  key={service}
-                  type="button"
-                  className={`tech-chip ${formData.freelancerData?.serviceAreas?.includes(service) ? 'selected' : ''}`}
-                  onClick={() => {
-                    const current = formData.freelancerData?.serviceAreas || [];
-                    const updated = current.includes(service)
-                      ? current.filter(s => s !== service)
-                      : [...current, service];
-                    updateFormData('freelancerData.serviceAreas', updated);
-                  }}
-                >
-                  {service}
-                </button>
-              ))}
+
+            <div className="domains-grid">
+              <div className="domains-row row-3">
+                {serviceAreas.slice(0, 3).map((service) => {
+                  const selected = formData.freelancerData?.serviceAreas?.includes(service.id) || false;
+                  return (
+                    <button
+                      key={service.id}
+                      type="button"
+                      className={`domain-card ${selected ? 'selected' : ''}`}
+                      onClick={() => {
+                        const current = formData.freelancerData?.serviceAreas || [];
+                        const updated = current.includes(service.id)
+                          ? current.filter(s => s !== service.id)
+                          : [...current, service.id];
+                        updateFormData('freelancerData.serviceAreas', updated);
+                      }}
+                    >
+                      <div className="domain-visual">
+                        <img src={service.img} alt={service.label} className="domain-img" />
+                      </div>
+                      <span className="domain-title">{service.label}</span>
+                      <div className="domain-footer-bar" />
+                      {selected && <Check size={16} className="domain-check" />}
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="domains-row row-3">
+                {serviceAreas.slice(3).map((service) => {
+                  const selected = formData.freelancerData?.serviceAreas?.includes(service.id) || false;
+                  return (
+                    <button
+                      key={service.id}
+                      type="button"
+                      className={`domain-card ${selected ? 'selected' : ''}`}
+                      onClick={() => {
+                        const current = formData.freelancerData?.serviceAreas || [];
+                        const updated = current.includes(service.id)
+                          ? current.filter(s => s !== service.id)
+                          : [...current, service.id];
+                        updateFormData('freelancerData.serviceAreas', updated);
+                      }}
+                    >
+                      <div className="domain-visual">
+                        <img src={service.img} alt={service.label} className="domain-img" />
+                      </div>
+                      <span className="domain-title">{service.label}</span>
+                      <div className="domain-footer-bar" />
+                      {selected && <Check size={16} className="domain-check" />}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
             {(!formData.freelancerData?.serviceAreas || formData.freelancerData.serviceAreas.length === 0) && (
               <p className="helper-text">En az bir hizmet alanı seçiniz</p>
@@ -1216,7 +1296,7 @@ const Onboarding: React.FC = () => {
               <h2>Teknoloji Stack'i</h2>
               <p>Uzman olduğunuz teknolojileri seçin</p>
             </div>
-            
+
             <div className="tech-stack-section">
               <p style={{ color: '#64748b', marginBottom: '1rem' }}>
                 Detaylı tech stack bilgileri GitHub profilinizden otomatik olarak çıkarılacaktır.
@@ -1227,7 +1307,7 @@ const Onboarding: React.FC = () => {
 
       case 'pricing':
         const workModelsFreelancer: WorkModel[] = ['full-time', 'part-time', 'contract', 'freelance', 'internship'];
-        
+
         return (
           <div className="step-content form-step">
             <div className="step-header">
@@ -1235,7 +1315,7 @@ const Onboarding: React.FC = () => {
               <h2>Ücretlendirme</h2>
               <p>Saatlik ücret aralığınızı belirtin</p>
             </div>
-            
+
             <div className="form-fields">
               <div className="input-group">
                 <label>Saatlik Ücret Aralığı</label>
@@ -1295,9 +1375,9 @@ const Onboarding: React.FC = () => {
                       }}
                     >
                       {model === 'full-time' ? 'Tam Zamanlı' :
-                       model === 'part-time' ? 'Yarı Zamanlı' :
-                       model === 'contract' ? 'Sözleşmeli' :
-                       model === 'freelance' ? 'Freelance' : 'Stajyer'}
+                        model === 'part-time' ? 'Yarı Zamanlı' :
+                          model === 'contract' ? 'Sözleşmeli' :
+                            model === 'freelance' ? 'Freelance' : 'Stajyer'}
                     </button>
                   ))}
                 </div>
@@ -1309,7 +1389,7 @@ const Onboarding: React.FC = () => {
       // Learner Steps
       case 'current-level':
         const experienceLevelsLearner: ExperienceLevel[] = ['beginner', 'intermediate', 'advanced', 'expert'];
-        
+
         return (
           <div className="step-content form-step">
             <div className="step-header">
@@ -1317,7 +1397,7 @@ const Onboarding: React.FC = () => {
               <h2>Mevcut Seviye</h2>
               <p>Şu anki bilgi seviyeniz nedir?</p>
             </div>
-            
+
             <div className="form-fields">
               <div className="input-group">
                 <label>Deneyim Seviyesi</label>
@@ -1328,9 +1408,9 @@ const Onboarding: React.FC = () => {
                   >
                     {experienceLevelsLearner.map(level => (
                       <option key={level} value={level}>
-                        {level === 'beginner' ? 'Başlangıç' : 
-                         level === 'intermediate' ? 'Orta' :
-                         level === 'advanced' ? 'İleri' : 'Uzman'}
+                        {level === 'beginner' ? 'Başlangıç' :
+                          level === 'intermediate' ? 'Orta' :
+                            level === 'advanced' ? 'İleri' : 'Uzman'}
                       </option>
                     ))}
                   </select>
@@ -1360,7 +1440,7 @@ const Onboarding: React.FC = () => {
               <h2>Öğrenme Hedefleri</h2>
               <p>Ne öğrenmek istiyorsunuz?</p>
             </div>
-            
+
             <div className="form-fields">
               <div className="input-group">
                 <label>Ana Hedef</label>
@@ -1401,7 +1481,16 @@ const Onboarding: React.FC = () => {
         );
 
       case 'interests':
-        const learningDomains = ['Frontend', 'Backend', 'Mobile', 'DevOps', 'Data Science', 'AI/ML'];
+        const learningDomains = [
+          { id: 'frontend', label: 'Frontend', icon: '🎨', img: frontendIll },
+          { id: 'backend', label: 'Backend', icon: '⚙️', img: dbIll },
+          { id: 'fullstack', label: 'Full Stack', icon: '🚀', img: fullstackIll },
+          { id: 'mobile', label: 'Mobile', icon: '📱', img: mobileIll },
+          { id: 'devops', label: 'DevOps', icon: '🔧', img: devopsIll },
+          { id: 'cloud', label: 'Cloud', icon: '☁️', img: devopsIll },
+          { id: 'data science', label: 'Data Science', icon: '📊', img: dbIll },
+          { id: 'ai/ml', label: 'AI/ML', icon: '🤖', img: aiIll }
+        ];
 
         return (
           <div className="step-content form-step">
@@ -1410,25 +1499,70 @@ const Onboarding: React.FC = () => {
               <h2>İlgi Alanları</h2>
               <p>Hangi teknoloji alanları ilginizi çekiyor?</p>
             </div>
-            
-            <div className="tech-chips">
-              {learningDomains.map((domain) => (
-                <button
-                  key={domain}
-                  type="button"
-                  className={`tech-chip ${formData.learnerData?.interests?.domains?.includes(domain.toLowerCase()) ? 'selected' : ''}`}
-                  onClick={() => {
-                    const current = formData.learnerData?.interests?.domains || [];
-                    const updated = current.includes(domain.toLowerCase())
-                      ? current.filter(d => d !== domain.toLowerCase())
-                      : [...current, domain.toLowerCase()];
-                    const interests = formData.learnerData?.interests || { domains: [], preferredLearningMethod: [] };
-                    updateFormData('learnerData.interests', { ...interests, domains: updated });
-                  }}
-                >
-                  {domain}
-                </button>
-              ))}
+
+            <div className="domains-grid">
+              <div className="domains-row row-4">
+                {learningDomains.slice(0, 4).map((domain) => {
+                  const selected = formData.learnerData?.interests?.domains?.includes(domain.id) || false;
+                  return (
+                    <button
+                      key={domain.id}
+                      type="button"
+                      className={`domain-card domain-${domain.id.replace(/[\s\/]/g, '-')} ${selected ? 'selected' : ''}`}
+                      onClick={() => {
+                        const current = formData.learnerData?.interests?.domains || [];
+                        const updated = current.includes(domain.id)
+                          ? current.filter(d => d !== domain.id)
+                          : [...current, domain.id];
+                        const interests = formData.learnerData?.interests || { domains: [], preferredLearningMethod: [] };
+                        updateFormData('learnerData.interests', { ...interests, domains: updated });
+                      }}
+                    >
+                      <div className="domain-visual">
+                        {domain.img ? (
+                          <img src={domain.img} alt={domain.label} className="domain-img" />
+                        ) : (
+                          <span className="domain-icon">{domain.icon}</span>
+                        )}
+                      </div>
+                      <span className="domain-title">{domain.label}</span>
+                      <div className="domain-footer-bar" />
+                      {selected && <Check size={16} className="domain-check" />}
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="domains-row row-4">
+                {learningDomains.slice(4).map((domain) => {
+                  const selected = formData.learnerData?.interests?.domains?.includes(domain.id) || false;
+                  return (
+                    <button
+                      key={domain.id}
+                      type="button"
+                      className={`domain-card domain-${domain.id.replace(/[\s\/]/g, '-')} ${selected ? 'selected' : ''}`}
+                      onClick={() => {
+                        const current = formData.learnerData?.interests?.domains || [];
+                        const updated = current.includes(domain.id)
+                          ? current.filter(d => d !== domain.id)
+                          : [...current, domain.id];
+                        const interests = formData.learnerData?.interests || { domains: [], preferredLearningMethod: [] };
+                        updateFormData('learnerData.interests', { ...interests, domains: updated });
+                      }}
+                    >
+                      <div className="domain-visual">
+                        {domain.img ? (
+                          <img src={domain.img} alt={domain.label} className="domain-img" />
+                        ) : (
+                          <span className="domain-icon">{domain.icon}</span>
+                        )}
+                      </div>
+                      <span className="domain-title">{domain.label}</span>
+                      <div className="domain-footer-bar" />
+                      {selected && <Check size={16} className="domain-check" />}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
             {(!formData.learnerData?.interests?.domains || formData.learnerData.interests.domains.length === 0) && (
               <p className="helper-text">En az bir ilgi alanı seçiniz</p>
@@ -1444,7 +1578,7 @@ const Onboarding: React.FC = () => {
               <h2>Mentorluk & Ekip</h2>
               <p>Mentorluk veya ekip arayışınız var mı?</p>
             </div>
-            
+
             <div className="form-fields">
               <div className="preference-group">
                 <label className="checkbox-label">
@@ -1488,7 +1622,7 @@ const Onboarding: React.FC = () => {
               <h2>GitHub Bağlantısı</h2>
               <p>GitHub profilinizi bağlayarak otomatik eşleştirmeden faydalanın (Önerilen)</p>
             </div>
-            
+
             <div className="form-fields">
               <div className="preference-group">
                 <label className="checkbox-label">
@@ -1545,7 +1679,7 @@ const Onboarding: React.FC = () => {
               <h2>Lokasyon</h2>
               <p>Konum bilgilerinizi belirtin</p>
             </div>
-            
+
             <div className="form-fields">
               <div className="input-group">
                 <label>Ülke</label>
@@ -1610,7 +1744,7 @@ const Onboarding: React.FC = () => {
               <h2>Tercihler</h2>
               <p>Deneyiminizi kişiselleştirin</p>
             </div>
-            
+
             <div className="form-fields">
               <div className="preference-group">
                 <label className="checkbox-label">
@@ -1701,8 +1835,8 @@ const Onboarding: React.FC = () => {
                 <Target size={20} />
                 <span>
                   {formData.role === 'developer' ? 'Yazılımcı' :
-                   formData.role === 'employer' ? 'İşveren' :
-                   formData.role === 'freelancer' ? 'Freelancer' : 'Öğrenci'}
+                    formData.role === 'employer' ? 'İşveren' :
+                      formData.role === 'freelancer' ? 'Freelancer' : 'Öğrenci'}
                 </span>
               </div>
               {formData.location.country && (
@@ -1722,16 +1856,16 @@ const Onboarding: React.FC = () => {
 
   return (
     <div className="onboarding-container onboarding-dark" ref={containerRef}>
-      
+
       {/* Left Panel - Progress & Info */}
       <div className="onboarding-left-panel" ref={leftPanelRef}>
         <div className="left-panel-content">
-          <StepIndicator 
-            steps={steps} 
+          <StepIndicator
+            steps={steps}
             currentStep={currentStep}
             onStepClick={handleStepClick}
           />
-          
+
           <div className="step-info">
             <div className="step-number">
               {currentStep + 1} / {steps.length}

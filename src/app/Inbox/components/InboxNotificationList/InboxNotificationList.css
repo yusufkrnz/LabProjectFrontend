@@ -423,6 +423,236 @@
     display: inline;
 }
 
+/* Filter Label */
+.filter-label {
+    font-size: 13px;
+    color: #636c76;
+}
+
+.filter-label strong {
+    color: #1f2328;
+}
+
+/* Empty State */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.empty-state h3 {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2328;
+}
+
+.empty-state p {
+    margin: 0;
+    font-size: 14px;
+    color: #636c76;
+}
+
+/* Algorithm Match Notification */
+.notification-item.algorithm-match {
+    background: linear-gradient(135deg, #fef3c7 0%, #fef9c3 100%);
+    border-left: 4px solid #f59e0b;
+    cursor: pointer;
+}
+
+.notification-item.algorithm-match:hover {
+    background: linear-gradient(135deg, #fde68a 0%, #fef08a 100%);
+}
+
+.notification-item.algorithm-match.unread {
+    background: linear-gradient(135deg, #fef3c7 0%, #fef9c3 100%);
+}
+
+.match-icon {
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, #f59e0b 0%, #eab308 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    flex-shrink: 0;
+}
+
+.match-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #92400e;
+    margin-bottom: 4px;
+}
+
+.match-desc {
+    font-size: 13px;
+    color: #a16207;
+}
+
+.match-badge {
+    font-size: 11px;
+    color: #92400e;
+    background: #fde68a;
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+/* Collaboration Request Notification */
+.notification-item.collab-request {
+    align-items: flex-start;
+    padding: 16px 20px;
+}
+
+.collab-icon {
+    width: 36px;
+    height: 36px;
+    background: #dbeafe;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2563eb;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.sender-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1f2328;
+    margin-bottom: 2px;
+}
+
+.collab-subtitle {
+    font-size: 12px;
+    color: #636c76;
+    margin-bottom: 8px;
+}
+
+.skills-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+}
+
+.skills-label {
+    font-size: 12px;
+    color: #636c76;
+    font-weight: 500;
+}
+
+.skill-tag {
+    font-size: 11px;
+    font-weight: 500;
+    color: #0969da;
+    background: #dbeafe;
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+.notification-item.collab-request .notification-avatar img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid #e2e8f0;
+}
+
+.notification-item.collab-request .notification-desc {
+    white-space: normal;
+    line-height: 1.4;
+}
+
+/* Business Offer Notification - Green Theme */
+.notification-item.business-offer {
+    background: linear-gradient(135deg, #d1fae5 0%, #ecfdf5 100%);
+    border-left: 4px solid #059669;
+    cursor: pointer;
+}
+
+.notification-item.business-offer:hover {
+    background: linear-gradient(135deg, #a7f3d0 0%, #d1fae5 100%);
+}
+
+.notification-item.business-offer.unread {
+    background: linear-gradient(135deg, #d1fae5 0%, #ecfdf5 100%);
+}
+
+.business-icon {
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    flex-shrink: 0;
+}
+
+.company-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #065f46;
+    margin-bottom: 2px;
+}
+
+.job-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #047857;
+    margin-bottom: 6px;
+}
+
+.salary-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 6px;
+    color: #059669;
+}
+
+.salary-amount {
+    font-size: 13px;
+    font-weight: 600;
+    color: #059669;
+}
+
+.business-badge {
+    font-size: 11px;
+    color: #065f46;
+    background: #a7f3d0;
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+.notification-item.business-offer .notification-desc {
+    color: #047857;
+    white-space: normal;
+    line-height: 1.4;
+}
+
+.business-avatar img {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    border: 2px solid #a7f3d0;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .notification-header {

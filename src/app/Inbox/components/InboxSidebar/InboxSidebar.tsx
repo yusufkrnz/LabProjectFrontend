@@ -16,7 +16,6 @@ type InboxSidebarProps = {
 
 export default function InboxSidebar({ activeFilter, onFilterChange }: InboxSidebarProps) {
     const [isFiltersOpen, setIsFiltersOpen] = useState(true);
-    const [isReposOpen, setIsReposOpen] = useState(true);
 
     const mainItems: FilterItem[] = [
         { id: 'inbox', label: 'Inbox', icon: <Inbox size={16} />, count: 19 },
@@ -32,11 +31,6 @@ export default function InboxSidebar({ activeFilter, onFilterChange }: InboxSide
         { id: 'review-requested', label: 'Review requested', icon: <GitPullRequest size={14} /> },
     ];
 
-    const repositories = [
-        { id: 'repo-1', name: 'yusufkrnz/LabProjectBackendNest', count: 9 },
-        { id: 'repo-2', name: 'saitddundar/saitddundar.github.io', count: 7 },
-        { id: 'repo-3', name: 'yusufkrnz/LabProjectFrontend', count: 3 },
-    ];
 
     return (
         <aside className="inbox-sidebar">
@@ -81,31 +75,6 @@ export default function InboxSidebar({ activeFilter, onFilterChange }: InboxSide
                             <Plus size={14} />
                             <span>Add new filter</span>
                         </button>
-                    </nav>
-                )}
-            </div>
-
-            {/* Repositories Section */}
-            <div className="sidebar-section">
-                <button
-                    className="section-header"
-                    onClick={() => setIsReposOpen(!isReposOpen)}
-                >
-                    <span>Repositories</span>
-                    <ChevronDown size={14} className={`chevron ${isReposOpen ? 'open' : ''}`} />
-                </button>
-                {isReposOpen && (
-                    <nav className="section-nav">
-                        {repositories.map((repo) => (
-                            <button
-                                key={repo.id}
-                                className={`sidebar-item small ${activeFilter === repo.id ? 'active' : ''}`}
-                                onClick={() => onFilterChange(repo.id)}
-                            >
-                                <span className="repo-name">{repo.name}</span>
-                                <span className="item-count">{repo.count}</span>
-                            </button>
-                        ))}
                     </nav>
                 )}
             </div>
