@@ -1,5 +1,5 @@
 import './UserProfileDetailCard.css';
-import React from 'react';
+
 import { Card, CardContent } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import {
