@@ -9,6 +9,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import Discover from "./app/Discover/Discover";
 import UserProfile from "./app/UserProfile/UserProfile";
 import Inbox from "./app/Inbox/Inbox";
+import Settings from "./app/Settings/Settings";
 
 function App() {
     return (
@@ -31,12 +32,20 @@ function App() {
                         element={<Discover />}
                     />
                     <Route
+                        path="/profile"
+                        element={<UserProfile />}
+                    />
+                    <Route
                         path="/userprofile"
                         element={<UserProfile />}
                     />
                     <Route
                         path="/inbox"
                         element={<Inbox />}
+                    />
+                    <Route
+                        path="/settings"
+                        element={<Settings />}
                     />
 
                     {/* Onboarding - Protected Route */}

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Header from '../../components/Header';
 import InboxSidebar from './components/InboxSidebar/InboxSidebar';
 import InboxNotificationList from './components/InboxNotificationList/InboxNotificationList';
 import './Inbox.css';
@@ -12,6 +13,8 @@ export default function Inbox() {
 
     return (
         <div className="inbox-container">
+            {/* Top Header */}
+            <Header />
 
             {/* Main Content */}
             <div className="inbox-content">

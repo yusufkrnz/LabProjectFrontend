@@ -1,6 +1,5 @@
-import Header from './components/Header/Header';
+import Header from '../../components/Header';
 import './Dashboard.css';
-import React from 'react';
 import { useState } from 'react';
 import Message from './components/Message/Message';
 import DashboardFeed from './components/DashboardFeed';

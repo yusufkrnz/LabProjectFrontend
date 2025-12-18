@@ -1,0 +1,211 @@
+.settings-page {
+    min-height: 100vh;
+    background: #f8fafc;
+}
+
+.settings-content {
+    padding-top: 84px;
+    padding-bottom: 40px;
+}
+
+.settings-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.settings-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 8px 0;
+}
+
+.settings-subtitle {
+    font-size: 15px;
+    color: #64748b;
+    margin: 0 0 32px 0;
+}
+
+.settings-section {
+    margin-bottom: 32px;
+}
+
+.settings-section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 12px 0;
+}
+
+.settings-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.settings-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.settings-item:last-child {
+    border-bottom: none;
+}
+
+.settings-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.settings-item-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+}
+
+.settings-item-value {
+    font-size: 13px;
+    color: #64748b;
+}
+
+.settings-item-btn {
+    padding: 8px 16px;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.settings-item-btn:hover {
+    background: #e2e8f0;
+    border-color: #cbd5e1;
+}
+
+.settings-item-btn.save {
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+    border-color: #1e40af;
+    color: white;
+}
+
+.settings-item-btn.save:hover {
+    opacity: 0.9;
+}
+
+.settings-btn-group {
+    display: flex;
+    gap: 8px;
+}
+
+.settings-input {
+    padding: 6px 10px;
+    border: 1px solid #3b82f6;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #1e293b;
+    outline: none;
+    min-width: 200px;
+}
+
+.settings-input:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.settings-item-btn.danger {
+    background: #fef2f2;
+    border-color: #fecaca;
+    color: #dc2626;
+}
+
+.settings-item-btn.danger:hover {
+    background: #fee2e2;
+    border-color: #fca5a5;
+}
+
+.settings-item-danger .settings-item-label {
+    color: #dc2626;
+}
+
+/* Toggle Switch */
+.settings-toggle {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+.settings-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #cbd5e1;
+    transition: 0.3s;
+    border-radius: 24px;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.settings-toggle input:checked+.toggle-slider {
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+}
+
+.settings-toggle input:checked+.toggle-slider:before {
+    transform: translateX(20px);
+}
+
+/* Select */
+.settings-select {
+    padding: 8px 32px 8px 12px;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #475569;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    transition: all 0.2s ease;
+}
+
+.settings-select:hover {
+    background-color: #e2e8f0;
+    border-color: #cbd5e1;
+}
+
+.settings-select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
