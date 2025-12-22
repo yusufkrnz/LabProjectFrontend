@@ -5,6 +5,14 @@
 }
 
 .messages-content {
+    display: flex;
     min-height: calc(100vh - 64px);
     padding-top: 64px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .messages-content {
+        flex-direction: column;
+    }
 }
