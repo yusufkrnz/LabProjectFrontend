@@ -235,76 +235,55 @@
 }
 
 /* Payments Section */
-.payment-list {
+.payment-section {
     display: flex;
     flex-direction: column;
     gap: 24px;
 }
 
-/* Payments Grid */
-.payments-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-/* Payment Card */
-.payment-card {
+/* Chart Container - Minimalist */
+.chart-container {
     background: #ffffff;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
-    padding: 20px;
+    padding: 24px;
 }
 
-.payment-card-header {
+.chart-header {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 32px;
 }
 
-.payment-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
-    object-fit: cover;
-}
-
-.payment-info {
-    flex: 1;
-}
-
-.payment-project {
-    font-size: 15px;
-    font-weight: 600;
-    color: #1f2328;
-    margin: 0 0 2px 0;
-}
-
-.payment-client {
-    font-size: 13px;
-    color: #6b7280;
-}
-
-.payment-details {
+.chart-info {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
 }
 
-.payment-amount-row {
+.chart-title {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.chart-total-value {
+    font-size: 32px;
+    font-weight: 600;
+    color: #1f2328;
+}
+
+.chart-meta {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 16px;
 }
 
-.payment-amount {
-    font-size: 20px;
-    font-weight: 600;
-    color: #10b981;
-}
-
-.payment-meta {
+.meta-item {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -312,10 +291,146 @@
     color: #6b7280;
 }
 
-.transaction-id {
-    font-size: 12px;
+.meta-dot {
+    width: 8px;
+    height: 8px;
+    background: #1f2328;
+    border-radius: 2px;
+}
+
+.chart-wrapper {
+    width: 100%;
+}
+
+/* Custom Tooltip */
+.chart-tooltip {
+    background: #1f2328;
+    border-radius: 6px;
+    padding: 10px 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.tooltip-label {
+    font-size: 11px;
     color: #9ca3af;
-    font-family: monospace;
+    margin: 0 0 2px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tooltip-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+}
+
+/* Payment Table */
+.payment-table-container {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0;
+    padding: 20px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.payments-table {
+    width: 100%;
+}
+
+.table-header {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1fr 1fr 1fr 1fr;
+    gap: 16px;
+    padding: 12px 20px;
+    background: #fafafa;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 11px;
+    font-weight: 600;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.table-row {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1fr 1fr 1fr 1fr;
+    gap: 16px;
+    padding: 16px 20px;
+    border-bottom: 1px solid #f3f4f6;
+    align-items: center;
+    transition: background 0.15s ease;
+}
+
+.table-row:last-child {
+    border-bottom: none;
+}
+
+.table-row:hover {
+    background: #fafafa;
+}
+
+.table-project {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.table-project .project-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1f2328;
+}
+
+.table-project .transaction-id {
+    font-size: 11px;
+    color: #9ca3af;
+    font-family: 'SF Mono', 'Monaco', monospace;
+}
+
+.table-client {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #1f2328;
+}
+
+.table-client img {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+}
+
+.table-amount {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2328;
+}
+
+.table-date {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.table-method {
+    font-size: 12px;
+    color: #374151;
+    background: #f3f4f6;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    font-weight: 500;
 }
 
 /* Empty State */
@@ -358,8 +473,17 @@
         gap: 8px;
     }
 
-    .payment-card-header {
+    .chart-header {
         flex-direction: column;
-        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .table-header {
+        display: none;
+    }
+
+    .table-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
     }
 }

@@ -1,4 +1,5 @@
 import { DollarSign, Calendar, Clock, CheckCircle, AlertCircle } from 'lucide-react';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import type { FinanceTab, WorkInProgressItem, PaymentHistoryItem } from '../../ManageFinance';
 import './ManageFinanceContent.css';
 
@@ -54,6 +55,31 @@ export default function ManageFinanceContent({
         return Math.round((earned / total) * 100);
     };
 
+    // Generate chart data
+    const chartData = [
+        { month: 'Jul', earnings: 1850 },
+        { month: 'Aug', earnings: 2400 },
+        { month: 'Sep', earnings: 1900 },
+        { month: 'Oct', earnings: 2800 },
+        { month: 'Nov', earnings: 2100 },
+        { month: 'Dec', earnings: paymentHistory.reduce((sum, p) => sum + p.amount, 0) || 4350 },
+    ];
+
+    const totalEarnings = paymentHistory.reduce((sum, p) => sum + p.amount, 0);
+
+    // Custom tooltip
+    const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: { value: number }[]; label?: string }) => {
+        if (active && payload && payload.length) {
+            return (
+                <div className="chart-tooltip">
+                    <p className="tooltip-label">{label}</p>
+                    <p className="tooltip-value">{formatCurrency(payload[0].value)}</p>
+                </div>
+            );
+        }
+        return null;
+    };
+
     if (isLoading) {
         return (
             <div className="finance-content">
@@ -72,7 +98,7 @@ export default function ManageFinanceContent({
                 <p className="content-subtitle">
                     {activeTab === 'in-progress'
                         ? 'Track your ongoing projects and milestones'
-                        : 'View all your payment transactions'
+                        : 'View your earnings and payment history'
                     }
                 </p>
             </div>
@@ -169,41 +195,94 @@ export default function ManageFinanceContent({
 
             {/* Payments View */}
             {activeTab === 'payments' && (
-                <div className="payment-list">
-                    {paymentHistory.length === 0 ? (
-                        <div className="empty-state">
-                            <h3>No payment history</h3>
-                            <p>You haven't received any payments yet.</p>
+                <div className="payment-section">
+                    {/* Chart Section */}
+                    <div className="chart-container">
+                        <div className="chart-header">
+                            <div className="chart-info">
+                                <h3 className="chart-title">Earnings</h3>
+                                <span className="chart-total-value">{formatCurrency(totalEarnings)}</span>
+                            </div>
+                            <div className="chart-meta">
+                                <span className="meta-item">
+                                    <span className="meta-dot"></span>
+                                    Last 6 months
+                                </span>
+                            </div>
                         </div>
-                    ) : (
-                        <div className="payments-grid">
+                        <div className="chart-wrapper">
+                            <ResponsiveContainer width="100%" height={300}>
+                                <AreaChart data={chartData} margin={{ top: 20, right: 20, left: 0, bottom: 0 }}>
+                                    <defs>
+                                        <linearGradient id="colorEarnings" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0%" stopColor="#1f2328" stopOpacity={0.15} />
+                                            <stop offset="100%" stopColor="#1f2328" stopOpacity={0} />
+                                        </linearGradient>
+                                    </defs>
+                                    <CartesianGrid strokeDasharray="0" stroke="#f3f4f6" vertical={false} />
+                                    <XAxis
+                                        dataKey="month"
+                                        axisLine={false}
+                                        tickLine={false}
+                                        tick={{ fill: '#9ca3af', fontSize: 13, fontWeight: 500 }}
+                                        dy={12}
+                                    />
+                                    <YAxis
+                                        axisLine={false}
+                                        tickLine={false}
+                                        tick={{ fill: '#9ca3af', fontSize: 12 }}
+                                        tickFormatter={(value) => `$${value}`}
+                                        dx={-5}
+                                        width={60}
+                                    />
+                                    <Tooltip content={<CustomTooltip />} />
+                                    <Area
+                                        type="linear"
+                                        dataKey="earnings"
+                                        stroke="#1f2328"
+                                        strokeWidth={2}
+                                        fillOpacity={1}
+                                        fill="url(#colorEarnings)"
+                                        dot={{ fill: '#1f2328', strokeWidth: 0, r: 4 }}
+                                        activeDot={{ fill: '#1f2328', strokeWidth: 3, stroke: '#fff', r: 6 }}
+                                    />
+                                </AreaChart>
+                            </ResponsiveContainer>
+                        </div>
+                    </div>
+
+                    {/* Payment History Table */}
+                    <div className="payment-table-container">
+                        <h3 className="table-title">Transactions</h3>
+                        <div className="payments-table">
+                            <div className="table-header">
+                                <span>Project</span>
+                                <span>Client</span>
+                                <span>Amount</span>
+                                <span>Date</span>
+                                <span>Method</span>
+                                <span>Status</span>
+                            </div>
                             {paymentHistory.map((payment) => (
-                                <div key={payment.id} className="payment-card">
-                                    <div className="payment-card-header">
-                                        <img src={payment.clientAvatar} alt={payment.clientName} className="payment-avatar" />
-                                        <div className="payment-info">
-                                            <h3 className="payment-project">{payment.projectTitle}</h3>
-                                            <span className="payment-client">{payment.clientName}</span>
-                                        </div>
-                                        <span className={`status-badge ${getStatusColor(payment.status)}`}>
-                                            {payment.status.charAt(0).toUpperCase() + payment.status.slice(1)}
-                                        </span>
-                                    </div>
-                                    <div className="payment-details">
-                                        <div className="payment-amount-row">
-                                            <span className="payment-amount">{formatCurrency(payment.amount)}</span>
-                                        </div>
-                                        <div className="payment-meta">
-                                            <span>{formatDate(payment.paymentDate)}</span>
-                                            <span>•</span>
-                                            <span>{payment.paymentMethod}</span>
-                                        </div>
+                                <div key={payment.id} className="table-row">
+                                    <div className="table-project">
+                                        <span className="project-title">{payment.projectTitle}</span>
                                         <span className="transaction-id">{payment.transactionId}</span>
                                     </div>
+                                    <div className="table-client">
+                                        <img src={payment.clientAvatar} alt={payment.clientName} />
+                                        <span>{payment.clientName}</span>
+                                    </div>
+                                    <span className="table-amount">{formatCurrency(payment.amount)}</span>
+                                    <span className="table-date">{formatDate(payment.paymentDate)}</span>
+                                    <span className="table-method">{payment.paymentMethod}</span>
+                                    <span className={`status-badge ${getStatusColor(payment.status)}`}>
+                                        {payment.status.charAt(0).toUpperCase() + payment.status.slice(1)}
+                                    </span>
                                 </div>
                             ))}
                         </div>
-                    )}
+                    </div>
                 </div>
             )}
         </div>
