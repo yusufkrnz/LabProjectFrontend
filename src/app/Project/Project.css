@@ -4,6 +4,16 @@
     position: relative;
 }
 
+/* Override global btn-primary/btn-secondary from Onboarding.css */
+.project-container .btn-primary,
+.project-container .btn-secondary {
+    position: static !important;
+    right: auto !important;
+    top: auto !important;
+    left: auto !important;
+    z-index: auto !important;
+}
+
 .project-content {
     min-height: calc(100vh - 64px);
     padding-top: 64px;

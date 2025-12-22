@@ -1,0 +1,398 @@
+.step3-form {
+    width: 100%;
+    position: relative;
+}
+
+.step3-form .step-header {
+    margin-bottom: 32px;
+}
+
+.step3-form .step-header h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1f2328;
+    margin: 0 0 8px 0;
+}
+
+.step3-form .step-header p {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
+}
+
+/* Form Section */
+.step3-form .form-section {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.step3-form .section-number {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: #6b7280;
+    flex-shrink: 0;
+}
+
+.step3-form .section-content {
+    flex: 1;
+}
+
+.step3-form .section-content h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2328;
+    margin: 0 0 8px 0;
+}
+
+.step3-form .section-description {
+    font-size: 13px;
+    color: #6b7280;
+    margin: 0 0 20px 0;
+}
+
+/* Project Type Grid */
+.step3-form .type-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.step3-form .type-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 18px;
+    background: #ffffff;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.step3-form .type-card:hover {
+    border-color: #3b82f6;
+    background: #f8faff;
+}
+
+.step3-form .type-card.selected {
+    border-color: #3b82f6;
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+.step3-form .type-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.step3-form .type-card:hover .type-icon {
+    background: #dbeafe;
+    color: #3b82f6;
+}
+
+.step3-form .type-card.selected .type-icon {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: #ffffff;
+}
+
+.step3-form .type-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.step3-form .type-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2328;
+}
+
+.step3-form .type-description {
+    font-size: 12px;
+    color: #6b7280;
+    line-height: 1.4;
+}
+
+.step3-form .type-card.selected .type-label {
+    color: #1e40af;
+}
+
+/* Work Style Grid */
+.step3-form .work-style-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.step3-form .work-style-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    background: #ffffff;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.step3-form .work-style-card:hover {
+    border-color: #3b82f6;
+    background: #f8faff;
+}
+
+.step3-form .work-style-card.selected {
+    border-color: #3b82f6;
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+.step3-form .work-style-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.step3-form .work-style-card:hover .work-style-icon {
+    background: #dbeafe;
+    color: #3b82f6;
+}
+
+.step3-form .work-style-card.selected .work-style-icon {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: #ffffff;
+}
+
+/* Volunteer style - heart icon with pink accent */
+.step3-form .work-style-card:first-child.selected .work-style-icon {
+    background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+}
+
+.step3-form .work-style-card:first-child:hover .work-style-icon {
+    background: #fce7f3;
+    color: #ec4899;
+}
+
+.step3-form .work-style-card:first-child.selected {
+    border-color: #ec4899;
+    background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+    box-shadow: 0 4px 12px rgba(236, 72, 153, 0.15);
+}
+
+/* Paid style - green accent */
+.step3-form .work-style-card:last-child.selected .work-style-icon {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.step3-form .work-style-card:last-child:hover .work-style-icon {
+    background: #d1fae5;
+    color: #10b981;
+}
+
+.step3-form .work-style-card:last-child.selected {
+    border-color: #10b981;
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+}
+
+.step3-form .work-style-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.step3-form .work-style-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2328;
+}
+
+.step3-form .work-style-description {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.step3-form .work-style-card.selected .work-style-label {
+    color: #1e40af;
+}
+
+.step3-form .work-style-card:first-child.selected .work-style-label {
+    color: #9d174d;
+}
+
+.step3-form .work-style-card:last-child.selected .work-style-label {
+    color: #065f46;
+}
+
+/* Budget Section */
+.step3-form .budget-section {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.step3-form .budget-section label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2328;
+    margin-bottom: 12px;
+}
+
+.step3-form .budget-section label svg {
+    color: #10b981;
+}
+
+.step3-form .budget-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.step3-form .currency-symbol {
+    position: absolute;
+    left: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #10b981;
+}
+
+.step3-form .budget-section input {
+    width: 100%;
+    padding: 12px 14px 12px 36px;
+    font-size: 16px;
+    font-weight: 500;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #1f2328;
+    transition: all 0.2s ease;
+}
+
+.step3-form .budget-section input:focus {
+    outline: none;
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.step3-form .budget-section input::placeholder {
+    color: #9ca3af;
+    font-weight: 400;
+}
+
+.step3-form .budget-hint {
+    display: block;
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 8px;
+}
+
+/* Actions */
+.step3-form .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 24px;
+    border-top: 1px solid #e5e7eb;
+    margin-top: 20px;
+}
+
+.step3-form .btn-primary {
+    padding: 12px 28px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
+}
+
+.step3-form .btn-primary:hover:not(:disabled) {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35);
+    transform: translateY(-1px);
+}
+
+.step3-form .btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.step3-form .btn-secondary {
+    padding: 12px 28px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.step3-form .btn-secondary:hover {
+    background: #f9fafb;
+    border-color: #9ca3af;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+
+    .step3-form .type-grid,
+    .step3-form .work-style-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .step3-form .type-card,
+    .step3-form .work-style-card {
+        padding: 16px;
+    }
+}

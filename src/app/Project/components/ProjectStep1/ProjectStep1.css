@@ -1,5 +1,6 @@
 .step1-form {
     width: 100%;
+    position: relative;
 }
 
 .step-header {
@@ -114,15 +115,16 @@
 }
 
 /* Actions */
-.form-actions {
+.step1-form .form-actions {
     display: flex;
     justify-content: flex-end;
     gap: 12px;
     padding-top: 20px;
+    margin-top: 20px;
     border-top: 1px solid #e5e7eb;
 }
 
-.btn-primary {
+.step1-form .btn-primary {
     padding: 10px 24px;
     font-size: 14px;
     font-weight: 500;
@@ -134,16 +136,16 @@
     transition: background 0.15s ease;
 }
 
-.btn-primary:hover:not(:disabled) {
+.step1-form .btn-primary:hover:not(:disabled) {
     background: #2563eb;
 }
 
-.btn-primary:disabled {
+.step1-form .btn-primary:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
 
-.btn-secondary {
+.step1-form .btn-secondary {
     padding: 10px 24px;
     font-size: 14px;
     font-weight: 500;
@@ -155,6 +157,6 @@
     transition: all 0.15s ease;
 }
 
-.btn-secondary:hover {
+.step1-form .btn-secondary:hover {
     background: #f9fafb;
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Plus, X, ChevronDown } from 'lucide-react';
+import { Plus, X, ChevronDown, ChevronRight, Code } from 'lucide-react';
 import type { TeamMember, TeamMemberRole } from '../../Project';
-import { ROLE_TECHNOLOGIES, ROLE_LABELS } from '../../Project';
+import { ROLE_LANGUAGES, LANGUAGE_FRAMEWORKS, ROLE_LABELS } from '../../Project';
 import './ProjectStep2.css';
 
 type ProjectStep2Props = {
@@ -13,11 +13,26 @@ type ProjectStep2Props = {
     onBack: () => void;
 };
 
-const ROLES: TeamMemberRole[] = ['frontend', 'backend', 'cloud', 'ml', 'deeplearning', 'specific'];
+const ROLES: TeamMemberRole[] = [
+    'frontend',
+    'backend',
+    'mobile',
+    'cloud',
+    'ml',
+    'deeplearning',
+    'cybersecurity',
+    'qa',
+    'data',
+    'blockchain',
+    'gamedev',
+    'embedded',
+    'specific'
+];
 
 export default function ProjectStep2({ initialData, onComplete, onBack }: ProjectStep2Props) {
     const [teamSize, setTeamSize] = useState(initialData.teamSize);
     const [teamMembers, setTeamMembers] = useState<TeamMember[]>(initialData.teamMembers);
+    const [expandedLanguages, setExpandedLanguages] = useState<Record<string, Set<string>>>({});
 
     // Sync team members array with team size
     useEffect(() => {
@@ -28,7 +43,8 @@ export default function ProjectStep2({ initialData, onComplete, onBack }: Projec
                     newMembers.push({
                         id: `member-${i + 1}`,
                         role: 'frontend',
-                        technologies: [],
+                        languages: [],
+                        frameworks: [],
                     });
                 }
                 return [...prev, ...newMembers];
@@ -40,19 +56,62 @@ export default function ProjectStep2({ initialData, onComplete, onBack }: Projec
 
     const handleRoleChange = (memberId: string, role: TeamMemberRole) => {
         setTeamMembers(prev => prev.map(m =>
-            m.id === memberId ? { ...m, role, technologies: [] } : m
+            m.id === memberId ? { ...m, role, languages: [], frameworks: [] } : m
         ));
+        // Clear expanded languages for this member
+        setExpandedLanguages(prev => {
+            const newState = { ...prev };
+            delete newState[memberId];
+            return newState;
+        });
     };
 
-    const handleTechToggle = (memberId: string, tech: string) => {
+    const handleLanguageToggle = (memberId: string, language: string) => {
         setTeamMembers(prev => prev.map(m => {
             if (m.id !== memberId) return m;
-            const hasTech = m.technologies.includes(tech);
+            const hasLanguage = m.languages.includes(language);
+
+            if (hasLanguage) {
+                // Remove language and its frameworks
+                const frameworksToRemove = LANGUAGE_FRAMEWORKS[language] || [];
+                return {
+                    ...m,
+                    languages: m.languages.filter(l => l !== language),
+                    frameworks: m.frameworks.filter(f => !frameworksToRemove.includes(f)),
+                };
+            } else {
+                // Add language
+                return {
+                    ...m,
+                    languages: [...m.languages, language],
+                };
+            }
+        }));
+
+        // Toggle expanded state for framework selection
+        setExpandedLanguages(prev => {
+            const memberExpanded = prev[memberId] || new Set();
+            const newMemberExpanded = new Set(memberExpanded);
+
+            if (newMemberExpanded.has(language)) {
+                newMemberExpanded.delete(language);
+            } else {
+                newMemberExpanded.add(language);
+            }
+
+            return { ...prev, [memberId]: newMemberExpanded };
+        });
+    };
+
+    const handleFrameworkToggle = (memberId: string, framework: string) => {
+        setTeamMembers(prev => prev.map(m => {
+            if (m.id !== memberId) return m;
+            const hasFramework = m.frameworks.includes(framework);
             return {
                 ...m,
-                technologies: hasTech
-                    ? m.technologies.filter(t => t !== tech)
-                    : [...m.technologies, tech],
+                frameworks: hasFramework
+                    ? m.frameworks.filter(f => f !== framework)
+                    : [...m.frameworks, framework],
             };
         }));
     };
@@ -61,6 +120,10 @@ export default function ProjectStep2({ initialData, onComplete, onBack }: Projec
         setTeamMembers(prev => prev.map(m =>
             m.id === memberId ? { ...m, customRole } : m
         ));
+    };
+
+    const isLanguageExpanded = (memberId: string, language: string): boolean => {
+        return expandedLanguages[memberId]?.has(language) || false;
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -84,7 +147,7 @@ export default function ProjectStep2({ initialData, onComplete, onBack }: Projec
                     <div className="team-size-selector">
                         <p className="selector-label">How many team members do you need?</p>
                         <div className="size-buttons">
-                            {[0, 1, 2, 3, 4, 5].map(num => (
+                            {[1, 2, 3, 4, 5, 6].map(num => (
                                 <button
                                     key={num}
                                     type="button"
@@ -110,7 +173,7 @@ export default function ProjectStep2({ initialData, onComplete, onBack }: Projec
 
                             {/* Role Selection */}
                             <div className="member-field">
-                                <label>Role</label>
+                                <label>Role / Field</label>
                                 <div className="role-select-wrapper">
                                     <select
                                         value={member.role}
@@ -139,27 +202,81 @@ export default function ProjectStep2({ initialData, onComplete, onBack }: Projec
                                 </div>
                             )}
 
-                            {/* Technologies */}
+                            {/* Languages & Frameworks */}
                             {member.role !== 'specific' && (
                                 <div className="member-field">
-                                    <label>Required Technologies</label>
-                                    <div className="tech-chips">
-                                        {ROLE_TECHNOLOGIES[member.role].map(tech => (
-                                            <button
-                                                key={tech}
-                                                type="button"
-                                                className={`tech-chip ${member.technologies.includes(tech) ? 'selected' : ''}`}
-                                                onClick={() => handleTechToggle(member.id, tech)}
-                                            >
-                                                {member.technologies.includes(tech) ? (
-                                                    <X size={12} />
-                                                ) : (
-                                                    <Plus size={12} />
-                                                )}
-                                                {tech}
-                                            </button>
-                                        ))}
+                                    <label>
+                                        <Code size={14} style={{ marginRight: '6px', verticalAlign: 'middle' }} />
+                                        Programming Languages & Frameworks
+                                    </label>
+                                    <p className="field-hint">Click on a language to select it and reveal its frameworks</p>
+
+                                    <div className="languages-container">
+                                        {ROLE_LANGUAGES[member.role].map(language => {
+                                            const isSelected = member.languages.includes(language);
+                                            const isExpanded = isLanguageExpanded(member.id, language);
+                                            const frameworks = LANGUAGE_FRAMEWORKS[language] || [];
+
+                                            return (
+                                                <div key={language} className="language-block">
+                                                    <button
+                                                        type="button"
+                                                        className={`language-chip ${isSelected ? 'selected' : ''}`}
+                                                        onClick={() => handleLanguageToggle(member.id, language)}
+                                                    >
+                                                        {isSelected ? (
+                                                            isExpanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />
+                                                        ) : (
+                                                            <Plus size={14} />
+                                                        )}
+                                                        <span>{language}</span>
+                                                        {isSelected && member.frameworks.filter(f => frameworks.includes(f)).length > 0 && (
+                                                            <span className="framework-count">
+                                                                {member.frameworks.filter(f => frameworks.includes(f)).length}
+                                                            </span>
+                                                        )}
+                                                    </button>
+
+                                                    {/* Framework dropdown */}
+                                                    {isSelected && isExpanded && frameworks.length > 0 && (
+                                                        <div className="frameworks-dropdown">
+                                                            <div className="frameworks-grid">
+                                                                {frameworks.map(framework => (
+                                                                    <button
+                                                                        key={framework}
+                                                                        type="button"
+                                                                        className={`framework-chip ${member.frameworks.includes(framework) ? 'selected' : ''}`}
+                                                                        onClick={() => handleFrameworkToggle(member.id, framework)}
+                                                                    >
+                                                                        {member.frameworks.includes(framework) ? (
+                                                                            <X size={12} />
+                                                                        ) : (
+                                                                            <Plus size={12} />
+                                                                        )}
+                                                                        {framework}
+                                                                    </button>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            );
+                                        })}
                                     </div>
+
+                                    {/* Selected Summary */}
+                                    {(member.languages.length > 0 || member.frameworks.length > 0) && (
+                                        <div className="selection-summary">
+                                            <div className="summary-section">
+                                                <span className="summary-label">Languages:</span>
+                                                <span className="summary-value">{member.languages.join(', ') || 'None'}</span>
+                                            </div>
+                                            <div className="summary-section">
+                                                <span className="summary-label">Frameworks:</span>
+                                                <span className="summary-value">{member.frameworks.join(', ') || 'None'}</span>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             )}
                         </div>
@@ -172,7 +289,7 @@ export default function ProjectStep2({ initialData, onComplete, onBack }: Projec
                     Back
                 </button>
                 <button type="submit" className="btn-primary">
-                    Create Project
+                    Continue
                 </button>
             </div>
         </form>
