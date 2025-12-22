@@ -38,7 +38,7 @@ export const authAPI = {
     try {
       console.log('API Call - URL:', `${API_BASE_URL}/auth/login`);
       console.log('API Call - Credentials:', { username: credentials.username, password: '***' });
-      
+
       const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
         headers: {
@@ -66,7 +66,7 @@ export const authAPI = {
 
       const data: LoginAPIResponse | LoginResponse = await response.json();
       console.log('API Success Response:', data);
-      
+
       // Response formatını kontrol et ve normalize et
       if ('success' in data && data.success && data.data) {
         // Yeni format: { success, data: { accessToken, user } }
@@ -145,4 +145,163 @@ export const authAPI = {
     localStorage.removeItem('accessToken');
     return response.json();
   }
+};
+
+// Finance API
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('accessToken');
+  return {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`,
+  };
+};
+
+export const financeAPI = {
+  // Get work in progress projects
+  getWorkInProgress: async () => {
+    const response = await fetch(`${API_BASE_URL}/finance/projects`, {
+      method: 'GET',
+      headers: getAuthHeaders(),
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to fetch projects');
+    }
+
+    return response.json();
+  },
+
+  // Get payment history
+  getPaymentHistory: async () => {
+    const response = await fetch(`${API_BASE_URL}/finance/payments`, {
+      method: 'GET',
+      headers: getAuthHeaders(),
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to fetch payments');
+    }
+
+    return response.json();
+  },
+
+  // Get single project
+  getProject: async (id: string) => {
+    const response = await fetch(`${API_BASE_URL}/finance/projects/${id}`, {
+      method: 'GET',
+      headers: getAuthHeaders(),
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to fetch project');
+    }
+
+    return response.json();
+  },
+
+  // Create new project
+  createProject: async (projectData: any) => {
+    const response = await fetch(`${API_BASE_URL}/finance/projects`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      credentials: 'include',
+      body: JSON.stringify(projectData),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to create project');
+    }
+
+    return response.json();
+  },
+
+  // Update project
+  updateProject: async (id: string, projectData: any) => {
+    const response = await fetch(`${API_BASE_URL}/finance/projects/${id}`, {
+      method: 'PATCH',
+      headers: getAuthHeaders(),
+      credentials: 'include',
+      body: JSON.stringify(projectData),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to update project');
+    }
+
+    return response.json();
+  },
+
+  // Delete project
+  deleteProject: async (id: string) => {
+    const response = await fetch(`${API_BASE_URL}/finance/projects/${id}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders(),
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to delete project');
+    }
+
+    return response.json();
+  },
+
+  // Update milestone status
+  updateMilestone: async (projectId: string, milestoneId: string, status: string) => {
+    const response = await fetch(`${API_BASE_URL}/finance/projects/${projectId}/milestones/${milestoneId}`, {
+      method: 'PATCH',
+      headers: getAuthHeaders(),
+      credentials: 'include',
+      body: JSON.stringify({ status }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to update milestone');
+    }
+
+    return response.json();
+  },
+
+  // Create new payment
+  createPayment: async (paymentData: any) => {
+    const response = await fetch(`${API_BASE_URL}/finance/payments`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      credentials: 'include',
+      body: JSON.stringify(paymentData),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to create payment');
+    }
+
+    return response.json();
+  },
+
+  // Get single payment
+  getPayment: async (id: string) => {
+    const response = await fetch(`${API_BASE_URL}/finance/payments/${id}`, {
+      method: 'GET',
+      headers: getAuthHeaders(),
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to fetch payment');
+    }
+
+    return response.json();
+  },
 };

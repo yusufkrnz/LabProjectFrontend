@@ -1,0 +1,369 @@
+/* ===================================
+   ELITE SEARCH CARD
+   Premium glassmorphism design
+   =================================== */
+
+.search-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 2.5rem;
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.08),
+        0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+    max-width: 650px;
+    width: 100%;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.search-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #1A36B0 0%, #FFCA29 50%, #FF6B6B 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.search-card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 30px 80px rgba(26, 54, 176, 0.15),
+        0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+}
+
+.search-card:hover::before {
+    opacity: 1;
+}
+
+/* ===================================
+   HEADER TABS
+   =================================== */
+.search-card-header {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    background: #f8fafc;
+    padding: 0.5rem;
+    border-radius: 14px;
+    position: relative;
+}
+
+.search-tab {
+    flex: 1;
+    padding: 0.9rem 1.5rem;
+    border: none;
+    background: transparent;
+    color: #64748b;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 1;
+}
+
+.search-tab:hover:not(.active) {
+    color: #1e293b;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.search-tab.active {
+    background: #ffffff;
+    color: #1A36B0;
+    box-shadow:
+        0 4px 12px rgba(26, 54, 176, 0.12),
+        0 1px 3px rgba(0, 0, 0, 0.08);
+    transform: scale(1.02);
+}
+
+/* ===================================
+   SEARCH INPUT
+   =================================== */
+.search-input-wrapper {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.75rem;
+    position: relative;
+}
+
+.search-card-input {
+    flex: 1;
+    padding: 1.1rem 1.5rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 14px;
+    font-size: 1rem;
+    color: #1e293b;
+    background: #ffffff;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.search-card-input:focus {
+    border-color: #1A36B0;
+    box-shadow:
+        0 0 0 4px rgba(26, 54, 176, 0.08),
+        0 4px 12px rgba(26, 54, 176, 0.12);
+    transform: translateY(-1px);
+}
+
+.search-card-input::placeholder {
+    color: #94a3b8;
+}
+
+.search-card-button {
+    padding: 1.1rem 2.25rem;
+    background: linear-gradient(135deg, #1A36B0 0%, #2563eb 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+    box-shadow:
+        0 4px 12px rgba(26, 54, 176, 0.25),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+    position: relative;
+    overflow: hidden;
+}
+
+.search-card-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.search-card-button:hover::before {
+    left: 100%;
+}
+
+.search-card-button:hover {
+    background: linear-gradient(135deg, #0d1f6b 0%, #1e40af 100%);
+    transform: translateY(-2px);
+    box-shadow:
+        0 8px 20px rgba(26, 54, 176, 0.35),
+        0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+}
+
+.search-card-button:active {
+    transform: translateY(0);
+}
+
+.search-card-button svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* ===================================
+   POPULAR SEARCHES
+   =================================== */
+.popular-searches-section {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.popular-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+}
+
+.popular-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.popular-tag {
+    padding: 0.6rem 1.2rem;
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    color: #475569;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.popular-tag:hover {
+    background: #ffffff;
+    border-color: #1A36B0;
+    color: #1A36B0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26, 54, 176, 0.12);
+}
+
+/* ===================================
+   TRUSTED BY SECTION
+   =================================== */
+.trusted-by-section {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.trusted-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.company-logos {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+}
+
+.company-logo {
+    width: 48px;
+    height: 48px;
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.company-logo:hover {
+    background: #ffffff;
+    border-color: #1A36B0;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 16px rgba(26, 54, 176, 0.15);
+}
+
+.logo-icon {
+    font-size: 1.5rem;
+    filter: grayscale(100%);
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
+
+.company-logo:hover .logo-icon {
+    filter: grayscale(0%);
+    opacity: 1;
+}
+
+/* ===================================
+   RESPONSIVE DESIGN
+   =================================== */
+@media (max-width: 768px) {
+    .search-card {
+        padding: 2rem;
+        border-radius: 20px;
+    }
+
+    .search-input-wrapper {
+        flex-direction: column;
+    }
+
+    .search-card-button {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .popular-tags {
+        flex-direction: column;
+    }
+
+    .popular-tag {
+        width: 100%;
+        text-align: center;
+    }
+
+    .trusted-by-section {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .company-logos {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 480px) {
+    .search-card {
+        padding: 1.5rem;
+    }
+
+    .search-card-header {
+        gap: 0.25rem;
+    }
+
+    .search-tab {
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+    }
+
+    .search-card-input {
+        padding: 1rem 1.25rem;
+        font-size: 0.95rem;
+    }
+
+    .search-card-button {
+        padding: 1rem 1.75rem;
+        font-size: 0.95rem;
+    }
+
+    .company-logo {
+        width: 40px;
+        height: 40px;
+    }
+
+    .logo-icon {
+        font-size: 1.25rem;
+    }
+}
+
+/* ===================================
+   ANIMATIONS
+   =================================== */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+.search-card.loading {
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0.95) 0%,
+            rgba(248, 250, 252, 0.95) 50%,
+            rgba(255, 255, 255, 0.95) 100%);
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite;
+}

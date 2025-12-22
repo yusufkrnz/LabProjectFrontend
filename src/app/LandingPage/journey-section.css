@@ -1,0 +1,322 @@
+/* ===================================
+   JOURNEY - DIVE INTO CARDS
+   Zoom Portal Effect
+   =================================== */
+.journey-section {
+  position: relative;
+  background: #0f172a;
+}
+
+.journey-page {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  will-change: transform, opacity;
+}
+
+.page-content {
+  max-width: 700px;
+  text-align: center;
+  color: #ffffff;
+  padding: 3rem;
+  position: relative;
+  z-index: 10;
+}
+
+.page-number {
+  font-size: 10rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #FFCA29 0%, #FF6B6B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 0.9;
+  margin-bottom: 1rem;
+  opacity: 0.2;
+  position: absolute;
+  top: -2rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.page-icon {
+  font-size: 8rem;
+  margin-bottom: 2rem;
+  filter: drop-shadow(0 10px 40px rgba(255, 202, 41, 0.4));
+  animation: float-icon 3s ease-in-out infinite;
+}
+
+@keyframes float-icon {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.page-title {
+  font-size: 4rem;
+  font-weight: 900;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.03em;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.page-description {
+  font-size: 1.4rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.8;
+  margin-bottom: 3rem;
+  max-width: 550px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.page-features {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+.feature-badge {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  padding: 0.9rem 1.8rem;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.feature-badge:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(255, 202, 41, 0.3);
+}
+
+.page-visual {
+  margin-top: 4rem;
+}
+
+/* Page 1 - Card Visual */
+.visual-card {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(25px);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-radius: 20px;
+  padding: 2.5rem;
+  max-width: 450px;
+  margin: 0 auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.card-header {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.card-line {
+  height: 14px;
+  background: rgba(255, 255, 255, 0.35);
+  border-radius: 7px;
+  margin-bottom: 1.2rem;
+  animation: pulse-line 2s ease-in-out infinite;
+}
+
+.card-line.short {
+  width: 65%;
+}
+
+@keyframes pulse-line {
+
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+
+  50% {
+    opacity: 0.55;
+  }
+}
+
+/* Page 2 - Profiles */
+.visual-profiles {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.profile-mini {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(15px);
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  transition: all 0.4s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.profile-mini:hover {
+  transform: scale(1.15) translateY(-10px);
+  border-color: #FFCA29;
+  box-shadow: 0 15px 40px rgba(255, 202, 41, 0.4);
+}
+
+/* Page 3 - Handshake */
+.visual-handshake {
+  display: flex;
+  justify-content: center;
+}
+
+.handshake-icon {
+  font-size: 10rem;
+  filter: drop-shadow(0 10px 40px rgba(255, 202, 41, 0.5));
+  animation: shake 3s ease-in-out infinite;
+}
+
+@keyframes shake {
+
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(-8deg);
+  }
+
+  75% {
+    transform: rotate(8deg);
+  }
+}
+
+/* Page 4 - Success */
+.visual-success {
+  text-align: center;
+}
+
+.success-icon {
+  font-size: 10rem;
+  filter: drop-shadow(0 10px 50px rgba(255, 202, 41, 0.6));
+  animation: pulse-success 2.5s ease-in-out infinite;
+}
+
+.success-text {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #FFCA29;
+  margin-top: 1.5rem;
+  text-shadow: 0 4px 20px rgba(255, 202, 41, 0.5);
+}
+
+@keyframes pulse-success {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.12);
+    opacity: 0.85;
+  }
+}
+
+/* Page-specific gradients */
+.page-1 {
+  background: radial-gradient(circle at center, rgba(26, 54, 176, 0.2) 0%, #0f172a 70%);
+}
+
+.page-2 {
+  background: radial-gradient(circle at center, rgba(255, 202, 41, 0.15) 0%, #0f172a 70%);
+}
+
+.page-3 {
+  background: radial-gradient(circle at center, rgba(255, 107, 107, 0.15) 0%, #0f172a 70%);
+}
+
+.page-4 {
+  background: radial-gradient(circle at center, rgba(34, 197, 94, 0.15) 0%, #0f172a 70%);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page-number {
+    font-size: 6rem;
+  }
+
+  .page-icon {
+    font-size: 5rem;
+  }
+
+  .page-title {
+    font-size: 2.8rem;
+  }
+
+  .page-description {
+    font-size: 1.15rem;
+  }
+
+  .page-content {
+    padding: 2rem;
+  }
+
+  .profile-mini {
+    width: 70px;
+    height: 70px;
+    font-size: 2rem;
+  }
+
+  .handshake-icon {
+    font-size: 7rem;
+  }
+
+  .success-icon {
+    font-size: 7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-number {
+    font-size: 4rem;
+  }
+
+  .page-icon {
+    font-size: 4rem;
+  }
+
+  .page-title {
+    font-size: 2.2rem;
+  }
+
+  .page-description {
+    font-size: 1rem;
+  }
+
+  .feature-badge {
+    padding: 0.7rem 1.3rem;
+    font-size: 0.9rem;
+  }
+}
