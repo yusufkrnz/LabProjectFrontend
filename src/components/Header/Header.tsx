@@ -25,10 +25,10 @@ export default function Header() {
 
                     {createMenuOpen && (
                         <div className="create-menu">
-                            <a href="#" className="create-menu-item">
+                            <Link to="/project" className="create-menu-item" onClick={() => setCreateMenuOpen(false)}>
                                 <FolderPlus size={18} />
                                 <span>New Project</span>
-                            </a>
+                            </Link>
                             <a href="#" className="create-menu-item">
                                 <Users size={18} />
                                 <span>New Team</span>

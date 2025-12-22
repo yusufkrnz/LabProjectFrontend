@@ -13,6 +13,7 @@ import Settings from "./app/Settings/Settings";
 import MarketPlace from "./app/MarketPlace/MarketPlace";
 import ManageFinance from "./app/ManageFinance/ManageFinance";
 import Messages from "./app/Messages/Messages";
+import Project from "./app/Project/Project";
 
 function App() {
     return (
@@ -61,6 +62,10 @@ function App() {
                     <Route
                         path="/messages"
                         element={<Messages />}
+                    />
+                    <Route
+                        path="/project"
+                        element={<Project />}
                     />
 
                     {/* Onboarding - Protected Route */}
