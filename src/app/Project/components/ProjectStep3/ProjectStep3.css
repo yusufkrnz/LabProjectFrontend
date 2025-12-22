@@ -190,38 +190,7 @@
     color: #ffffff;
 }
 
-/* Volunteer style - heart icon with pink accent */
-.step3-form .work-style-card:first-child.selected .work-style-icon {
-    background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
-}
-
-.step3-form .work-style-card:first-child:hover .work-style-icon {
-    background: #fce7f3;
-    color: #ec4899;
-}
-
-.step3-form .work-style-card:first-child.selected {
-    border-color: #ec4899;
-    background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
-    box-shadow: 0 4px 12px rgba(236, 72, 153, 0.15);
-}
-
-/* Paid style - green accent */
-.step3-form .work-style-card:last-child.selected .work-style-icon {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-}
-
-.step3-form .work-style-card:last-child:hover .work-style-icon {
-    background: #d1fae5;
-    color: #10b981;
-}
-
-.step3-form .work-style-card:last-child.selected {
-    border-color: #10b981;
-    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
-}
-
+/* Work Style Info - Mavi Tema */
 .step3-form .work-style-info {
     display: flex;
     flex-direction: column;
@@ -243,15 +212,7 @@
     color: #1e40af;
 }
 
-.step3-form .work-style-card:first-child.selected .work-style-label {
-    color: #9d174d;
-}
-
-.step3-form .work-style-card:last-child.selected .work-style-label {
-    color: #065f46;
-}
-
-/* Budget Section */
+/* Budget Section - Mavi Tema */
 .step3-form .budget-section {
     margin-top: 20px;
     padding: 20px;
@@ -284,7 +245,40 @@
 }
 
 .step3-form .budget-section label svg {
-    color: #10b981;
+    color: #3b82f6;
+}
+
+/* Budget Type Selector */
+.step3-form .budget-type-selector {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.step3-form .budget-type-btn {
+    flex: 1;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+    background: #ffffff;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.step3-form .budget-type-btn:hover {
+    border-color: #3b82f6;
+    color: #3b82f6;
+    background: #f8faff;
+}
+
+.step3-form .budget-type-btn.selected {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    border-color: #3b82f6;
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
 }
 
 .step3-form .budget-input-wrapper {
@@ -298,7 +292,7 @@
     left: 14px;
     font-size: 16px;
     font-weight: 600;
-    color: #10b981;
+    color: #3b82f6;
 }
 
 .step3-form .budget-section input {
@@ -315,8 +309,8 @@
 
 .step3-form .budget-section input:focus {
     outline: none;
-    border-color: #10b981;
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .step3-form .budget-section input::placeholder {
@@ -394,5 +388,9 @@
     .step3-form .type-card,
     .step3-form .work-style-card {
         padding: 16px;
+    }
+
+    .step3-form .budget-type-selector {
+        flex-direction: column;
     }
 }

@@ -7,8 +7,9 @@ type ProjectStep3Props = {
         projectType: string;
         workStyle: string;
         budget?: string;
+        budgetType?: string;
     };
-    onComplete: (data: { projectType: string; workStyle: string; budget?: string }) => void;
+    onComplete: (data: { projectType: string; workStyle: string; budget?: string; budgetType?: string }) => void;
     onBack: () => void;
 };
 
@@ -72,6 +73,7 @@ export default function ProjectStep3({ initialData, onComplete, onBack }: Projec
     const [projectType, setProjectType] = useState(initialData.projectType || '');
     const [workStyle, setWorkStyle] = useState(initialData.workStyle || '');
     const [budget, setBudget] = useState(initialData.budget || '');
+    const [budgetType, setBudgetType] = useState(initialData.budgetType || 'one-time');
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -79,7 +81,8 @@ export default function ProjectStep3({ initialData, onComplete, onBack }: Projec
             onComplete({
                 projectType,
                 workStyle,
-                budget: workStyle === 'paid' ? budget : undefined
+                budget: workStyle === 'paid' ? budget : undefined,
+                budgetType: workStyle === 'paid' ? budgetType : undefined
             });
         }
     };
@@ -150,6 +153,32 @@ export default function ProjectStep3({ initialData, onComplete, onBack }: Projec
                                 <Briefcase size={16} />
                                 Project Budget
                             </label>
+
+                            {/* Budget Type Selection */}
+                            <div className="budget-type-selector">
+                                <button
+                                    type="button"
+                                    className={`budget-type-btn ${budgetType === 'hourly' ? 'selected' : ''}`}
+                                    onClick={() => setBudgetType('hourly')}
+                                >
+                                    Hourly
+                                </button>
+                                <button
+                                    type="button"
+                                    className={`budget-type-btn ${budgetType === 'monthly' ? 'selected' : ''}`}
+                                    onClick={() => setBudgetType('monthly')}
+                                >
+                                    Monthly
+                                </button>
+                                <button
+                                    type="button"
+                                    className={`budget-type-btn ${budgetType === 'one-time' ? 'selected' : ''}`}
+                                    onClick={() => setBudgetType('one-time')}
+                                >
+                                    One-time
+                                </button>
+                            </div>
+
                             <div className="budget-input-wrapper">
                                 <span className="currency-symbol">$</span>
                                 <input
@@ -157,7 +186,7 @@ export default function ProjectStep3({ initialData, onComplete, onBack }: Projec
                                     type="text"
                                     value={budget}
                                     onChange={(e) => setBudget(e.target.value.replace(/[^0-9]/g, ''))}
-                                    placeholder="Enter budget amount"
+                                    placeholder={`Enter ${budgetType} budget`}
                                 />
                             </div>
                             <span className="budget-hint">

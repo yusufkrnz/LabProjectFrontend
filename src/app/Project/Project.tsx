@@ -38,6 +38,7 @@ export type ProjectFormData = {
     projectType: string;
     workStyle: string;
     budget?: string;
+    budgetType?: string;
 };
 
 // Programming Languages per role
@@ -155,6 +156,7 @@ export default function Project() {
         projectType: '',
         workStyle: '',
         budget: '',
+        budgetType: '',
     });
 
     const handleStep1Complete = (data: { projectName: string; description: string }) => {
@@ -167,7 +169,7 @@ export default function Project() {
         setCurrentStep(3);
     };
 
-    const handleStep3Complete = (data: { projectType: string; workStyle: string; budget?: string }) => {
+    const handleStep3Complete = (data: { projectType: string; workStyle: string; budget?: string; budgetType?: string }) => {
         const finalData = { ...formData, ...data };
         setFormData(finalData);
 
@@ -219,6 +221,7 @@ export default function Project() {
                                     projectType: formData.projectType,
                                     workStyle: formData.workStyle,
                                     budget: formData.budget,
+                                    budgetType: formData.budgetType,
                                 }}
                                 onComplete={handleStep3Complete}
                                 onBack={handleBack}

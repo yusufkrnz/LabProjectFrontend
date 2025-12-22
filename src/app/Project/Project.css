@@ -14,6 +14,26 @@
     z-index: auto !important;
 }
 
+.project-container .btn-primary {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+    padding: 12px 28px !important;
+    border-radius: 8px !important;
+    border: none !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+}
+
+.project-container .btn-secondary {
+    color: #374151 !important;
+    background: #ffffff !important;
+    border: 1px solid #d1d5db !important;
+    padding: 12px 28px !important;
+    border-radius: 8px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
+
 .project-content {
     min-height: calc(100vh - 64px);
     padding-top: 64px;
