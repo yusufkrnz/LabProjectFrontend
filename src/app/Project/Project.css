@@ -7,4 +7,35 @@
 .project-content {
     min-height: calc(100vh - 64px);
     padding-top: 64px;
+    display: flex;
+    justify-content: center;
+}
+
+.project-wizard {
+    width: 100%;
+    max-width: 720px;
+    padding: 40px 24px;
+}
+
+.wizard-content {
+    margin-top: 40px;
+}
+
+/* Step Complete */
+.step-complete {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.step-complete h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1f2328;
+    margin: 0 0 12px 0;
+}
+
+.step-complete p {
+    font-size: 15px;
+    color: #6b7280;
+    margin: 0;
 }
