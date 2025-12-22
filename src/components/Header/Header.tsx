@@ -51,7 +51,7 @@ export default function Header() {
                 <nav className="header-nav">
                     <a href="#" className="header-nav-item">Connect</a>
                     <a href="#" className="header-nav-item">My Projects</a>
-                    <a href="#" className="header-nav-item">Marketplace</a>
+                    <Link to="/marketplace" className="header-nav-item">Marketplace</Link>
                     <a href="#" className="header-nav-item">Manage Finance</a>
                 </nav>
             </div>
