@@ -12,6 +12,7 @@ import Inbox from "./app/Inbox/Inbox";
 import Settings from "./app/Settings/Settings";
 import MarketPlace from "./app/MarketPlace/MarketPlace";
 import ManageFinance from "./app/ManageFinance/ManageFinance";
+import Messages from "./app/Messages/Messages";
 
 function App() {
     return (
@@ -56,6 +57,10 @@ function App() {
                     <Route
                         path="/manage-finance"
                         element={<ManageFinance />}
+                    />
+                    <Route
+                        path="/messages"
+                        element={<Messages />}
                     />
 
                     {/* Onboarding - Protected Route */}

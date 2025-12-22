@@ -1,0 +1,10 @@
+.messages-container {
+    min-height: 100vh;
+    background-color: #ffffff;
+    position: relative;
+}
+
+.messages-content {
+    min-height: calc(100vh - 64px);
+    padding-top: 64px;
+}

@@ -1,4 +1,4 @@
-import { Search, Bell, Inbox, Plus, FolderPlus, Users, Flag, Download, ChevronDown } from 'lucide-react';
+import { Search, MessageCircle, Inbox, Plus, FolderPlus, Users, Flag, Download, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
@@ -65,9 +65,9 @@ export default function Header() {
                 <Link to="/inbox" className="header-icon-btn">
                     <Inbox size={20} />
                 </Link>
-                <button className="header-icon-btn">
-                    <Bell size={20} />
-                </button>
+                <Link to="/messages" className="header-icon-btn">
+                    <MessageCircle size={20} />
+                </Link>
 
                 {/* Profile Card - Props will come from backend */}
                 <ProfileCard
