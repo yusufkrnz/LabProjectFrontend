@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { Search } from 'lucide-react';
 import type { Conversation } from '../../Messages';
 import './MessagesSidebar.css';
 
@@ -14,11 +16,29 @@ export default function MessagesSidebar({
     onSelectConversation,
     isLoading,
 }: MessagesSidebarProps) {
+    const [searchQuery, setSearchQuery] = useState('');
+
+    // Filter conversations by participant name
+    const filteredConversations = conversations.filter(conv =>
+        conv.participant.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     return (
         <aside className="messages-sidebar">
             {/* Header */}
             <div className="sidebar-header">
                 <h2>Messages</h2>
+            </div>
+
+            {/* Search */}
+            <div className="sidebar-search">
+                <Search size={16} />
+                <input
+                    type="text"
+                    placeholder="Search"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
             </div>
 
             {/* Conversations List */}
@@ -27,12 +47,14 @@ export default function MessagesSidebar({
                     <div className="empty-state">
                         <p>Loading...</p>
                     </div>
-                ) : conversations.length === 0 ? (
+                ) : filteredConversations.length === 0 ? (
                     <div className="empty-state">
-                        <p className="empty-text">Conversations will appear here</p>
+                        <p className="empty-text">
+                            {searchQuery ? 'No results found' : 'Conversations will appear here'}
+                        </p>
                     </div>
                 ) : (
-                    conversations.map((conversation) => (
+                    filteredConversations.map((conversation) => (
                         <button
                             key={conversation.id}
                             className={`conversation-item ${activeConversationId === conversation.id ? 'active' : ''}`}
@@ -40,7 +62,6 @@ export default function MessagesSidebar({
                         >
                             <div className="conversation-avatar">
                                 <img src={conversation.participant.avatar} alt={conversation.participant.name} />
-                                {conversation.participant.isOnline && <span className="online-indicator" />}
                             </div>
                             <div className="conversation-info">
                                 <div className="conversation-top">

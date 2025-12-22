@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Send, MoreVertical } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
+import { Send, MoreVertical, User } from 'lucide-react';
 import type { Conversation } from '../../Messages';
 import './MessagesChat.css';
 
@@ -15,6 +15,19 @@ export default function MessagesChat({
     onSendMessage,
 }: MessagesChatProps) {
     const [messageInput, setMessageInput] = useState('');
+    const [showMenu, setShowMenu] = useState(false);
+    const menuRef = useRef<HTMLDivElement>(null);
+
+    // Close menu when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+                setShowMenu(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -29,6 +42,12 @@ export default function MessagesChat({
             hour: '2-digit',
             minute: '2-digit',
         });
+    };
+
+    const handleViewProfile = () => {
+        // TODO: Navigate to profile page
+        console.log('View profile:', conversation?.participant.id);
+        setShowMenu(false);
     };
 
     if (!conversation) {
@@ -49,16 +68,21 @@ export default function MessagesChat({
             <div className="chat-header">
                 <div className="chat-user">
                     <img src={conversation.participant.avatar} alt={conversation.participant.name} />
-                    <div className="chat-user-info">
-                        <span className="chat-user-name">{conversation.participant.name}</span>
-                        <span className={`chat-user-status ${conversation.participant.isOnline ? 'online' : ''}`}>
-                            {conversation.participant.isOnline ? 'Online' : 'Offline'}
-                        </span>
-                    </div>
+                    <span className="chat-user-name">{conversation.participant.name}</span>
                 </div>
-                <button className="chat-action-btn">
-                    <MoreVertical size={20} />
-                </button>
+                <div className="chat-menu-wrapper" ref={menuRef}>
+                    <button className="chat-action-btn" onClick={() => setShowMenu(!showMenu)}>
+                        <MoreVertical size={20} />
+                    </button>
+                    {showMenu && (
+                        <div className="chat-dropdown">
+                            <button className="dropdown-item" onClick={handleViewProfile}>
+                                <User size={16} />
+                                <span>View Profile</span>
+                            </button>
+                        </div>
+                    )}
+                </div>
             </div>
 
             {/* Messages Area */}
