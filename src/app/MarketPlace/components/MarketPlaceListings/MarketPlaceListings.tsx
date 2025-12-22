@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Search, Heart, ThumbsDown, MapPin, Star, CheckCircle } from 'lucide-react';
+import { Search, Heart, ThumbsDown, MapPin, Star, CheckCircle, FolderKanban, Briefcase } from 'lucide-react';
 import type { TabType, FilterType, ProjectListing, FinanceListing } from '../../MarketPlace';
 import './MarketPlaceListings.css';
 
 type MarketPlaceListingsProps = {
     activeTab: TabType;
     activeFilter: FilterType;
+    onTabChange: (tab: TabType) => void;
     onFilterChange: (filter: FilterType) => void;
     projectListings: ProjectListing[];
     financeListings: FinanceListing[];
@@ -17,6 +18,7 @@ type MarketPlaceListingsProps = {
 export default function MarketPlaceListings({
     activeTab,
     activeFilter,
+    onTabChange,
     onFilterChange,
     projectListings,
     financeListings,
@@ -62,6 +64,24 @@ export default function MarketPlaceListings({
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
                 </div>
+            </div>
+
+            {/* Tab Buttons */}
+            <div className="tab-buttons">
+                <button
+                    className={`tab-btn ${activeTab === 'project' ? 'active' : ''}`}
+                    onClick={() => onTabChange('project')}
+                >
+                    <FolderKanban size={16} />
+                    Project
+                </button>
+                <button
+                    className={`tab-btn ${activeTab === 'finance' ? 'active' : ''}`}
+                    onClick={() => onTabChange('finance')}
+                >
+                    <Briefcase size={16} />
+                    Finance
+                </button>
             </div>
 
             {/* Title */}
@@ -123,7 +143,6 @@ export default function MarketPlaceListings({
                                         className="action-icon-btn"
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            // TODO: Dislike/hide functionality
                                             console.log('Dislike:', listing.id);
                                         }}
                                         title="Not interested"

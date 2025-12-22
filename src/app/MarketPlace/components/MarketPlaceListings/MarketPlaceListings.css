@@ -1,49 +1,85 @@
 .marketplace-listings {
-    flex: 1;
     padding: 24px 40px;
-    overflow-y: auto;
-    max-height: calc(100vh - 64px);
-    background: #ffffff;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 /* Search Container */
 .listings-search-container {
-    margin-bottom: 32px;
+    margin-bottom: 20px;
 }
 
 .listings-search {
     display: flex;
     align-items: center;
-    background: #ffffff;
-    border: 1px solid #d1d5db;
-    padding: 12px 16px;
-    border-radius: 24px;
+    background: #f1f5f9;
+    padding: 10px 14px;
+    border-radius: 8px;
     width: 100%;
-    max-width: 800px;
     transition: all 0.2s ease;
 }
 
 .listings-search:focus-within {
-    border-color: #374151;
-    box-shadow: 0 0 0 1px #374151;
+    background: #e2e8f0;
 }
 
 .listings-search input {
     border: none;
     background: transparent;
     outline: none;
-    margin-left: 12px;
-    font-size: 15px;
+    margin-left: 10px;
+    font-size: 14px;
     width: 100%;
     color: #1f2328;
 }
 
 .listings-search input::placeholder {
-    color: #9ca3af;
+    color: #64748b;
 }
 
 .listings-search svg {
-    color: #6b7280;
+    color: #64748b;
+}
+
+/* Tab Buttons */
+.tab-buttons {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+.tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: none;
+    padding: 8px 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.tab-btn svg {
+    color: #94a3b8;
+}
+
+.tab-btn:hover {
+    color: #1f2328;
+}
+
+.tab-btn:hover svg {
+    color: #64748b;
+}
+
+.tab-btn.active {
+    color: #0969da;
+}
+
+.tab-btn.active svg {
+    color: #0969da;
 }
 
 /* Title */
@@ -292,8 +328,8 @@
         padding: 16px;
     }
 
-    .listings-search {
-        max-width: 100%;
+    .tab-buttons {
+        gap: 8px;
     }
 
     .filter-tabs {

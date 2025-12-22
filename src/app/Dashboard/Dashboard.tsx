@@ -1,7 +1,6 @@
 import Header from '../../components/Header';
 import './Dashboard.css';
 import { useState } from 'react';
-import Message from './components/Message/Message';
 import DashboardFeed from './components/DashboardFeed';
 
 export default function Dashboard() {
@@ -15,7 +14,6 @@ export default function Dashboard() {
         <main>
           <DashboardFeed />
         </main>
-        <Message />
       </div>
     </div>
   )

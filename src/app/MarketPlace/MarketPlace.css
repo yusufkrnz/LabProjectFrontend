@@ -1,19 +1,11 @@
 .marketplace-container {
     min-height: 100vh;
-    background-color: #f6f8fa;
+    background-color: #ffffff;
     position: relative;
 }
 
 .marketplace-content {
-    display: flex;
     min-height: calc(100vh - 64px);
     padding-top: 64px;
     /* Space for fixed header */
-}
-
-/* Responsive Layout */
-@media (max-width: 768px) {
-    .marketplace-content {
-        flex-direction: column;
-    }
 }

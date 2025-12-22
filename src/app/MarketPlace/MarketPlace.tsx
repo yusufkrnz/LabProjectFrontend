@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import Header from '../../components/Header';
-import MarketPlaceSidebar from './components/MarketPlaceSidebar/MarketPlaceSidebar';
 import MarketPlaceListings from './components/MarketPlaceListings/MarketPlaceListings';
 import './MarketPlace.css';
 
@@ -103,16 +102,10 @@ export default function MarketPlace() {
 
             {/* Main Content */}
             <div className="marketplace-content">
-                {/* Left Sidebar */}
-                <MarketPlaceSidebar
-                    activeTab={activeTab}
-                    onTabChange={handleTabChange}
-                />
-
-                {/* Listings Area */}
                 <MarketPlaceListings
                     activeTab={activeTab}
                     activeFilter={activeFilter}
+                    onTabChange={handleTabChange}
                     onFilterChange={handleFilterChange}
                     projectListings={projectListings}
                     financeListings={financeListings}
