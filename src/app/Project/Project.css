@@ -51,10 +51,18 @@
     margin-top: 40px;
 }
 
-/* Step Complete */
+/* Step Complete - Success Screen */
 .step-complete {
     text-align: center;
     padding: 60px 20px;
+}
+
+.step-complete .success-icon {
+    margin-bottom: 24px;
+}
+
+.step-complete .success-icon svg {
+    color: #10b981;
 }
 
 .step-complete h2 {
@@ -67,5 +75,26 @@
 .step-complete p {
     font-size: 15px;
     color: #6b7280;
-    margin: 0;
+    margin: 0 0 32px 0;
+}
+
+.step-complete .view-project-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 32px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #ffffff;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+}
+
+.step-complete .view-project-btn:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35);
+    transform: translateY(-2px);
 }

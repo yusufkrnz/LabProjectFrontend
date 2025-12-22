@@ -1,9 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { CheckCircle } from 'lucide-react';
 import Header from '../../components/Header';
 import ProjectStepper from './components/ProjectStepper/ProjectStepper';
 import ProjectStep1 from './components/ProjectStep1/ProjectStep1';
 import ProjectStep2 from './components/ProjectStep2/ProjectStep2';
 import ProjectStep3 from './components/ProjectStep3/ProjectStep3';
+import ProjectStep4 from './components/ProjectStep4/ProjectStep4';
 import './Project.css';
 
 // Types for backend
@@ -159,6 +162,32 @@ export default function Project() {
         budgetType: '',
     });
 
+    // Browser back button support
+    useEffect(() => {
+        // Push initial state
+        window.history.replaceState({ step: currentStep }, '', `?step=${currentStep}`);
+    }, []);
+
+    useEffect(() => {
+        // Update URL when step changes (but not on initial load)
+        if (currentStep > 1) {
+            window.history.pushState({ step: currentStep }, '', `?step=${currentStep}`);
+        }
+    }, [currentStep]);
+
+    useEffect(() => {
+        const handlePopState = (event: PopStateEvent) => {
+            if (event.state?.step) {
+                setCurrentStep(event.state.step);
+            } else {
+                setCurrentStep(1);
+            }
+        };
+
+        window.addEventListener('popstate', handlePopState);
+        return () => window.removeEventListener('popstate', handlePopState);
+    }, []);
+
     const handleStep1Complete = (data: { projectName: string; description: string }) => {
         setFormData(prev => ({ ...prev, ...data }));
         setCurrentStep(2);
@@ -170,14 +199,16 @@ export default function Project() {
     };
 
     const handleStep3Complete = (data: { projectType: string; workStyle: string; budget?: string; budgetType?: string }) => {
-        const finalData = { ...formData, ...data };
-        setFormData(finalData);
-
-        // TODO: Send to backend
-        console.log('Project Data for Backend:', finalData);
-
-        // Move to complete step
+        setFormData(prev => ({ ...prev, ...data }));
         setCurrentStep(4);
+    };
+
+    const handleStep4Complete = () => {
+        // TODO: Send to backend
+        console.log('Project Data for Backend:', formData);
+
+        // Move to success step
+        setCurrentStep(5);
     };
 
     const handleBack = () => {
@@ -190,7 +221,7 @@ export default function Project() {
             <div className="project-content">
                 <div className="project-wizard">
                     {/* Step Indicator */}
-                    <ProjectStepper currentStep={currentStep} totalSteps={4} />
+                    <ProjectStepper currentStep={currentStep} totalSteps={5} />
 
                     {/* Step Content */}
                     <div className="wizard-content">
@@ -229,9 +260,23 @@ export default function Project() {
                         )}
 
                         {currentStep === 4 && (
+                            <ProjectStep4
+                                formData={formData}
+                                onComplete={handleStep4Complete}
+                                onBack={handleBack}
+                            />
+                        )}
+
+                        {currentStep === 5 && (
                             <div className="step-complete">
+                                <div className="success-icon">
+                                    <CheckCircle size={64} />
+                                </div>
                                 <h2>Project Created!</h2>
                                 <p>Your project has been submitted successfully.</p>
+                                <Link to="/dashboard" className="view-project-btn">
+                                    View Project
+                                </Link>
                             </div>
                         )}
                     </div>

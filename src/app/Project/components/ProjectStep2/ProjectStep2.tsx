@@ -147,7 +147,7 @@ export default function ProjectStep2({ initialData, onComplete, onBack }: Projec
                     <div className="team-size-selector">
                         <p className="selector-label">How many team members do you need?</p>
                         <div className="size-buttons">
-                            {[1, 2, 3, 4, 5, 6].map(num => (
+                            {[1, 2, 3, 4, 5].map(num => (
                                 <button
                                     key={num}
                                     type="button"
