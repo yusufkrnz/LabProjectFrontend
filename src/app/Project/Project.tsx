@@ -30,6 +30,9 @@ export type TeamMember = {
     role: TeamMemberRole;
     languages: string[];
     frameworks: string[];
+    databases: string[];
+    cloudTech: string[];
+    tools: string[];
     customRole?: string;
 };
 
@@ -42,6 +45,32 @@ export type ProjectFormData = {
     workStyle: string;
     budget?: string;
     budgetType?: string;
+};
+
+// Which categories to show per role
+export type TechCategory = 'languages' | 'databases' | 'cloudTech' | 'tools';
+
+export const ROLE_CATEGORIES: Record<TeamMemberRole, TechCategory[]> = {
+    frontend: ['languages', 'tools'],
+    backend: ['languages', 'databases', 'tools'],
+    mobile: ['languages', 'databases', 'tools'],
+    cloud: ['languages', 'cloudTech', 'tools'],
+    ml: ['languages', 'databases', 'tools'],
+    deeplearning: ['languages', 'tools'],
+    cybersecurity: ['languages', 'tools'],
+    qa: ['languages', 'tools'],
+    data: ['languages', 'databases', 'tools'],
+    blockchain: ['languages', 'tools'],
+    gamedev: ['languages', 'tools'],
+    embedded: ['languages', 'tools'],
+    specific: ['languages'],
+};
+
+export const CATEGORY_LABELS: Record<TechCategory, string> = {
+    languages: 'Languages & Frameworks',
+    databases: 'Databases',
+    cloudTech: 'Cloud & DevOps',
+    tools: 'Tools & Technologies',
 };
 
 // Programming Languages per role
@@ -130,7 +159,58 @@ export const LANGUAGE_FRAMEWORKS: Record<string, string[]> = {
     'SASS/SCSS': ['Bootstrap', 'Tailwind CSS', 'Compass', 'Bourbon'],
 
     // SQL
-    'SQL': ['PostgreSQL', 'MySQL', 'SQLite', 'MongoDB', 'Redis', 'Elasticsearch', 'Cassandra', 'DynamoDB'],
+    'SQL': [],
+};
+
+// Databases per role
+export const ROLE_DATABASES: Record<TeamMemberRole, string[]> = {
+    frontend: [],
+    backend: ['PostgreSQL', 'MySQL', 'MongoDB', 'Redis', 'SQLite', 'MariaDB', 'Oracle', 'SQL Server', 'Elasticsearch', 'Cassandra', 'DynamoDB', 'Firebase', 'Supabase'],
+    mobile: ['SQLite', 'Realm', 'Firebase', 'CoreData', 'Room'],
+    cloud: [],
+    ml: ['PostgreSQL', 'MongoDB', 'InfluxDB', 'TimescaleDB', 'Pinecone', 'Weaviate', 'ChromaDB'],
+    deeplearning: [],
+    cybersecurity: [],
+    qa: [],
+    data: ['PostgreSQL', 'MySQL', 'MongoDB', 'Redis', 'Elasticsearch', 'Cassandra', 'ClickHouse', 'Snowflake', 'BigQuery', 'Redshift', 'Apache Hive', 'Delta Lake'],
+    blockchain: [],
+    gamedev: [],
+    embedded: [],
+    specific: [],
+};
+
+// Cloud & DevOps technologies per role
+export const ROLE_CLOUD_TECH: Record<TeamMemberRole, string[]> = {
+    frontend: [],
+    backend: [],
+    mobile: [],
+    cloud: ['AWS', 'Azure', 'Google Cloud', 'Alibaba Cloud', 'DigitalOcean', 'Heroku', 'Vercel', 'Netlify', 'Docker', 'Kubernetes', 'Terraform', 'Ansible', 'Jenkins', 'GitHub Actions', 'GitLab CI', 'ArgoCD', 'Prometheus', 'Grafana', 'ELK Stack', 'Nginx', 'Apache', 'Cloudflare'],
+    ml: [],
+    deeplearning: [],
+    cybersecurity: [],
+    qa: [],
+    data: [],
+    blockchain: [],
+    gamedev: [],
+    embedded: [],
+    specific: [],
+};
+
+// Tools & Technologies per role
+export const ROLE_TOOLS: Record<TeamMemberRole, string[]> = {
+    frontend: ['Webpack', 'Vite', 'Parcel', 'ESLint', 'Prettier', 'Babel', 'npm', 'yarn', 'pnpm', 'Storybook'],
+    backend: ['Maven', 'Gradle', 'Grafana', 'Prometheus', 'RabbitMQ', 'Apache Kafka', 'Nginx', 'Apache', 'Redis', 'Docker', 'Postman', 'Swagger', 'GraphQL', 'REST API', 'gRPC', 'WebSocket'],
+    mobile: ['Xcode', 'Android Studio', 'Expo', 'Fastlane', 'TestFlight', 'Firebase', 'Crashlytics'],
+    cloud: ['Linux', 'Ubuntu', 'CentOS', 'RedHat', 'Helm', 'Istio', 'Vault', 'Consul', 'Terraform', 'Pulumi'],
+    ml: ['Jupyter', 'Google Colab', 'MLflow', 'Weights & Biases', 'DVC', 'Kubeflow', 'Apache Airflow', 'Feature Store'],
+    deeplearning: ['NVIDIA GPU', 'TPU', 'AWS SageMaker', 'Google Colab', 'Weights & Biases', 'MLflow', 'Jupyter', 'TensorBoard', 'ONNX'],
+    cybersecurity: ['Linux', 'Kali Linux', 'Wireshark', 'Metasploit', 'Burp Suite', 'Nmap', 'OWASP ZAP', 'Nessus', 'Snort', 'Splunk', 'Hashcat', 'John the Ripper'],
+    qa: ['Selenium', 'Cypress', 'Playwright', 'Jest', 'Mocha', 'JMeter', 'Postman', 'Appium', 'TestRail', 'BrowserStack', 'SonarQube', 'Allure'],
+    data: ['Apache Airflow', 'Apache Kafka', 'Apache Spark', 'Apache Flink', 'dbt', 'Tableau', 'Power BI', 'Looker', 'Metabase', 'Prefect', 'Dagster', 'Great Expectations', 'Fivetran', 'Airbyte'],
+    blockchain: ['MetaMask', 'Remix IDE', 'Ganache', 'Infura', 'Alchemy', 'TheGraph', 'IPFS', 'Chainlink', 'Moralis'],
+    gamedev: ['Unity', 'Unreal Engine', 'Godot', 'Blender', 'Maya', 'Photoshop', 'Aseprite', 'FMOD', 'Wwise'],
+    embedded: ['Arduino', 'Raspberry Pi', 'ESP32', 'STM32', 'PlatformIO', 'JTAG', 'Logic Analyzer', 'Oscilloscope', 'FreeRTOS', 'Zephyr'],
+    specific: [],
 };
 
 export const ROLE_LABELS: Record<TeamMemberRole, string> = {

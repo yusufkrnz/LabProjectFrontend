@@ -196,6 +196,113 @@
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
+/* Technology Tabs */
+.step2-form .tech-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.step2-form .tech-tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #6b7280;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.step2-form .tech-tab:hover {
+    border-color: #3b82f6;
+    color: #3b82f6;
+}
+
+.step2-form .tech-tab.active {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    border-color: #3b82f6;
+    color: #ffffff;
+}
+
+.step2-form .tech-tab svg {
+    flex-shrink: 0;
+}
+
+.step2-form .tab-count {
+    background: rgba(255, 255, 255, 0.3);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.step2-form .tech-tab:not(.active) .tab-count {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+/* Tab Content */
+.step2-form .tech-tab-content {
+    min-height: 100px;
+    padding: 16px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+}
+
+.step2-form .empty-message {
+    color: #9ca3af;
+    font-size: 13px;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Items Grid (for databases, cloudTech, tools) */
+.step2-form .items-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.step2-form .item-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 20px;
+    border: 1px solid #d1d5db;
+    background: #ffffff;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.step2-form .item-chip:hover {
+    border-color: #60a5fa;
+    color: #3b82f6;
+    background: #eff6ff;
+}
+
+.step2-form .item-chip.selected {
+    background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+    border-color: #3b82f6;
+    color: #ffffff;
+    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.25);
+}
+
+.step2-form .item-chip svg {
+    flex-shrink: 0;
+}
+
 /* Languages Container */
 .step2-form .languages-container {
     display: flex;
@@ -328,6 +435,7 @@
     display: flex;
     gap: 8px;
     margin-bottom: 8px;
+    flex-wrap: wrap;
 }
 
 .step2-form .summary-section:last-child {
@@ -411,5 +519,14 @@
 
     .step2-form .frameworks-dropdown {
         margin-left: 0;
+    }
+
+    .step2-form .tech-tabs {
+        gap: 4px;
+    }
+
+    .step2-form .tech-tab {
+        padding: 6px 10px;
+        font-size: 12px;
     }
 }

@@ -6,6 +6,9 @@ type TeamMember = {
     role: string;
     languages: string[];
     frameworks: string[];
+    databases: string[];
+    cloudTech: string[];
+    tools: string[];
     customRole?: string;
 };
 
