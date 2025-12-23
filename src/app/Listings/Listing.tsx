@@ -245,7 +245,7 @@ export default function Listing() {
 
                         <div className="form-actions">
                             <button
-                                className="btn-primary"
+                                className="listing-btn-primary"
                                 onClick={() => setCurrentStep(2)}
                                 disabled={!isStep1Valid}
                             >
@@ -355,11 +355,11 @@ export default function Listing() {
                         </div>
 
                         <div className="form-actions">
-                            <button className="btn-secondary" onClick={() => setCurrentStep(1)}>
+                            <button className="listing-btn-secondary" onClick={() => setCurrentStep(1)}>
                                 Back
                             </button>
                             <button
-                                className="btn-primary"
+                                className="listing-btn-primary"
                                 onClick={() => setCurrentStep(3)}
                                 disabled={!isStep2Valid}
                             >
@@ -505,11 +505,11 @@ export default function Listing() {
                         </div>
 
                         <div className="form-actions">
-                            <button className="btn-secondary" onClick={() => setCurrentStep(2)}>
+                            <button className="listing-btn-secondary" onClick={() => setCurrentStep(2)}>
                                 Back
                             </button>
                             <button
-                                className="btn-primary"
+                                className="listing-btn-primary"
                                 onClick={() => setCurrentStep(4)}
                                 disabled={!isStep3Valid}
                             >
@@ -589,11 +589,11 @@ export default function Listing() {
                         </div>
 
                         <div className="form-actions">
-                            <button className="btn-secondary" onClick={() => setCurrentStep(3)}>
+                            <button className="listing-btn-secondary" onClick={() => setCurrentStep(3)}>
                                 Back to Edit
                             </button>
                             <button
-                                className="btn-primary"
+                                className="listing-btn-primary"
                                 onClick={handleSubmit}
                                 disabled={isSubmitting}
                             >
