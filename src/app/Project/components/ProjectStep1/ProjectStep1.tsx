@@ -6,16 +6,19 @@ type ProjectStep1Props = {
     initialData: {
         projectName: string;
         description: string;
+        about?: string;
         githubRepo?: string;
     };
-    onComplete: (data: { projectName: string; description: string; githubRepo?: string }) => void;
+    onComplete: (data: { projectName: string; description: string; about?: string; githubRepo?: string }) => void;
 };
 
-const MAX_DESCRIPTION_LENGTH = 350;
+const MAX_DESCRIPTION_LENGTH = 150;
+const MAX_ABOUT_LENGTH = 1000;
 
 export default function ProjectStep1({ initialData, onComplete }: ProjectStep1Props) {
     const [projectName, setProjectName] = useState(initialData.projectName);
     const [description, setDescription] = useState(initialData.description);
+    const [about, setAbout] = useState(initialData.about || '');
     const [githubRepo, setGithubRepo] = useState(initialData.githubRepo || '');
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -24,6 +27,7 @@ export default function ProjectStep1({ initialData, onComplete }: ProjectStep1Pr
             onComplete({
                 projectName: projectName.trim(),
                 description: description.trim(),
+                about: about.trim() || undefined,
                 githubRepo: githubRepo.trim() || undefined
             });
         }
@@ -67,16 +71,32 @@ export default function ProjectStep1({ initialData, onComplete }: ProjectStep1Pr
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="description">Description</label>
-                        <textarea
+                        <label htmlFor="description">
+                            Description <span className="required">*</span>
+                        </label>
+                        <input
                             id="description"
+                            type="text"
                             value={description}
                             onChange={(e) => setDescription(e.target.value.slice(0, MAX_DESCRIPTION_LENGTH))}
-                            placeholder="Describe your project..."
-                            rows={4}
+                            placeholder="A short description of your project"
                         />
                         <span className="char-count">
                             {description.length} / {MAX_DESCRIPTION_LENGTH} characters
+                        </span>
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="about">About</label>
+                        <textarea
+                            id="about"
+                            value={about}
+                            onChange={(e) => setAbout(e.target.value.slice(0, MAX_ABOUT_LENGTH))}
+                            placeholder="Provide a detailed description of your project. What problem does it solve? What technologies will you use? What are your goals?"
+                            rows={6}
+                        />
+                        <span className="char-count">
+                            {about.length} / {MAX_ABOUT_LENGTH} characters
                         </span>
                     </div>
 
@@ -110,7 +130,7 @@ export default function ProjectStep1({ initialData, onComplete }: ProjectStep1Pr
                 <button
                     type="submit"
                     className="btn-primary"
-                    disabled={!projectName.trim() || showGithubError}
+                    disabled={!projectName.trim() || !description.trim() || showGithubError}
                 >
                     Continue
                 </button>
@@ -118,4 +138,5 @@ export default function ProjectStep1({ initialData, onComplete }: ProjectStep1Pr
         </form>
     );
 }
+
 

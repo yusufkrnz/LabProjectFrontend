@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Calendar, Users, DollarSign, Heart, Clock, Globe, Github, Star, CheckCircle, AlertCircle, Timer } from 'lucide-react';
+import { ArrowLeft, Calendar, Users, DollarSign, Heart, Clock, Globe, Github, Star, CheckCircle, AlertCircle, Timer, Edit2, Flag, X, Plus } from 'lucide-react';
 import Header from '../../../../components/Header';
 import './ProjectDetails.css';
 
@@ -75,6 +75,48 @@ const projectService = {
         // Mock data for now - simulating API delay
         await new Promise(resolve => setTimeout(resolve, 300));
         return MOCK_PROJECTS[id] || null;
+    },
+
+    updateProject: async (id: string, data: { name: string; description: string }): Promise<boolean> => {
+        // TODO: Replace with actual API call
+        // const response = await fetch(`/api/projects/${id}`, {
+        //     method: 'PUT',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify(data)
+        // });
+        // return response.ok;
+
+        console.log('API Call: Update Project', { id, ...data });
+        await new Promise(resolve => setTimeout(resolve, 300));
+        return true;
+    },
+
+    addDeadline: async (projectId: string, deadline: { title: string; dueDate: string; assignee: string }): Promise<boolean> => {
+        // TODO: Replace with actual API call
+        // const response = await fetch(`/api/projects/${projectId}/deadlines`, {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify(deadline)
+        // });
+        // return response.ok;
+
+        console.log('API Call: Add Deadline', { projectId, ...deadline });
+        await new Promise(resolve => setTimeout(resolve, 300));
+        return true;
+    },
+
+    finishProject: async (projectId: string, ratings: Record<string, number>): Promise<boolean> => {
+        // TODO: Replace with actual API call
+        // const response = await fetch(`/api/projects/${projectId}/finish`, {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({ ratings })
+        // });
+        // return response.ok;
+
+        console.log('API Call: Finish Project', { projectId, ratings });
+        await new Promise(resolve => setTimeout(resolve, 300));
+        return true;
     }
 };
 
@@ -249,6 +291,20 @@ export default function ProjectDetails() {
     const [error, setError] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState<TabType>('overview');
 
+    // Modal states
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [showFinishModal, setShowFinishModal] = useState(false);
+
+    // Edit form state
+    const [editName, setEditName] = useState('');
+    const [editDescription, setEditDescription] = useState('');
+    const [newDeadlineTitle, setNewDeadlineTitle] = useState('');
+    const [newDeadlineDate, setNewDeadlineDate] = useState('');
+    const [newDeadlineAssignee, setNewDeadlineAssignee] = useState('');
+
+    // Finish project ratings state
+    const [memberRatings, setMemberRatings] = useState<Record<string, number>>({});
+
     // Fetch project from backend
     useEffect(() => {
         const fetchProject = async () => {
@@ -372,6 +428,37 @@ export default function ProjectDetails() {
                                     {statusInfo.label}
                                 </span>
                             </div>
+                            {/* Action Buttons - Only for active projects */}
+                            {project.status === 'active' && (
+                                <div className="project-actions-header">
+                                    <button
+                                        className="action-btn edit-btn"
+                                        onClick={() => {
+                                            setEditName(project.name);
+                                            setEditDescription(project.description);
+                                            setShowEditModal(true);
+                                        }}
+                                    >
+                                        <Edit2 size={16} />
+                                        Edit
+                                    </button>
+                                    <button
+                                        className="action-btn finish-btn"
+                                        onClick={() => {
+                                            // Initialize ratings for all members
+                                            const initialRatings: Record<string, number> = {};
+                                            project.teamMembers.forEach(member => {
+                                                initialRatings[member.id] = 0;
+                                            });
+                                            setMemberRatings(initialRatings);
+                                            setShowFinishModal(true);
+                                        }}
+                                    >
+                                        <Flag size={16} />
+                                        Finish Project
+                                    </button>
+                                </div>
+                            )}
                         </div>
                         <p className="project-short-desc">{project.description}</p>
                     </div>
@@ -710,6 +797,190 @@ export default function ProjectDetails() {
                     </div>
                 </div>
             </div>
+
+            {/* Edit Project Modal */}
+            {showEditModal && (
+                <div className="modal-overlay" onClick={() => setShowEditModal(false)}>
+                    <div className="modal-content edit-modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h2>Edit Project</h2>
+                            <button className="modal-close" onClick={() => setShowEditModal(false)}>
+                                <X size={20} />
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="form-group">
+                                <label>Project Name</label>
+                                <input
+                                    type="text"
+                                    value={editName}
+                                    onChange={(e) => setEditName(e.target.value)}
+                                    placeholder="Enter project name"
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Description</label>
+                                <textarea
+                                    value={editDescription}
+                                    onChange={(e) => setEditDescription(e.target.value)}
+                                    placeholder="Enter project description"
+                                    rows={4}
+                                />
+                            </div>
+
+                            {/* Add Deadline Section */}
+                            <div className="form-section-title">
+                                <Plus size={16} />
+                                Add Deadline / Milestone
+                            </div>
+                            <div className="deadline-form">
+                                <div className="form-group">
+                                    <label>Title</label>
+                                    <input
+                                        type="text"
+                                        value={newDeadlineTitle}
+                                        onChange={(e) => setNewDeadlineTitle(e.target.value)}
+                                        placeholder="e.g., API Integration"
+                                    />
+                                </div>
+                                <div className="form-row">
+                                    <div className="form-group">
+                                        <label>Due Date</label>
+                                        <input
+                                            type="date"
+                                            value={newDeadlineDate}
+                                            onChange={(e) => setNewDeadlineDate(e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Assignee</label>
+                                        <select
+                                            value={newDeadlineAssignee}
+                                            onChange={(e) => setNewDeadlineAssignee(e.target.value)}
+                                        >
+                                            <option value="">Select assignee</option>
+                                            {project.teamMembers.map(member => (
+                                                <option key={member.id} value={member.name}>
+                                                    {member.name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                                <button
+                                    type="button"
+                                    className="add-deadline-btn"
+                                    onClick={async () => {
+                                        if (id) {
+                                            await projectService.addDeadline(id, {
+                                                title: newDeadlineTitle,
+                                                dueDate: newDeadlineDate,
+                                                assignee: newDeadlineAssignee
+                                            });
+                                        }
+                                        setNewDeadlineTitle('');
+                                        setNewDeadlineDate('');
+                                        setNewDeadlineAssignee('');
+                                    }}
+                                    disabled={!newDeadlineTitle || !newDeadlineDate}
+                                >
+                                    <Plus size={16} />
+                                    Add Deadline
+                                </button>
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button className="modal-btn modal-btn-secondary" onClick={() => setShowEditModal(false)}>
+                                Cancel
+                            </button>
+                            <button
+                                className="modal-btn modal-btn-primary"
+                                onClick={async () => {
+                                    if (id) {
+                                        await projectService.updateProject(id, {
+                                            name: editName,
+                                            description: editDescription
+                                        });
+                                    }
+                                    setShowEditModal(false);
+                                }}
+                            >
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Finish Project Modal */}
+            {showFinishModal && (
+                <div className="modal-overlay" onClick={() => setShowFinishModal(false)}>
+                    <div className="modal-content finish-modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h2>
+                                <Flag size={20} />
+                                Finish Project
+                            </h2>
+                            <button className="modal-close" onClick={() => setShowFinishModal(false)}>
+                                <X size={20} />
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <p className="finish-description">
+                                Rate your team members for this project. Your ratings help build trust in the community.
+                            </p>
+
+                            <div className="team-rating-list">
+                                {project.teamMembers.map(member => (
+                                    <div key={member.id} className="team-rating-item">
+                                        <div className="rating-member-info">
+                                            <div className="member-avatar">{member.avatar}</div>
+                                            <div className="member-details">
+                                                <span className="member-name">{member.name}</span>
+                                                <span className="member-role">{member.role}</span>
+                                            </div>
+                                        </div>
+                                        <div className="rating-stars-input">
+                                            {[1, 2, 3, 4, 5].map(star => (
+                                                <button
+                                                    key={star}
+                                                    type="button"
+                                                    className={`star-btn ${memberRatings[member.id] >= star ? 'active' : ''}`}
+                                                    onClick={() => {
+                                                        setMemberRatings(prev => ({
+                                                            ...prev,
+                                                            [member.id]: star
+                                                        }));
+                                                    }}
+                                                >
+                                                    <Star size={24} />
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button className="modal-btn modal-btn-secondary" onClick={() => setShowFinishModal(false)}>
+                                Cancel
+                            </button>
+                            <button
+                                className="modal-btn modal-btn-primary"
+                                onClick={async () => {
+                                    if (id) {
+                                        await projectService.finishProject(id, memberRatings);
+                                    }
+                                    setShowFinishModal(false);
+                                }}
+                            >
+                                <CheckCircle size={16} />
+                                Complete Project
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
