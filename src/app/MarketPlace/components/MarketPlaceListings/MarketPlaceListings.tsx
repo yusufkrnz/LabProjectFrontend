@@ -254,7 +254,7 @@ export default function MarketPlaceListings({
                                     {listing.applicationCount} applications
                                 </span>
                                 <div className="listing-footer-actions">
-                                    <Link to={`/project/${listing.id}`} className="view-details-btn">
+                                    <Link to={`/marketplace/${listing.id}/details`} className="view-details-btn">
                                         <Eye size={16} />
                                         View Details
                                     </Link>

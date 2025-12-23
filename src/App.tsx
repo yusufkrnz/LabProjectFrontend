@@ -11,6 +11,7 @@ import UserProfile from "./app/UserProfile/UserProfile";
 import Inbox from "./app/Inbox/Inbox";
 import Settings from "./app/Settings/Settings";
 import MarketPlace from "./app/MarketPlace/MarketPlace";
+import MarketplaceDetails from "./app/MarketPlace/MarketplaceDetails/MarketplaceDetails";
 import ManageFinance from "./app/ManageFinance/ManageFinance";
 import Messages from "./app/Messages/Messages";
 import Project from "./app/Project/Project";
@@ -56,6 +57,10 @@ function App() {
                     <Route
                         path="/marketplace"
                         element={<MarketPlace />}
+                    />
+                    <Route
+                        path="/marketplace/:id/details"
+                        element={<MarketplaceDetails />}
                     />
                     <Route
                         path="/manage-finance"
