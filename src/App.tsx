@@ -14,6 +14,7 @@ import MarketPlace from "./app/MarketPlace/MarketPlace";
 import ManageFinance from "./app/ManageFinance/ManageFinance";
 import Messages from "./app/Messages/Messages";
 import Project from "./app/Project/Project";
+import MyProjects from "./app/MyProjects/MyProject";
 
 function App() {
     return (
@@ -66,6 +67,14 @@ function App() {
                     <Route
                         path="/project"
                         element={<Project />}
+                    />
+                    <Route
+                        path="/my-projects"
+                        element={<MyProjects />}
+                    />
+                    <Route
+                        path="/project/:id"
+                        element={<MyProjects />}
                     />
 
                     {/* Onboarding - Protected Route */}

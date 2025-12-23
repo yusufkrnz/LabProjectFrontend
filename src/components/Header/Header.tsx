@@ -1,11 +1,16 @@
 import { Search, MessageCircle, Inbox, Plus, FolderPlus, Users, Flag, Download, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './Header.css';
 import ProfileCard from '../ProfileCard';
 
 export default function Header() {
     const [createMenuOpen, setCreateMenuOpen] = useState(false);
+    const location = useLocation();
+
+    const isActive = (path: string) => {
+        return location.pathname === path || location.pathname.startsWith(path + '/');
+    };
 
     return (
         <header className="dashboard-header">
@@ -50,9 +55,9 @@ export default function Header() {
 
                 <nav className="header-nav">
                     <a href="#" className="header-nav-item">Connect</a>
-                    <a href="#" className="header-nav-item">My Projects</a>
-                    <Link to="/marketplace" className="header-nav-item">Marketplace</Link>
-                    <Link to="/manage-finance" className="header-nav-item">Manage Finance</Link>
+                    <Link to="/my-projects" className={`header-nav-item ${isActive('/my-projects') ? 'active' : ''}`}>My Projects</Link>
+                    <Link to="/marketplace" className={`header-nav-item ${isActive('/marketplace') ? 'active' : ''}`}>Marketplace</Link>
+                    <Link to="/manage-finance" className={`header-nav-item ${isActive('/manage-finance') ? 'active' : ''}`}>Manage Finance</Link>
                 </nav>
             </div>
 
@@ -62,10 +67,10 @@ export default function Header() {
                     <Search size={18} />
                     <input type="text" placeholder="Search" />
                 </div>
-                <Link to="/inbox" className="header-icon-btn">
+                <Link to="/inbox" className={`header-icon-btn ${isActive('/inbox') ? 'active' : ''}`}>
                     <Inbox size={20} />
                 </Link>
-                <Link to="/messages" className="header-icon-btn">
+                <Link to="/messages" className={`header-icon-btn ${isActive('/messages') ? 'active' : ''}`}>
                     <MessageCircle size={20} />
                 </Link>
 

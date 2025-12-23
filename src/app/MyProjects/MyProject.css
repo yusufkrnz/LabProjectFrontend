@@ -1,0 +1,258 @@
+.myprojects-container {
+    min-height: 100vh;
+    background-color: #ffffff;
+}
+
+.myprojects-content {
+    min-height: calc(100vh - 64px);
+    padding-top: 64px;
+    display: flex;
+    justify-content: center;
+}
+
+.myprojects-wrapper {
+    width: 100%;
+    max-width: 1000px;
+    padding: 32px 24px;
+}
+
+/* Header with Search and New Button - Full width */
+.myprojects-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #d1d5db;
+}
+
+.search-bar {
+    position: relative;
+    flex: 1;
+}
+
+.search-bar .search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6b7280;
+    width: 16px;
+    height: 16px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 6px 12px 6px 32px;
+    font-size: 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: #f6f8fa;
+    color: #1f2328;
+}
+
+.search-bar input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background: #ffffff;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.15);
+}
+
+.search-bar input::placeholder {
+    color: #6b7280;
+}
+
+.new-project-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #ffffff;
+    background: #238636;
+    border: 1px solid rgba(27, 31, 35, 0.15);
+    border-radius: 6px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    flex-shrink: 0;
+}
+
+.new-project-btn:hover {
+    background: #2ea043;
+}
+
+.new-project-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Projects List - Line separated like GitHub */
+.projects-list {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.empty-state p {
+    font-size: 16px;
+    color: #6b7280;
+    margin: 0 0 16px 0;
+}
+
+.create-first-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #ffffff;
+    background: #238636;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.create-first-btn:hover {
+    background: #2ea043;
+}
+
+/* Project Card - Simple line style like GitHub */
+.project-card {
+    padding: 24px 0;
+    border-bottom: 1px solid #d1d5db;
+}
+
+.project-card:first-child {
+    padding-top: 8px;
+}
+
+.project-card:last-child {
+    border-bottom: none;
+}
+
+.project-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+.project-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.project-title-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.project-name {
+    font-size: 20px;
+    font-weight: 600;
+    color: #0969da;
+    margin: 0;
+    cursor: pointer;
+}
+
+.project-name:hover {
+    text-decoration: underline;
+}
+
+.project-type {
+    padding: 3px 10px;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 12px;
+    border: 1px solid #d1d5db;
+    color: #6b7280;
+    background: transparent;
+}
+
+.project-status {
+    display: none;
+}
+
+.project-description {
+    font-size: 15px;
+    color: #57606a;
+    line-height: 1.6;
+    margin: 0 0 12px 0;
+}
+
+.project-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.meta-item svg {
+    color: #6b7280;
+    width: 16px;
+    height: 16px;
+}
+
+/* Project Actions - Aligned with header */
+.project-actions {
+    flex-shrink: 0;
+}
+
+.details-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #24292f;
+    background: #f6f8fa;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.details-btn:hover {
+    background: #f3f4f6;
+    border-color: #c9cdd3;
+}
+
+.details-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .search-bar {
+        flex: 1;
+        width: auto;
+    }
+
+    .project-main {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .project-actions {
+        align-self: flex-start;
+    }
+}

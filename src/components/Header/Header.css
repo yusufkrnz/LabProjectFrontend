@@ -17,6 +17,7 @@
     display: flex;
     align-items: center;
     gap: 48px;
+    height: 100%;
 }
 
 .header-logo {
@@ -37,19 +38,32 @@
 
 .header-nav {
     display: flex;
-    gap: 20px;
+    gap: 24px;
+    height: 100%;
+    align-items: center;
 }
 
 .header-nav-item {
-    color: #64748b;
+    color: #6b7280;
     font-size: 14px;
     font-weight: 500;
     text-decoration: none;
     transition: color 0.2s ease;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
 }
 
 .header-nav-item:hover {
-    color: #2563eb;
+    color: #3b82f6;
+}
+
+.header-nav-item.active {
+    color: #3b82f6;
+    font-weight: 600;
+    border-bottom-color: #3b82f6;
 }
 
 .header-right {
@@ -91,7 +105,12 @@
 
 .header-icon-btn:hover {
     background: #f1f5f9;
-    color: #2563eb;
+    color: #3b82f6;
+}
+
+.header-icon-btn.active {
+    color: #3b82f6;
+    background: #eff6ff;
 }
 
 .profile-dropdown {
@@ -153,7 +172,7 @@
 }
 
 .profile-menu-item:hover svg {
-    color: #2563eb;
+    color: #3b82f6;
 }
 
 /* Create Dropdown */
@@ -230,7 +249,7 @@
 }
 
 .create-menu-item:hover svg {
-    color: #2563eb;
+    color: #3b82f6;
 }
 
 .create-menu-divider {
