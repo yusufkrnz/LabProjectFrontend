@@ -382,6 +382,32 @@
     color: #1f2328;
 }
 
+.member-avatar-link {
+    text-decoration: none;
+    transition: transform 0.15s ease;
+}
+
+.member-avatar-link:hover {
+    transform: scale(1.05);
+}
+
+.member-avatar-link:hover .member-avatar {
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.member-name-link {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2328;
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.member-name-link:hover {
+    color: #3b82f6;
+    text-decoration: underline;
+}
+
 .member-role {
     font-size: 13px;
     color: #6b7280;

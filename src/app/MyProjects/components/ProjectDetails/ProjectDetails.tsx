@@ -7,11 +7,11 @@ import './ProjectDetails.css';
 // Types - will be used with API responses
 type TeamMember = {
     id: string;
+    userId: string; // User ID for profile navigation
     name: string;
     role: string;
     avatar: string;
-    rating?: number;
-    reviewCount?: number;
+    rating?: number; // Overall rating for this project (1-5)
 };
 
 type Deadline = {
@@ -97,9 +97,9 @@ const MOCK_PROJECTS: Record<string, Project> = {
         status: 'active',
         longDescription: 'Crypto-Seal is a decentralized document verification system that leverages blockchain technology to provide immutable proof of document authenticity. The system uses SHA256 hashing to create unique fingerprints of documents and stores verification records on the Ethereum blockchain via smart contracts.',
         teamMembers: [
-            { id: '1', name: 'Yusuf Kıran', role: 'Project Lead', avatar: 'YK', rating: 4.8, reviewCount: 12 },
-            { id: '2', name: 'Sait Dündar', role: 'Backend Developer', avatar: 'SD', rating: 4.9, reviewCount: 8 },
-            { id: '3', name: 'Ali Veli', role: 'Smart Contract Developer', avatar: 'AV', rating: 4.5, reviewCount: 5 },
+            { id: '1', userId: 'user-1', name: 'Yusuf Kıran', role: 'Project Lead', avatar: 'YK', rating: 4.8 },
+            { id: '2', userId: 'user-2', name: 'Sait Dündar', role: 'Backend Developer', avatar: 'SD', rating: 4.9 },
+            { id: '3', userId: 'user-3', name: 'Ali Veli', role: 'Smart Contract Developer', avatar: 'AV', rating: 4.5 },
         ],
         deadlines: [
             { id: '1', title: 'Smart Contract V1 Deployment', dueDate: '2024-12-25', status: 'in-progress', assignee: 'Ali Veli' },
@@ -137,10 +137,10 @@ const MOCK_PROJECTS: Record<string, Project> = {
         status: 'active',
         longDescription: 'LabProject Frontend is a comprehensive project management and team collaboration platform designed for modern development teams. Built with React and TypeScript, it offers intuitive interfaces for managing projects, tracking progress, and facilitating team communication.',
         teamMembers: [
-            { id: '1', name: 'Yusuf Kıran', role: 'Product Owner', avatar: 'YK', rating: 4.9, reviewCount: 15 },
-            { id: '2', name: 'Sait Dündar', role: 'Frontend Lead', avatar: 'SD', rating: 4.8, reviewCount: 10 },
-            { id: '3', name: 'Mehmet Can', role: 'UI/UX Designer', avatar: 'MC', rating: 4.7, reviewCount: 7 },
-            { id: '4', name: 'Ayşe Yılmaz', role: 'Frontend Developer', avatar: 'AY', rating: 4.6, reviewCount: 4 },
+            { id: '1', userId: 'user-1', name: 'Yusuf Kıran', role: 'Product Owner', avatar: 'YK', rating: 4.9 },
+            { id: '2', userId: 'user-2', name: 'Sait Dündar', role: 'Frontend Lead', avatar: 'SD', rating: 4.8 },
+            { id: '3', userId: 'user-4', name: 'Mehmet Can', role: 'UI/UX Designer', avatar: 'MC', rating: 4.7 },
+            { id: '4', userId: 'user-5', name: 'Ayşe Yılmaz', role: 'Frontend Developer', avatar: 'AY', rating: 4.6 },
         ],
         deadlines: [
             { id: '1', title: 'Dashboard Redesign', dueDate: '2024-12-22', status: 'completed', assignee: 'Mehmet Can' },
@@ -175,8 +175,8 @@ const MOCK_PROJECTS: Record<string, Project> = {
         status: 'completed',
         longDescription: 'This academic research project focuses on developing a robust image classification model using deep learning techniques. The project explores various CNN architectures and transfer learning approaches.',
         teamMembers: [
-            { id: '1', name: 'Dr. Ahmet Öz', role: 'Research Advisor', avatar: 'AÖ', rating: 5.0, reviewCount: 20 },
-            { id: '2', name: 'Yusuf Kıran', role: 'Research Assistant', avatar: 'YK', rating: 4.7, reviewCount: 6 },
+            { id: '1', userId: 'user-6', name: 'Dr. Ahmet Öz', role: 'Research Advisor', avatar: 'AÖ', rating: 5.0 },
+            { id: '2', userId: 'user-1', name: 'Yusuf Kıran', role: 'Research Assistant', avatar: 'YK', rating: 4.7 },
         ],
         deadlines: [
             { id: '1', title: 'Literature Review', dueDate: '2024-09-15', status: 'completed', assignee: 'Yusuf Kıran' },
@@ -207,7 +207,7 @@ const MOCK_PROJECTS: Record<string, Project> = {
         status: 'paused',
         longDescription: 'A comprehensive DevOps automation project showcasing modern CI/CD practices. This project demonstrates the implementation of automated deployment pipelines.',
         teamMembers: [
-            { id: '1', name: 'Yusuf Kıran', role: 'DevOps Engineer', avatar: 'YK', rating: 4.8, reviewCount: 10 },
+            { id: '1', userId: 'user-1', name: 'Yusuf Kıran', role: 'DevOps Engineer', avatar: 'YK', rating: 4.8 },
         ],
         deadlines: [
             { id: '1', title: 'Docker Setup', dueDate: '2024-10-15', status: 'completed', assignee: 'Yusuf Kıran' },
@@ -459,9 +459,13 @@ export default function ProjectDetails() {
                                             <div className="team-list">
                                                 {project.teamMembers.map((member) => (
                                                     <div key={member.id} className="team-member">
-                                                        <div className="member-avatar">{member.avatar}</div>
+                                                        <Link to={`/profile/${member.userId}`} className="member-avatar-link">
+                                                            <div className="member-avatar">{member.avatar}</div>
+                                                        </Link>
                                                         <div className="member-info">
-                                                            <span className="member-name">{member.name}</span>
+                                                            <Link to={`/profile/${member.userId}`} className="member-name-link">
+                                                                {member.name}
+                                                            </Link>
                                                             <span className="member-role">{member.role}</span>
                                                         </div>
                                                         {member.rating && (
@@ -647,7 +651,6 @@ export default function ProjectDetails() {
                                 {/* Team Ratings Overview */}
                                 <section className="details-section">
                                     <h2 className="section-title">
-                                        <Star size={20} />
                                         Team Ratings
                                     </h2>
                                     <div className="team-ratings-grid">
@@ -666,7 +669,6 @@ export default function ProjectDetails() {
                                                     </div>
                                                     <div className="rating-score">
                                                         <span className="score-value">{member.rating?.toFixed(1) || 'N/A'}</span>
-                                                        <span className="score-count">({member.reviewCount || 0} reviews)</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -676,7 +678,7 @@ export default function ProjectDetails() {
 
                                 {/* Recent Reviews */}
                                 <section className="details-section">
-                                    <h2 className="section-title">Recent Reviews</h2>
+                                    <h2 className="section-title"> Reviews</h2>
                                     {project.reviews.length === 0 ? (
                                         <div className="empty-reviews">
                                             <p>No reviews yet for this project.</p>
