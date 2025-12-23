@@ -141,7 +141,7 @@ export default function MyProjects() {
                                     <div className="project-main">
                                         <div className="project-info">
                                             <div className="project-title-row">
-                                                <h3 className="project-name">{project.name}</h3>
+                                                <Link to={`/project/${project.id}`} className="project-name">{project.name}</Link>
                                                 <span className={`project-type ${project.type}`}>
                                                     {TYPE_LABELS[project.type]}
                                                 </span>

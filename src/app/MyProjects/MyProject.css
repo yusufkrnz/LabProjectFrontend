@@ -70,8 +70,8 @@
     font-size: 14px;
     font-weight: 500;
     color: #ffffff;
-    background: #238636;
-    border: 1px solid rgba(27, 31, 35, 0.15);
+    background: #3b82f6;
+    border: 1px solid rgba(59, 130, 246, 0.15);
     border-radius: 6px;
     text-decoration: none;
     cursor: pointer;
@@ -80,7 +80,7 @@
 }
 
 .new-project-btn:hover {
-    background: #2ea043;
+    background: #2563eb;
 }
 
 .new-project-btn svg {
@@ -162,6 +162,7 @@
     color: #0969da;
     margin: 0;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .project-name:hover {

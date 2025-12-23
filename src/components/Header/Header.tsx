@@ -9,6 +9,12 @@ export default function Header() {
     const location = useLocation();
 
     const isActive = (path: string) => {
+        // Special case: /project/:id should keep My Projects active
+        if (path === '/my-projects') {
+            return location.pathname === '/my-projects' ||
+                location.pathname.startsWith('/my-projects/') ||
+                location.pathname.startsWith('/project/');
+        }
         return location.pathname === path || location.pathname.startsWith(path + '/');
     };
 

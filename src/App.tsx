@@ -15,6 +15,7 @@ import ManageFinance from "./app/ManageFinance/ManageFinance";
 import Messages from "./app/Messages/Messages";
 import Project from "./app/Project/Project";
 import MyProjects from "./app/MyProjects/MyProject";
+import ProjectDetails from "./app/MyProjects/components/ProjectDetails";
 
 function App() {
     return (
@@ -74,7 +75,7 @@ function App() {
                     />
                     <Route
                         path="/project/:id"
-                        element={<MyProjects />}
+                        element={<ProjectDetails />}
                     />
 
                     {/* Onboarding - Protected Route */}
