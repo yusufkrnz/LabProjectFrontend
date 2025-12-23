@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { Search, Heart, ThumbsDown, MapPin, Star, CheckCircle, FolderKanban, Briefcase } from 'lucide-react';
-import type { TabType, FilterType, ProjectListing, FinanceListing } from '../../MarketPlace';
+import { Link } from 'react-router-dom';
+import { Search, Heart, ThumbsDown, MapPin, Star, Users, Code, Calendar, DollarSign, Briefcase, FolderKanban, Send, X, Eye } from 'lucide-react';
+import type { TabType, FilterType, MarketplaceListing } from '../../MarketPlace';
+import { marketplaceService } from '../../MarketPlace';
 import './MarketPlaceListings.css';
 
 type MarketPlaceListingsProps = {
@@ -8,11 +10,30 @@ type MarketPlaceListingsProps = {
     activeFilter: FilterType;
     onTabChange: (tab: TabType) => void;
     onFilterChange: (filter: FilterType) => void;
-    projectListings: ProjectListing[];
-    financeListings: FinanceListing[];
-    onListingClick: (listingId: string) => void;
+    listings: MarketplaceListing[];
     onBookmarkToggle: (listingId: string) => void;
+    onNotInterested: (listingId: string) => void;
     isLoading: boolean;
+};
+
+const TYPE_LABELS: Record<string, string> = {
+    opensource: 'Open Source',
+    commercial: 'Commercial',
+    portfolio: 'Portfolio',
+    academic: 'Academic',
+};
+
+const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffTime = Math.abs(now.getTime() - date.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays === 0) return 'Today';
+    if (diffDays === 1) return 'Yesterday';
+    if (diffDays < 7) return `${diffDays} days ago`;
+    if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
+    return `${Math.floor(diffDays / 30)} months ago`;
 };
 
 export default function MarketPlaceListings({
@@ -20,15 +41,16 @@ export default function MarketPlaceListings({
     activeFilter,
     onTabChange,
     onFilterChange,
-    projectListings,
-    financeListings,
-    onListingClick,
+    listings,
     onBookmarkToggle,
+    onNotInterested,
     isLoading,
 }: MarketPlaceListingsProps) {
     const [searchQuery, setSearchQuery] = useState('');
-
-    const listings = activeTab === 'project' ? projectListings : financeListings;
+    const [showApplyModal, setShowApplyModal] = useState(false);
+    const [selectedListing, setSelectedListing] = useState<MarketplaceListing | null>(null);
+    const [applyMessage, setApplyMessage] = useState('');
+    const [isApplying, setIsApplying] = useState(false);
 
     const filteredListings = listings.filter(listing => {
         if (!searchQuery) return true;
@@ -42,13 +64,34 @@ export default function MarketPlaceListings({
 
     const getFilterDescription = () => {
         if (activeFilter === 'best-matches') {
-            return activeTab === 'project'
-                ? 'Browse projects that match your skills. Ordered by most relevant.'
-                : 'Browse jobs that match your experience to a client\'s hiring preferences. Ordered by most relevant.';
+            return 'Browse projects that match your skills. Ordered by most relevant.';
         } else if (activeFilter === 'most-recent') {
             return 'Recently posted listings. Ordered by date.';
         }
         return 'Your saved listings for later review.';
+    };
+
+    const handleApplyClick = (listing: MarketplaceListing) => {
+        setSelectedListing(listing);
+        setApplyMessage('');
+        setShowApplyModal(true);
+    };
+
+    const handleSubmitApplication = async () => {
+        if (!selectedListing || !applyMessage.trim()) return;
+
+        setIsApplying(true);
+        const success = await marketplaceService.applyToProject(selectedListing.id, applyMessage);
+
+        if (success) {
+            alert('Application submitted successfully!');
+            setShowApplyModal(false);
+            setSelectedListing(null);
+            setApplyMessage('');
+        } else {
+            alert('Failed to submit application. Please try again.');
+        }
+        setIsApplying(false);
     };
 
     return (
@@ -59,7 +102,7 @@ export default function MarketPlaceListings({
                     <Search size={18} />
                     <input
                         type="text"
-                        placeholder={activeTab === 'project' ? 'Search for projects' : 'Search for jobs'}
+                        placeholder="Search for projects..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
@@ -69,11 +112,11 @@ export default function MarketPlaceListings({
             {/* Tab Buttons */}
             <div className="tab-buttons">
                 <button
-                    className={`tab-btn ${activeTab === 'project' ? 'active' : ''}`}
-                    onClick={() => onTabChange('project')}
+                    className={`tab-btn ${activeTab === 'projects' ? 'active' : ''}`}
+                    onClick={() => onTabChange('projects')}
                 >
                     <FolderKanban size={16} />
-                    Project
+                    Projects
                 </button>
                 <button
                     className={`tab-btn ${activeTab === 'finance' ? 'active' : ''}`}
@@ -86,7 +129,7 @@ export default function MarketPlaceListings({
 
             {/* Title */}
             <h1 className="listings-title">
-                {activeTab === 'project' ? 'Projects you might like' : 'Jobs you might like'}
+                {activeTab === 'projects' ? 'Volunteer Projects' : 'Paid Opportunities'}
             </h1>
 
             {/* Filter Tabs */}
@@ -107,7 +150,7 @@ export default function MarketPlaceListings({
                     className={`filter-tab ${activeFilter === 'saved' ? 'active' : ''}`}
                     onClick={() => onFilterChange('saved')}
                 >
-                    Saved {activeTab === 'project' ? 'Projects' : 'Jobs'}
+                    Saved
                 </button>
             </div>
 
@@ -117,8 +160,8 @@ export default function MarketPlaceListings({
             {/* Listings */}
             <div className="listings-list">
                 {isLoading ? (
-                    <div className="loading-state">
-                        <p>Loading listings...</p>
+                    <div className="empty-state">
+                        <p>Loading...</p>
                     </div>
                 ) : filteredListings.length === 0 ? (
                     <div className="empty-state">
@@ -127,34 +170,27 @@ export default function MarketPlaceListings({
                     </div>
                 ) : (
                     filteredListings.map((listing) => (
-                        <div
-                            key={listing.id}
-                            className="listing-card"
-                            onClick={() => onListingClick(listing.id)}
-                        >
-                            {/* Posted Date */}
-                            <span className="listing-date">{listing.postedDate}</span>
-
-                            {/* Title Row */}
+                        <div key={listing.id} className="listing-card">
+                            {/* Header Row */}
                             <div className="listing-header">
-                                <h2 className="listing-title">{listing.title}</h2>
+                                <div className="listing-owner">
+                                    <img src={listing.ownerAvatar} alt={listing.ownerName} className="owner-avatar" />
+                                    <div className="owner-info">
+                                        <span className="owner-name">{listing.ownerName}</span>
+                                        <span className="posted-date">Posted {formatDate(listing.postedDate)}</span>
+                                    </div>
+                                </div>
                                 <div className="listing-actions">
                                     <button
                                         className="action-icon-btn"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            console.log('Dislike:', listing.id);
-                                        }}
+                                        onClick={() => onNotInterested(listing.id)}
                                         title="Not interested"
                                     >
                                         <ThumbsDown size={18} />
                                     </button>
                                     <button
                                         className={`action-icon-btn ${listing.isBookmarked ? 'active' : ''}`}
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            onBookmarkToggle(listing.id);
-                                        }}
+                                        onClick={() => onBookmarkToggle(listing.id)}
                                         title="Save"
                                     >
                                         <Heart size={18} fill={listing.isBookmarked ? '#e11d48' : 'none'} />
@@ -162,21 +198,25 @@ export default function MarketPlaceListings({
                                 </div>
                             </div>
 
-                            {/* Meta Info */}
-                            <div className="listing-meta">
-                                {'budget' in listing && listing.budget && (
-                                    <span>Fixed-price - Intermediate - Est. Budget: {listing.budget}</span>
-                                )}
-                                {'salary' in listing && (
-                                    <span>{listing.employmentType} - {listing.salary}</span>
-                                )}
+                            {/* Title Row */}
+                            <div className="listing-title-row">
+                                <h2 className="listing-title">{listing.title}</h2>
+                                <div className="listing-badges">
+                                    <span className={`type-badge ${listing.type}`}>
+                                        {TYPE_LABELS[listing.type]}
+                                    </span>
+                                    {listing.workStyle === 'paid' && listing.budget && (
+                                        <span className="budget-badge">
+                                            <DollarSign size={12} />
+                                            {listing.budget}
+                                            {listing.budgetType === 'monthly' && '/mo'}
+                                        </span>
+                                    )}
+                                </div>
                             </div>
 
                             {/* Description */}
-                            <p className="listing-description">
-                                {listing.description}
-                                <a href="#" className="more-link" onClick={(e) => e.stopPropagation()}>more</a>
-                            </p>
+                            <p className="listing-description">{listing.description}</p>
 
                             {/* Skills */}
                             <div className="listing-skills">
@@ -185,60 +225,97 @@ export default function MarketPlaceListings({
                                 ))}
                             </div>
 
-                            {/* Footer Info */}
-                            <div className="listing-footer">
-                                {'isPaymentVerified' in listing && listing.isPaymentVerified && (
-                                    <span className="verified-badge">
-                                        <CheckCircle size={14} />
-                                        Payment verified
-                                    </span>
-                                )}
-                                {'ownerRating' in listing && listing.ownerRating && (
-                                    <span className="rating">
-                                        {[...Array(5)].map((_, i) => (
-                                            <Star
-                                                key={i}
-                                                size={12}
-                                                fill={i < Math.floor(listing.ownerRating!) ? '#f59e0b' : 'none'}
-                                                color="#f59e0b"
-                                            />
-                                        ))}
-                                    </span>
-                                )}
-                                {'companyRating' in listing && listing.companyRating && (
-                                    <span className="rating">
-                                        {[...Array(5)].map((_, i) => (
-                                            <Star
-                                                key={i}
-                                                size={12}
-                                                fill={i < Math.floor(listing.companyRating!) ? '#f59e0b' : 'none'}
-                                                color="#f59e0b"
-                                            />
-                                        ))}
-                                    </span>
-                                )}
-                                {'ownerSpent' in listing && listing.ownerSpent && (
-                                    <span className="spent">{listing.ownerSpent} spent</span>
-                                )}
-                                {'companySpent' in listing && listing.companySpent && (
-                                    <span className="spent">{listing.companySpent} spent</span>
-                                )}
-                                <span className="location">
-                                    <MapPin size={12} />
+                            {/* Meta Info */}
+                            <div className="listing-meta">
+                                <span className="meta-item">
+                                    <Users size={14} />
+                                    {listing.currentMembers}/{listing.teamSize} members
+                                </span>
+                                <span className="meta-item">
+                                    <Calendar size={14} />
+                                    {listing.deadline}
+                                </span>
+                                <span className="meta-item">
+                                    <MapPin size={14} />
                                     {listing.location}
                                 </span>
+                                {listing.ownerRating && (
+                                    <span className="meta-item rating">
+                                        <Star size={14} fill="#f59e0b" color="#f59e0b" />
+                                        {listing.ownerRating.toFixed(1)}
+                                    </span>
+                                )}
                             </div>
 
-                            {/* Proposals */}
-                            {'proposalCount' in listing && listing.proposalCount !== undefined && (
-                                <span className="proposals">
-                                    Proposals: {listing.proposalCount < 5 ? 'Less than 5' : `${listing.proposalCount}+`}
+                            {/* Footer with Apply */}
+                            <div className="listing-footer">
+                                <span className="applications-count">
+                                    <Code size={14} />
+                                    {listing.applicationCount} applications
                                 </span>
-                            )}
+                                <div className="listing-footer-actions">
+                                    <Link to={`/project/${listing.id}`} className="view-details-btn">
+                                        <Eye size={16} />
+                                        View Details
+                                    </Link>
+                                    <button
+                                        className="apply-btn"
+                                        onClick={() => handleApplyClick(listing)}
+                                    >
+                                        <Send size={16} />
+                                        Apply Now
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     ))
                 )}
             </div>
+
+            {/* Apply Modal */}
+            {showApplyModal && selectedListing && (
+                <div className="modal-overlay" onClick={() => setShowApplyModal(false)}>
+                    <div className="modal-content" onClick={e => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h3>Apply to Project</h3>
+                            <button className="modal-close" onClick={() => setShowApplyModal(false)}>
+                                <X size={20} />
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="apply-project-info">
+                                <h4>{selectedListing.title}</h4>
+                                <p>by {selectedListing.ownerName}</p>
+                            </div>
+                            <label htmlFor="apply-message">Your Message</label>
+                            <textarea
+                                id="apply-message"
+                                value={applyMessage}
+                                onChange={(e) => setApplyMessage(e.target.value)}
+                                placeholder="Introduce yourself and explain why you'd be a great fit for this project..."
+                                rows={6}
+                                maxLength={1000}
+                            />
+                            <span className="char-count">{applyMessage.length} / 1000</span>
+                        </div>
+                        <div className="modal-footer">
+                            <button
+                                className="modal-btn modal-btn-secondary"
+                                onClick={() => setShowApplyModal(false)}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="modal-btn modal-btn-primary"
+                                onClick={handleSubmitApplication}
+                                disabled={isApplying || !applyMessage.trim()}
+                            >
+                                {isApplying ? 'Sending...' : 'Send Application'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

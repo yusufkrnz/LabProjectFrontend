@@ -3,69 +3,102 @@ import Header from '../../components/Header';
 import MarketPlaceListings from './components/MarketPlaceListings/MarketPlaceListings';
 import './MarketPlace.css';
 
-export type TabType = 'project' | 'finance';
+export type TabType = 'projects' | 'finance';
 export type FilterType = 'best-matches' | 'most-recent' | 'saved';
 
-// Types for backend data
-export type ProjectListing = {
+// Types for backend data - Project Listing (same structure for both tabs)
+export type MarketplaceListing = {
     id: string;
     title: string;
     ownerName: string;
+    ownerUsername: string;
     ownerAvatar: string;
     description: string;
     requiredSkills: string[];
-    teamSize: string;
-    budget?: string;
+    teamSize: number;
+    currentMembers: number;
     deadline: string;
     location: string;
     postedDate: string;
     isBookmarked: boolean;
-    proposalCount?: number;
-    isPaymentVerified?: boolean;
+    applicationCount: number;
     ownerRating?: number;
-    ownerSpent?: string;
+    // Finance-specific fields
+    workStyle: 'volunteer' | 'paid';
+    budget?: string;
+    budgetType?: 'fixed' | 'monthly' | 'hourly';
+    type: 'opensource' | 'commercial' | 'portfolio' | 'academic';
+    status: 'active' | 'completed' | 'paused';
 };
 
-export type FinanceListing = {
-    id: string;
-    title: string;
-    companyName: string;
-    companyLogo: string;
-    description: string;
-    requiredSkills: string[];
-    salary: string;
-    employmentType: string;
-    location: string;
-    postedDate: string;
-    isBookmarked: boolean;
-    proposalCount?: number;
-    isPaymentVerified?: boolean;
-    companyRating?: number;
-    companySpent?: string;
+// API Service - will connect to backend
+const marketplaceService = {
+    getListings: async (tab: TabType, filter: FilterType): Promise<MarketplaceListing[]> => {
+        // TODO: Replace with actual API call
+        // const response = await fetch(`/api/marketplace?tab=${tab}&filter=${filter}`);
+        // return response.json();
+        console.log('Fetching marketplace listings:', tab, filter);
+        await new Promise(resolve => setTimeout(resolve, 300));
+
+        // Return mock data based on tab
+        if (tab === 'projects') {
+            return mockProjectsListings;
+        } else {
+            return mockFinanceListings;
+        }
+    },
+
+    applyToProject: async (listingId: string, message: string): Promise<boolean> => {
+        // TODO: Replace with actual API call
+        // const response = await fetch(`/api/marketplace/${listingId}/apply`, {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({ message })
+        // });
+        // return response.ok;
+        console.log('Applying to project:', listingId, 'Message:', message);
+        await new Promise(resolve => setTimeout(resolve, 500));
+        return true;
+    },
+
+    toggleBookmark: async (listingId: string): Promise<boolean> => {
+        // TODO: Replace with actual API call
+        // const response = await fetch(`/api/marketplace/${listingId}/bookmark`, {
+        //     method: 'POST'
+        // });
+        // return response.ok;
+        console.log('Toggle bookmark:', listingId);
+        await new Promise(resolve => setTimeout(resolve, 200));
+        return true;
+    },
+
+    reportNotInterested: async (listingId: string): Promise<boolean> => {
+        // TODO: Replace with actual API call
+        // const response = await fetch(`/api/marketplace/${listingId}/not-interested`, {
+        //     method: 'POST'
+        // });
+        // return response.ok;
+        console.log('Not interested:', listingId);
+        await new Promise(resolve => setTimeout(resolve, 200));
+        return true;
+    }
 };
+
+export { marketplaceService };
 
 export default function MarketPlace() {
-    const [activeTab, setActiveTab] = useState<TabType>('project');
+    const [activeTab, setActiveTab] = useState<TabType>('projects');
     const [activeFilter, setActiveFilter] = useState<FilterType>('best-matches');
-    const [projectListings, setProjectListings] = useState<ProjectListing[]>([]);
-    const [financeListings, setFinanceListings] = useState<FinanceListing[]>([]);
+    const [listings, setListings] = useState<MarketplaceListing[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    // Fetch listings from backend (mock for now)
+    // Fetch listings from backend
     useEffect(() => {
         const fetchListings = async () => {
             setIsLoading(true);
             try {
-                // TODO: Replace with actual API call
-                // const response = await api.getMarketplaceListings(activeTab, activeFilter);
-                // setListings(response.data);
-
-                // Mock data for now
-                if (activeTab === 'project') {
-                    setProjectListings(mockProjectListings);
-                } else {
-                    setFinanceListings(mockFinanceListings);
-                }
+                const data = await marketplaceService.getListings(activeTab, activeFilter);
+                setListings(data);
             } catch (error) {
                 console.error('Failed to fetch listings:', error);
             } finally {
@@ -84,33 +117,34 @@ export default function MarketPlace() {
         setActiveFilter(filter);
     };
 
-    const handleListingClick = (listingId: string) => {
-        // TODO: Navigate to listing details page
-        console.log('Navigate to listing:', listingId);
-        // navigate(`/marketplace/${activeTab}/${listingId}`);
+    const handleBookmarkToggle = async (listingId: string) => {
+        const success = await marketplaceService.toggleBookmark(listingId);
+        if (success) {
+            setListings(prev => prev.map(l =>
+                l.id === listingId ? { ...l, isBookmarked: !l.isBookmarked } : l
+            ));
+        }
     };
 
-    const handleBookmarkToggle = async (listingId: string) => {
-        // TODO: Backend API call to toggle bookmark
-        console.log('Toggle bookmark for:', listingId);
+    const handleNotInterested = async (listingId: string) => {
+        const success = await marketplaceService.reportNotInterested(listingId);
+        if (success) {
+            setListings(prev => prev.filter(l => l.id !== listingId));
+        }
     };
 
     return (
         <div className="marketplace-container">
-            {/* Global Header */}
             <Header />
-
-            {/* Main Content */}
             <div className="marketplace-content">
                 <MarketPlaceListings
                     activeTab={activeTab}
                     activeFilter={activeFilter}
                     onTabChange={handleTabChange}
                     onFilterChange={handleFilterChange}
-                    projectListings={projectListings}
-                    financeListings={financeListings}
-                    onListingClick={handleListingClick}
+                    listings={listings}
                     onBookmarkToggle={handleBookmarkToggle}
+                    onNotInterested={handleNotInterested}
                     isLoading={isLoading}
                 />
             </div>
@@ -118,97 +152,136 @@ export default function MarketPlace() {
     );
 }
 
-// Mock data - will be replaced by backend API
-const mockProjectListings: ProjectListing[] = [
+// Mock data - Projects (Volunteer/Free projects)
+const mockProjectsListings: MarketplaceListing[] = [
     {
         id: 'p1',
-        title: 'React Frontend Developer Needed for Project',
+        title: 'Open Source React Component Library',
         ownerName: 'Ahmet Y.',
-        ownerAvatar: 'https://ui-avatars.com/api/?name=AY&background=e5e7eb&color=374151&size=48',
-        description: 'We are seeking a talented React frontend developer to join our team for an exciting project. The ideal candidate will have a strong understanding of React and be able to create responsive and user-friendly interfaces. You will work closely with our design team to implement features and ensure a seamless user experience. If you are passionate about building great...',
-        requiredSkills: ['React', 'JavaScript', 'CSS', 'HTML', 'HTML5'],
-        teamSize: '3-5 people needed',
-        budget: '$200',
-        deadline: 'March 2025',
-        location: 'United Kingdom',
-        postedDate: 'Posted 2 minutes ago',
+        ownerUsername: 'ahmety',
+        ownerAvatar: 'https://ui-avatars.com/api/?name=AY&background=3b82f6&color=fff&size=48',
+        description: 'Building a comprehensive React component library with TypeScript support. Looking for passionate developers to contribute to documentation, testing, and new components.',
+        requiredSkills: ['React', 'TypeScript', 'Storybook', 'Jest'],
+        teamSize: 5,
+        currentMembers: 2,
+        deadline: 'Ongoing',
+        location: 'Remote',
+        postedDate: '2024-12-20',
         isBookmarked: false,
-        proposalCount: 5,
-        isPaymentVerified: true,
-        ownerRating: 4.5,
-        ownerSpent: '$10K+',
+        applicationCount: 8,
+        ownerRating: 4.8,
+        workStyle: 'volunteer',
+        type: 'opensource',
+        status: 'active',
     },
     {
         id: 'p2',
-        title: 'Junior/Intermediate Web Developer Needed for Our Team',
-        ownerName: 'Emily C.',
-        ownerAvatar: 'https://ui-avatars.com/api/?name=EC&background=e5e7eb&color=374151&size=48',
-        description: 'Looking for a passionate web developer to join our growing startup. We need someone who can work on both frontend and backend tasks. Experience with modern JavaScript frameworks is a plus. Great opportunity for career growth and learning!',
-        requiredSkills: ['JavaScript', 'Node.js', 'React', 'MongoDB'],
-        teamSize: '2-4 people needed',
-        budget: '$150',
-        deadline: 'April 2025',
-        location: 'Remote',
-        postedDate: 'Posted yesterday',
-        isBookmarked: false,
-        proposalCount: 12,
-        isPaymentVerified: true,
-        ownerRating: 4.8,
-        ownerSpent: '$25K+',
+        title: 'AI Research Paper Implementation',
+        ownerName: 'Dr. Emily C.',
+        ownerUsername: 'emilyc',
+        ownerAvatar: 'https://ui-avatars.com/api/?name=EC&background=8b5cf6&color=fff&size=48',
+        description: 'Academic project to implement and validate recent machine learning papers. Great opportunity for students interested in AI research and publishing.',
+        requiredSkills: ['Python', 'PyTorch', 'Machine Learning', 'Research'],
+        teamSize: 3,
+        currentMembers: 1,
+        deadline: 'June 2025',
+        location: 'Istanbul, Turkey',
+        postedDate: '2024-12-18',
+        isBookmarked: true,
+        applicationCount: 12,
+        ownerRating: 5.0,
+        workStyle: 'volunteer',
+        type: 'academic',
+        status: 'active',
     },
     {
         id: 'p3',
-        title: 'Mobile App Developer for Health & Fitness Application',
+        title: 'Portfolio Website Builder Tool',
         ownerName: 'Michael B.',
-        ownerAvatar: 'https://ui-avatars.com/api/?name=MB&background=e5e7eb&color=374151&size=48',
-        description: 'Seeking passionate developers for a health-tech startup. Building a comprehensive fitness tracking app with social features. Great opportunity for portfolio building and potential equity!',
-        requiredSkills: ['Flutter', 'Dart', 'Firebase', 'UI/UX'],
-        teamSize: '2-3 people needed',
-        budget: '$300',
-        deadline: 'June 2025',
-        location: 'Istanbul, Turkey',
-        postedDate: 'Posted 3 days ago',
-        isBookmarked: true,
-        proposalCount: 8,
-        isPaymentVerified: true,
-        ownerRating: 5.0,
-        ownerSpent: '$50K+',
+        ownerUsername: 'michaelb',
+        ownerAvatar: 'https://ui-avatars.com/api/?name=MB&background=10b981&color=fff&size=48',
+        description: 'Creating an open-source portfolio website builder for developers. Looking for frontend developers and designers to help build templates and improve UX.',
+        requiredSkills: ['Vue.js', 'CSS', 'UI/UX', 'Figma'],
+        teamSize: 4,
+        currentMembers: 2,
+        deadline: 'April 2025',
+        location: 'Remote',
+        postedDate: '2024-12-15',
+        isBookmarked: false,
+        applicationCount: 5,
+        ownerRating: 4.5,
+        workStyle: 'volunteer',
+        type: 'portfolio',
+        status: 'active',
     },
 ];
 
-const mockFinanceListings: FinanceListing[] = [
+// Mock data - Finance (Paid projects)
+const mockFinanceListings: MarketplaceListing[] = [
     {
         id: 'f1',
-        title: 'Senior Full Stack Developer - Fintech Startup',
-        companyName: 'TechCorp Industries',
-        companyLogo: 'https://ui-avatars.com/api/?name=TC&background=e5e7eb&color=374151&size=48',
-        description: 'Join our innovative team to build next-generation financial technology solutions. We offer competitive salary, remote-friendly work environment, and great benefits including health insurance and stock options.',
+        title: 'E-Commerce Platform Development',
+        ownerName: 'TechCorp Industries',
+        ownerUsername: 'techcorp',
+        ownerAvatar: 'https://ui-avatars.com/api/?name=TC&background=f59e0b&color=fff&size=48',
+        description: 'Looking for experienced full-stack developers to build a modern e-commerce platform. Long-term project with competitive monthly compensation.',
         requiredSkills: ['React', 'Node.js', 'PostgreSQL', 'AWS'],
-        salary: '$120,000 - $150,000 / year',
-        employmentType: 'Full-time',
+        teamSize: 4,
+        currentMembers: 1,
+        deadline: 'March 2025',
         location: 'Remote - USA',
-        postedDate: 'Posted 3 hours ago',
+        postedDate: '2024-12-22',
         isBookmarked: false,
-        proposalCount: 25,
-        isPaymentVerified: true,
-        companyRating: 4.8,
-        companySpent: '$100K+',
+        applicationCount: 25,
+        ownerRating: 4.8,
+        workStyle: 'paid',
+        budget: '$5,000',
+        budgetType: 'monthly',
+        type: 'commercial',
+        status: 'active',
     },
     {
         id: 'f2',
-        title: 'React Native Mobile Developer',
-        companyName: 'StartupX',
-        companyLogo: 'https://ui-avatars.com/api/?name=SX&background=e5e7eb&color=374151&size=48',
-        description: 'Exciting opportunity to work on cutting-edge mobile applications. We are a fast-growing startup with equity options and flexible working hours. Join our dynamic team and make an impact!',
-        requiredSkills: ['React Native', 'TypeScript', 'Redux', 'REST APIs'],
-        salary: '$80,000 - $100,000 / year',
-        employmentType: 'Full-time',
+        title: 'Mobile App for Health Startup',
+        ownerName: 'HealthTech Co.',
+        ownerUsername: 'healthtech',
+        ownerAvatar: 'https://ui-avatars.com/api/?name=HT&background=ef4444&color=fff&size=48',
+        description: 'Building a cross-platform mobile app for health tracking with AI features. Fixed budget project with potential for ongoing maintenance contract.',
+        requiredSkills: ['React Native', 'TypeScript', 'Firebase', 'TensorFlow'],
+        teamSize: 3,
+        currentMembers: 0,
+        deadline: 'May 2025',
         location: 'San Francisco, CA',
-        postedDate: 'Posted 1 day ago',
+        postedDate: '2024-12-21',
         isBookmarked: true,
-        proposalCount: 40,
-        isPaymentVerified: true,
-        companyRating: 4.5,
-        companySpent: '$75K+',
+        applicationCount: 40,
+        ownerRating: 4.5,
+        workStyle: 'paid',
+        budget: '$15,000',
+        budgetType: 'fixed',
+        type: 'commercial',
+        status: 'active',
+    },
+    {
+        id: 'f3',
+        title: 'Blockchain DeFi Dashboard',
+        ownerName: 'CryptoVentures',
+        ownerUsername: 'cryptoventures',
+        ownerAvatar: 'https://ui-avatars.com/api/?name=CV&background=6366f1&color=fff&size=48',
+        description: 'Need skilled developers to build a DeFi analytics dashboard. Hourly rate with flexible working hours. Crypto/blockchain experience is a must.',
+        requiredSkills: ['Solidity', 'Web3.js', 'React', 'GraphQL'],
+        teamSize: 2,
+        currentMembers: 0,
+        deadline: 'February 2025',
+        location: 'Remote',
+        postedDate: '2024-12-19',
+        isBookmarked: false,
+        applicationCount: 18,
+        ownerRating: 4.2,
+        workStyle: 'paid',
+        budget: '$75/hr',
+        budgetType: 'hourly',
+        type: 'commercial',
+        status: 'active',
     },
 ];
