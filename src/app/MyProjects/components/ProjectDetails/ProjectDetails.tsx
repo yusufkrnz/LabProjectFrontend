@@ -411,18 +411,6 @@ export default function ProjectDetails() {
                                             <p className="section-content">{project.longDescription}</p>
                                         </section>
 
-                                        {/* Technologies Section */}
-                                        <section className="details-section">
-                                            <h2 className="section-title">Technologies</h2>
-                                            <div className="tech-tags">
-                                                {project.technologies.map((tech, index) => (
-                                                    <span key={index} className="tech-tag">
-                                                        {tech}
-                                                    </span>
-                                                ))}
-                                            </div>
-                                        </section>
-
                                         {/* Languages Section - GitHub Style */}
                                         <section className="details-section">
                                             <h2 className="section-title">Languages</h2>
@@ -449,6 +437,18 @@ export default function ProjectDetails() {
                                                         <span className="language-name">{lang.name}</span>
                                                         <span className="language-percentage">{lang.percentage}%</span>
                                                     </div>
+                                                ))}
+                                            </div>
+                                        </section>
+
+                                        {/* Technologies Section */}
+                                        <section className="details-section">
+                                            <h2 className="section-title">Technologies</h2>
+                                            <div className="tech-tags">
+                                                {project.technologies.map((tech, index) => (
+                                                    <span key={index} className="tech-tag">
+                                                        {tech}
+                                                    </span>
                                                 ))}
                                             </div>
                                         </section>
