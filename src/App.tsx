@@ -17,6 +17,8 @@ import Messages from "./app/Messages/Messages";
 import Project from "./app/Project/Project";
 import MyProjects from "./app/MyProjects/MyProject";
 import ProjectDetails from "./app/MyProjects/components/ProjectDetails";
+import Listing from "./app/Listings/Listing";
+import JoinProject from "./app/JoinProject/JoinProject";
 
 function App() {
     return (
@@ -81,6 +83,14 @@ function App() {
                     <Route
                         path="/project/:id"
                         element={<ProjectDetails />}
+                    />
+                    <Route
+                        path="/listing"
+                        element={<Listing />}
+                    />
+                    <Route
+                        path="/join-project"
+                        element={<JoinProject />}
                     />
 
                     {/* Onboarding - Protected Route */}

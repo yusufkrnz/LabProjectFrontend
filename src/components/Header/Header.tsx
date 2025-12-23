@@ -40,11 +40,11 @@ export default function Header() {
                                 <FolderPlus size={18} />
                                 <span>New Project</span>
                             </Link>
-                            <Link to="/project" className="create-menu-item" onClick={() => setCreateMenuOpen(false)}>
+                            <Link to="/listing" className="create-menu-item" onClick={() => setCreateMenuOpen(false)}>
                                 <ClipboardList size={18} />
                                 <span>New Listing</span>
                             </Link>
-                            <Link to="/marketplace" className="create-menu-item" onClick={() => setCreateMenuOpen(false)}>
+                            <Link to="/join-project" className="create-menu-item" onClick={() => setCreateMenuOpen(false)}>
                                 <UserPlus size={18} />
                                 <span>Join a Project</span>
                             </Link>
