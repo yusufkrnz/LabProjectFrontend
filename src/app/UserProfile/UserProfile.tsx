@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { MapPin, Clock, Github, Linkedin, Globe, Edit2, CheckCircle, Plus, Mail, MessageCircle, X } from 'lucide-react';
+import { MapPin, Clock, Github, Linkedin, Globe, Edit2, CheckCircle, Plus, Mail, MessageCircle, X, Phone } from 'lucide-react';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
 import Header from '../../components/Header';
 import { ProjectCard, type Project } from '../../components/ProjectCard';
@@ -69,7 +69,7 @@ const MOCK_USER: UserData = {
         { name: 'Python', level: 80 },
         { name: 'Java', level: 65 },
         { name: 'Rust', level: 40 },
-        { name: 'SQL', level: 75 }
+        { name: 'C++', level: 75 }
     ],
     projects: [
         {
@@ -149,6 +149,45 @@ const userService = {
         console.log('Updating user bio:', userId, bio);
         await new Promise(resolve => setTimeout(resolve, 500));
         return true;
+    },
+
+    uploadAvatar: async (userId: string, file: File): Promise<string | null> => {
+        // TODO: Replace with actual API call
+        // const formData = new FormData();
+        // formData.append('avatar', file);
+        // const response = await fetch(`/api/users/${userId}/avatar`, {
+        //     method: 'POST',
+        //     body: formData
+        // });
+        // const data = await response.json();
+        // return data.avatarUrl;
+        console.log('Uploading avatar:', userId, file.name);
+        await new Promise(resolve => setTimeout(resolve, 500));
+        // Return a mock URL with the file preview
+        return URL.createObjectURL(file);
+    },
+
+    getPhoneNumber: async (userId: string): Promise<string | null> => {
+        // TODO: Replace with actual API call
+        // const response = await fetch(`/api/users/${userId}/phone`);
+        // const data = await response.json();
+        // return data.phone;
+        console.log('Getting phone number for user:', userId);
+        await new Promise(resolve => setTimeout(resolve, 300));
+        return '+90 555 123 4567';
+    },
+
+    updateUserTitle: async (userId: string, title: string): Promise<boolean> => {
+        // TODO: Replace with actual API call
+        // const response = await fetch(`/api/users/${userId}/title`, {
+        //     method: 'PUT',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({ title })
+        // });
+        // return response.ok;
+        console.log('Updating user title:', userId, title);
+        await new Promise(resolve => setTimeout(resolve, 500));
+        return true;
     }
 };
 
@@ -159,17 +198,83 @@ export default function UserProfile() {
     const [activeTab, setActiveTab] = useState<ProfileTab>('general');
     const [showBioModal, setShowBioModal] = useState(false);
     const [editBio, setEditBio] = useState('');
+    const [showTitleModal, setShowTitleModal] = useState(false);
+    const [editTitle, setEditTitle] = useState('');
     const [isSaving, setIsSaving] = useState(false);
+    const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         userService.getCurrentUser().then(setUser);
     }, []);
+
+    const handleAvatarClick = () => {
+        fileInputRef.current?.click();
+    };
+
+    const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file || !user) return;
+
+        // Validate file type
+        if (!file.type.startsWith('image/')) {
+            alert('Please select an image file');
+            return;
+        }
+
+        // Validate file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            alert('Image size should be less than 5MB');
+            return;
+        }
+
+        setIsUploadingAvatar(true);
+        const newAvatarUrl = await userService.uploadAvatar(user.id, file);
+
+        if (newAvatarUrl) {
+            setUser(prev => prev ? { ...prev, avatar: newAvatarUrl } : null);
+        }
+        setIsUploadingAvatar(false);
+
+        // Reset input
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
+    };
+
+    const handleGetNumber = async () => {
+        if (!user) return;
+        const phone = await userService.getPhoneNumber(user.id);
+        if (phone) {
+            alert(`Phone: ${phone}`);
+        }
+    };
 
     const handleEditBio = () => {
         if (user) {
             setEditBio(user.bio);
             setShowBioModal(true);
         }
+    };
+
+    const handleEditTitle = () => {
+        if (user) {
+            setEditTitle(user.title);
+            setShowTitleModal(true);
+        }
+    };
+
+    const handleSaveTitle = async () => {
+        if (!user) return;
+
+        setIsSaving(true);
+        const success = await userService.updateUserTitle(user.id, editTitle);
+
+        if (success) {
+            setUser(prev => prev ? { ...prev, title: editTitle } : null);
+            setShowTitleModal(false);
+        }
+        setIsSaving(false);
     };
 
     const handleSaveBio = async () => {
@@ -189,7 +294,6 @@ export default function UserProfile() {
         return (
             <div className="profile-page">
                 <Header />
-                <div className="profile-loading">Loading...</div>
             </div>
         );
     }
@@ -216,17 +320,24 @@ export default function UserProfile() {
                     <div className="profile-header-left">
                         <div className="profile-avatar-wrapper">
                             <img src={user.avatar} alt={user.name} className="profile-avatar-img" />
-                            <button className="avatar-edit-btn">
+                            <input
+                                type="file"
+                                ref={fileInputRef}
+                                onChange={handleAvatarUpload}
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                            />
+                            <button
+                                className="avatar-edit-btn"
+                                onClick={handleAvatarClick}
+                                disabled={isUploadingAvatar}
+                            >
                                 <Edit2 size={14} />
                             </button>
                         </div>
                         <div className="profile-header-info">
                             <div className="profile-name-row">
                                 <h1>{user.name}</h1>
-                                {user.isVerified && <CheckCircle size={18} className="verified-icon" />}
-                                {!user.isVerified && (
-                                    <a href="#" className="verify-link">Verify your identity</a>
-                                )}
                             </div>
                             <div className="profile-location-row">
                                 <MapPin size={14} />
@@ -281,9 +392,13 @@ export default function UserProfile() {
                                         <span>Send Email</span>
                                     </a>
                                 )}
-                                <Link to={`/messages?user=${user.username}`} className="contact-btn bridge-message">
+                                <button onClick={handleGetNumber} className="contact-btn">
+                                    <Phone size={16} />
+                                    <span>Get Number</span>
+                                </button>
+                                <Link to={`/messages?user=${user.username}`} className="contact-btn">
                                     <MessageCircle size={16} />
-                                    <span>BridgeMessage</span>
+                                    <span>Send a Message</span>
                                 </Link>
                             </div>
                         </div>
@@ -296,7 +411,7 @@ export default function UserProfile() {
                             <div className="title-row">
                                 <div className="title-info">
                                     <h2>{user.title}</h2>
-                                    <button className="edit-btn"><Edit2 size={14} /></button>
+                                    <button className="edit-btn" onClick={handleEditTitle}><Edit2 size={14} /></button>
                                 </div>
                                 <div className="rate-info">
                                     <span className="hourly-rate">{user.hourlyRate}</span>
@@ -458,6 +573,45 @@ export default function UserProfile() {
                                 className="modal-btn modal-btn-primary"
                                 onClick={handleSaveBio}
                                 disabled={isSaving}
+                            >
+                                {isSaving ? 'Saving...' : 'Save Changes'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Edit Title Modal */}
+            {showTitleModal && (
+                <div className="modal-overlay" onClick={() => setShowTitleModal(false)}>
+                    <div className="modal-content" onClick={e => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h3>Edit Title</h3>
+                            <button className="modal-close" onClick={() => setShowTitleModal(false)}>
+                                <X size={20} />
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <label htmlFor="title-input">Your Title</label>
+                            <input
+                                type="text"
+                                id="title-input"
+                                value={editTitle}
+                                onChange={(e) => setEditTitle(e.target.value)}
+                                placeholder="e.g. Full Stack Developer"
+                                maxLength={50}
+                                className="modal-input"
+                            />
+                            <span className="char-count">{editTitle.length} / 50</span>
+                        </div>
+                        <div className="modal-footer">
+                            <button className="modal-btn modal-btn-secondary" onClick={() => setShowTitleModal(false)}>
+                                Cancel
+                            </button>
+                            <button
+                                className="modal-btn modal-btn-primary"
+                                onClick={handleSaveTitle}
+                                disabled={isSaving || !editTitle.trim()}
                             >
                                 {isSaving ? 'Saving...' : 'Save Changes'}
                             </button>
