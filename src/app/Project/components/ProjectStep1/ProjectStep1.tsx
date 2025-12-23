@@ -1,12 +1,14 @@
 import { useState } from 'react';
+import { Github } from 'lucide-react';
 import './ProjectStep1.css';
 
 type ProjectStep1Props = {
     initialData: {
         projectName: string;
         description: string;
+        githubRepo?: string;
     };
-    onComplete: (data: { projectName: string; description: string }) => void;
+    onComplete: (data: { projectName: string; description: string; githubRepo?: string }) => void;
 };
 
 const MAX_DESCRIPTION_LENGTH = 350;
@@ -14,13 +16,26 @@ const MAX_DESCRIPTION_LENGTH = 350;
 export default function ProjectStep1({ initialData, onComplete }: ProjectStep1Props) {
     const [projectName, setProjectName] = useState(initialData.projectName);
     const [description, setDescription] = useState(initialData.description);
+    const [githubRepo, setGithubRepo] = useState(initialData.githubRepo || '');
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (projectName.trim()) {
-            onComplete({ projectName: projectName.trim(), description: description.trim() });
+            onComplete({
+                projectName: projectName.trim(),
+                description: description.trim(),
+                githubRepo: githubRepo.trim() || undefined
+            });
         }
     };
+
+    const isValidGithubUrl = (url: string) => {
+        if (!url) return true; // Empty is valid (optional field)
+        const githubPattern = /^https?:\/\/(www\.)?github\.com\/[\w-]+\/[\w.-]+\/?$/;
+        return githubPattern.test(url);
+    };
+
+    const showGithubError = !!githubRepo && !isValidGithubUrl(githubRepo);
 
     return (
         <form className="step1-form" onSubmit={handleSubmit}>
@@ -64,14 +79,43 @@ export default function ProjectStep1({ initialData, onComplete }: ProjectStep1Pr
                             {description.length} / {MAX_DESCRIPTION_LENGTH} characters
                         </span>
                     </div>
+
+                    <div className="form-group">
+                        <label htmlFor="githubRepo">
+                            <Github size={16} className="label-icon" />
+                            GitHub Repository
+                        </label>
+                        <input
+                            id="githubRepo"
+                            type="url"
+                            value={githubRepo}
+                            onChange={(e) => setGithubRepo(e.target.value)}
+                            placeholder="https://github.com/username/repository"
+                            className={showGithubError ? 'input-error' : ''}
+                        />
+                        {showGithubError ? (
+                            <span className="input-error-text">
+                                Please enter a valid GitHub repository URL
+                            </span>
+                        ) : (
+                            <span className="input-hint">
+                                Optional. Link your existing GitHub repository.
+                            </span>
+                        )}
+                    </div>
                 </div>
             </div>
 
             <div className="form-actions">
-                <button type="submit" className="btn-primary" disabled={!projectName.trim()}>
+                <button
+                    type="submit"
+                    className="btn-primary"
+                    disabled={!projectName.trim() || showGithubError}
+                >
                     Continue
                 </button>
             </div>
         </form>
     );
 }
+

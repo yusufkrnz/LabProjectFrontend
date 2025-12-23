@@ -39,6 +39,7 @@ export type TeamMember = {
 export type ProjectFormData = {
     projectName: string;
     description: string;
+    githubRepo?: string;
     teamSize: number;
     teamMembers: TeamMember[];
     projectType: string;
@@ -234,6 +235,7 @@ export default function Project() {
     const [formData, setFormData] = useState<ProjectFormData>({
         projectName: '',
         description: '',
+        githubRepo: '',
         teamSize: 1,
         teamMembers: [],
         projectType: '',
@@ -268,7 +270,7 @@ export default function Project() {
         return () => window.removeEventListener('popstate', handlePopState);
     }, []);
 
-    const handleStep1Complete = (data: { projectName: string; description: string }) => {
+    const handleStep1Complete = (data: { projectName: string; description: string; githubRepo?: string }) => {
         setFormData(prev => ({ ...prev, ...data }));
         setCurrentStep(2);
     };
@@ -310,6 +312,7 @@ export default function Project() {
                                 initialData={{
                                     projectName: formData.projectName,
                                     description: formData.description,
+                                    githubRepo: formData.githubRepo,
                                 }}
                                 onComplete={handleStep1Complete}
                             />
