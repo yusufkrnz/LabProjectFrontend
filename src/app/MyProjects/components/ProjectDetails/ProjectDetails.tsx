@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Calendar, Users, Code, DollarSign, Heart, Clock, Globe, Github, Star, CheckCircle, AlertCircle, Timer } from 'lucide-react';
+import { ArrowLeft, Calendar, Users, DollarSign, Heart, Clock, Globe, Github, Star, CheckCircle, AlertCircle, Timer } from 'lucide-react';
 import Header from '../../../../components/Header';
 import './ProjectDetails.css';
 
@@ -34,6 +34,12 @@ type Review = {
     createdAt: string;
 };
 
+type Language = {
+    name: string;
+    percentage: number;
+    color: string;
+};
+
 type Project = {
     id: string;
     name: string;
@@ -45,7 +51,7 @@ type Project = {
     totalBudget?: string;
     spentBudget?: string;
     teamSize: number;
-    languages: string[];
+    languages: Language[];
     technologies: string[];
     createdAt: string;
     status: 'active' | 'completed' | 'paused';
@@ -59,7 +65,20 @@ type Project = {
     endDate?: string;
 };
 
-// Mock data - will be replaced with API calls
+// API Service - will connect to backend
+const projectService = {
+    getProjectById: async (id: string): Promise<Project | null> => {
+        // TODO: Replace with actual API call
+        // const response = await fetch(`/api/projects/${id}`);
+        // return response.json();
+
+        // Mock data for now - simulating API delay
+        await new Promise(resolve => setTimeout(resolve, 300));
+        return MOCK_PROJECTS[id] || null;
+    }
+};
+
+// Mock data - will be replaced by backend API
 const MOCK_PROJECTS: Record<string, Project> = {
     '1': {
         id: '1',
@@ -68,7 +87,11 @@ const MOCK_PROJECTS: Record<string, Project> = {
         type: 'opensource',
         workStyle: 'volunteer',
         teamSize: 3,
-        languages: ['Go', 'Solidity'],
+        languages: [
+            { name: 'Go', percentage: 68.5, color: '#00ADD8' },
+            { name: 'Solidity', percentage: 24.3, color: '#AA6746' },
+            { name: 'Shell', percentage: 7.2, color: '#89e051' },
+        ],
         technologies: ['Ethereum', 'Docker', 'PostgreSQL', 'Redis', 'gRPC'],
         createdAt: '2024-12-20',
         status: 'active',
@@ -103,7 +126,12 @@ const MOCK_PROJECTS: Record<string, Project> = {
         totalBudget: '30000',
         spentBudget: '12500',
         teamSize: 4,
-        languages: ['TypeScript', 'React'],
+        languages: [
+            { name: 'TypeScript', percentage: 61.2, color: '#3178c6' },
+            { name: 'CSS', percentage: 32.4, color: '#563d7c' },
+            { name: 'HTML', percentage: 5.8, color: '#e34c26' },
+            { name: 'JavaScript', percentage: 0.6, color: '#f1e05a' },
+        ],
         technologies: ['React', 'Vite', 'CSS3', 'React Router', 'Axios'],
         createdAt: '2024-12-15',
         status: 'active',
@@ -137,7 +165,11 @@ const MOCK_PROJECTS: Record<string, Project> = {
         type: 'academic',
         workStyle: 'volunteer',
         teamSize: 2,
-        languages: ['Python', 'TensorFlow'],
+        languages: [
+            { name: 'Python', percentage: 85.4, color: '#3572A5' },
+            { name: 'Jupyter Notebook', percentage: 12.1, color: '#DA5B0B' },
+            { name: 'Shell', percentage: 2.5, color: '#89e051' },
+        ],
         technologies: ['TensorFlow', 'Keras', 'NumPy', 'OpenCV', 'Jupyter'],
         createdAt: '2024-11-28',
         status: 'completed',
@@ -164,7 +196,12 @@ const MOCK_PROJECTS: Record<string, Project> = {
         type: 'portfolio',
         workStyle: 'volunteer',
         teamSize: 1,
-        languages: ['Bash', 'YAML'],
+        languages: [
+            { name: 'Shell', percentage: 45.2, color: '#89e051' },
+            { name: 'YAML', percentage: 38.6, color: '#cb171e' },
+            { name: 'Dockerfile', percentage: 12.8, color: '#384d54' },
+            { name: 'HCL', percentage: 3.4, color: '#844fba' },
+        ],
         technologies: ['Docker', 'Kubernetes', 'GitHub Actions', 'Terraform', 'AWS'],
         createdAt: '2024-11-10',
         status: 'paused',
@@ -209,21 +246,34 @@ export default function ProjectDetails() {
     const { id } = useParams<{ id: string }>();
     const [project, setProject] = useState<Project | null>(null);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState<TabType>('overview');
 
-    // Simulate API call - will be replaced with actual API
+    // Fetch project from backend
     useEffect(() => {
         const fetchProject = async () => {
-            setLoading(true);
-            // Simulate network delay
-            await new Promise(resolve => setTimeout(resolve, 300));
-
-            if (id && MOCK_PROJECTS[id]) {
-                setProject(MOCK_PROJECTS[id]);
-            } else {
-                setProject(null);
+            if (!id) {
+                setError('Project ID is required');
+                setLoading(false);
+                return;
             }
-            setLoading(false);
+
+            setLoading(true);
+            setError(null);
+
+            try {
+                const data = await projectService.getProjectById(id);
+                if (data) {
+                    setProject(data);
+                } else {
+                    setError('Project not found');
+                }
+            } catch (err) {
+                console.error('Failed to fetch project:', err);
+                setError('Failed to load project. Please try again.');
+            } finally {
+                setLoading(false);
+            }
         };
 
         fetchProject();
@@ -277,14 +327,14 @@ export default function ProjectDetails() {
         );
     }
 
-    if (!project) {
+    if (error || !project) {
         return (
             <div className="project-details-container">
                 <Header />
                 <div className="project-details-content">
                     <div className="project-details-wrapper">
                         <div className="not-found">
-                            <h2>Project Not Found</h2>
+                            <h2>{error || 'Project Not Found'}</h2>
                             <p>The project you're looking for doesn't exist or has been removed.</p>
                             <Link to="/my-projects" className="back-btn">
                                 <ArrowLeft size={18} />
@@ -315,7 +365,7 @@ export default function ProjectDetails() {
                         <div className="project-header-main">
                             <h1 className="project-title">{project.name}</h1>
                             <div className="project-badges">
-                                <span className={`project-type-badge ${project.type}`}>
+                                <span className="project-type-badge">
                                     {TYPE_LABELS[project.type]}
                                 </span>
                                 <span className={`project-status-badge ${statusInfo.className}`}>
@@ -373,15 +423,32 @@ export default function ProjectDetails() {
                                             </div>
                                         </section>
 
-                                        {/* Languages Section */}
+                                        {/* Languages Section - GitHub Style */}
                                         <section className="details-section">
                                             <h2 className="section-title">Languages</h2>
-                                            <div className="language-tags">
+                                            <div className="languages-bar">
                                                 {project.languages.map((lang, index) => (
-                                                    <span key={index} className="language-tag">
-                                                        <Code size={14} />
-                                                        {lang}
-                                                    </span>
+                                                    <div
+                                                        key={index}
+                                                        className="language-segment"
+                                                        style={{
+                                                            width: `${lang.percentage}%`,
+                                                            backgroundColor: lang.color,
+                                                        }}
+                                                        title={`${lang.name}: ${lang.percentage}%`}
+                                                    />
+                                                ))}
+                                            </div>
+                                            <div className="languages-legend">
+                                                {project.languages.map((lang, index) => (
+                                                    <div key={index} className="language-item">
+                                                        <span
+                                                            className="language-dot"
+                                                            style={{ backgroundColor: lang.color }}
+                                                        />
+                                                        <span className="language-name">{lang.name}</span>
+                                                        <span className="language-percentage">{lang.percentage}%</span>
+                                                    </div>
                                                 ))}
                                             </div>
                                         </section>

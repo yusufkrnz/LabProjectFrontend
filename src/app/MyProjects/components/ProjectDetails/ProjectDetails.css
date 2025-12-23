@@ -130,33 +130,9 @@
     font-size: 12px;
     font-weight: 500;
     border-radius: 16px;
-    background: #f6f8fa;
-    color: #6b7280;
-    border: 1px solid #d1d5db;
-}
-
-.project-type-badge.opensource {
-    background: rgba(34, 197, 94, 0.1);
-    color: #16a34a;
-    border-color: rgba(34, 197, 94, 0.3);
-}
-
-.project-type-badge.commercial {
     background: rgba(59, 130, 246, 0.1);
     color: #3b82f6;
-    border-color: rgba(59, 130, 246, 0.3);
-}
-
-.project-type-badge.academic {
-    background: rgba(168, 85, 247, 0.1);
-    color: #9333ea;
-    border-color: rgba(168, 85, 247, 0.3);
-}
-
-.project-type-badge.portfolio {
-    background: rgba(245, 158, 11, 0.1);
-    color: #d97706;
-    border-color: rgba(245, 158, 11, 0.3);
+    border: 1px solid rgba(59, 130, 246, 0.3);
 }
 
 .project-status-badge {
@@ -294,27 +270,59 @@
     border-radius: 20px;
 }
 
-/* Language Tags */
-.language-tags {
+/* Languages Bar - GitHub Style */
+.languages-bar {
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+    height: 10px;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    background: #e5e7eb;
 }
 
-.language-tag {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 14px;
-    font-size: 13px;
-    font-weight: 500;
-    color: #6b7280;
-    background: #f6f8fa;
-    border: 1px solid #d1d5db;
+.language-segment {
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+.language-segment:first-child {
+    border-radius: 6px 0 0 6px;
+}
+
+.language-segment:last-child {
+    border-radius: 0 6px 6px 0;
+}
+
+.language-segment:only-child {
     border-radius: 6px;
 }
 
-.language-tag svg {
+.languages-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.language-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+}
+
+.language-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.language-name {
+    font-weight: 500;
+    color: #1f2328;
+}
+
+.language-percentage {
     color: #6b7280;
 }
 

@@ -115,7 +115,7 @@ export default function MyProjects() {
                             <Search size={18} className="search-icon" />
                             <input
                                 type="text"
-                                placeholder="Find a project..."
+                                placeholder=" Search a Project"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                             />

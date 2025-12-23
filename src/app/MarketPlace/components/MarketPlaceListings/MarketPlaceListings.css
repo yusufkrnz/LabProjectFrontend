@@ -44,8 +44,9 @@
 /* Tab Buttons */
 .tab-buttons {
     display: flex;
-    gap: 12px;
+    gap: 0;
     margin-bottom: 32px;
+    border-bottom: 1px solid #e5e7eb;
 }
 
 .tab-btn {
@@ -54,12 +55,19 @@
     gap: 6px;
     background: transparent;
     border: none;
-    padding: 8px 0;
+    outline: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 12px 0;
+    margin-right: 32px;
     font-size: 14px;
     font-weight: 500;
-    color: #64748b;
+    color: #6b7280;
     cursor: pointer;
+    border-bottom: 2px solid transparent;
     transition: all 0.15s ease;
+    position: relative;
+    bottom: -1px;
 }
 
 .tab-btn svg {
@@ -68,25 +76,33 @@
 
 .tab-btn:hover {
     color: #1f2328;
+    background: transparent;
 }
 
 .tab-btn:hover svg {
-    color: #64748b;
+    color: #6b7280;
+}
+
+.tab-btn:focus {
+    outline: none;
+    box-shadow: none;
 }
 
 .tab-btn.active {
-    color: #0969da;
+    color: #3b82f6;
+    border-bottom-color: #3b82f6;
+    background: transparent;
 }
 
 .tab-btn.active svg {
-    color: #0969da;
+    color: #3b82f6;
 }
 
 /* Title */
 .listings-title {
     font-size: 22px;
-    font-weight: 600;
-    color: #1f2328;
+    font-weight: 500;
+    color: #3b82f6;
     margin: 0 0 20px 0;
 }
 
@@ -116,8 +132,8 @@
 }
 
 .filter-tab.active {
-    color: #1f2328;
-    border-bottom-color: #1f2328;
+    color: #3b82f6;
+    border-bottom-color: #3b82f6;
 }
 
 /* Filter Description */
