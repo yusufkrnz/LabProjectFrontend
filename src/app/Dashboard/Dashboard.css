@@ -1,76 +1,45 @@
 /* Dashboard Container */
 .dashboard-container {
   min-height: 100vh;
-  background-color: #ffffff;
-  /* Light gray background */
+  background-color: #f8fafc;
   position: relative;
 }
 
-/* Content Wrapper: Contains Main and Message */
+/* Content Wrapper: Contains Main */
 .content-wrapper {
   display: flex;
   flex-direction: row;
   min-height: 100vh;
-  padding-top: 64px;
-  /* Space for fixed Header/Sidebar */
+  padding-top: 72px;
   box-sizing: border-box;
 }
 
 /* Main Content Area */
 .dashboard-container main {
   flex: 1;
-  /* Take remaining internal width */
-  padding: 24px;
+  padding: 32px 24px;
   overflow-x: hidden;
-  /* Add max-width/margin auto here if you want centered content */
+  background: #f8fafc;
 }
 
 /* Responsive adjustments */
 @media (max-width: 1024px) {
   .content-wrapper {
     flex-direction: column;
-    /* Stack on smaller screens */
   }
 
   .dashboard-container main {
     width: 100%;
+    padding: 24px 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .content-wrapper {
+    padding-top: 64px;
   }
 
-  /* Adjust Message component visibility or layout on mobile if needed */
-}
-
-/* --- Legacy / Utility Classes (Optional - Keep only if needed) --- */
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-}
-
-.dashboard-card {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease;
-  border: 1px solid #e2e8f0;
-}
-
-.dashboard-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-
-.dashboard-card h3 {
-  font-size: 14px;
-  font-weight: 600;
-  color: #64748b;
-  margin: 0 0 12px 0;
-  text-transform: uppercase;
-}
-
-.dashboard-card .card-number {
-  font-size: 32px;
-  font-weight: 700;
-  color: #0f172a;
-  margin: 0;
+  .dashboard-container main {
+    padding: 16px;
+  }
 }

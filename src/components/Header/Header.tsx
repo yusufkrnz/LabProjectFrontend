@@ -81,8 +81,8 @@ export default function Header() {
 
                 {/* Profile Card - Props will come from backend */}
                 <ProfileCard
-                    firstName="Yusuf"
-                    lastName="Baran"
+                    firstName="Sait"
+                    lastName="Dündar"
                     role="Developer"
                 // profileImage="/path/to/image.jpg" // Uncomment when image is available
                 />
