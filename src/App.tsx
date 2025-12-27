@@ -20,7 +20,7 @@ import ProjectDetails from "./app/MyProjects/components/ProjectDetails";
 import Listing from "./app/Listings/Listing";
 import JoinProject from "./app/JoinProject/JoinProject";
 import DevPool from "./app/DevPool/Devpool";
-import Community from "./app/Community/Community";
+import Hub from "./app/Hub/Hub";
 
 function App() {
     return (
@@ -99,8 +99,8 @@ function App() {
                         element={<DevPool />}
                     />
                     <Route
-                        path="/community"
-                        element={<Community />}
+                        path="/hub"
+                        element={<Hub />}
                     />
 
                     {/* Onboarding - Protected Route */}

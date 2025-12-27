@@ -1,0 +1,92 @@
+.topics-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.topic-item {
+    padding: 24px 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.topic-item:last-child {
+    border-bottom: none;
+}
+
+.topic-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.topic-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.topic-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.topic-author {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.topic-author:hover {
+    color: #3b82f6;
+    cursor: pointer;
+}
+
+.topic-project {
+    font-size: 13px;
+    color: #3b82f6;
+    font-weight: 500;
+}
+
+.topic-time {
+    font-size: 13px;
+    color: #9ca3af;
+}
+
+.topic-content {
+    font-size: 15px;
+    color: #374151;
+    line-height: 1.7;
+    margin: 0 0 16px 0;
+}
+
+.topic-actions {
+    display: flex;
+    gap: 24px;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 0;
+    font-size: 13px;
+    color: #6b7280;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.action-btn:hover {
+    color: #3b82f6;
+}
+
+.action-btn.liked {
+    color: #ef4444;
+}
+
+.action-btn span {
+    font-weight: 500;
+}

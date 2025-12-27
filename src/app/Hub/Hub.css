@@ -1,0 +1,55 @@
+.hub-page {
+    min-height: 100vh;
+    background-color: #ffffff;
+}
+
+.hub-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 24px;
+    padding-top: 88px;
+}
+
+/* Tabs */
+.hub-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 24px;
+}
+
+.hub-tab {
+    padding: 14px 32px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #6b7280;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.15s ease;
+}
+
+.hub-tab:hover {
+    color: #1f2937;
+}
+
+.hub-tab.active {
+    color: #3b82f6;
+}
+
+.hub-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #3b82f6;
+}
+
+/* Body */
+.hub-body {
+    padding: 0;
+}
