@@ -59,7 +59,7 @@ export default function Header() {
                 <div className="header-divider"></div>
 
                 <nav className="header-nav">
-                    <a href="#" className="header-nav-item">Connect</a>
+                    <Link to="/community" className={`header-nav-item ${isActive('/community') ? 'active' : ''}`}>Community</Link>
                     <Link to="/my-projects" className={`header-nav-item ${isActive('/my-projects') ? 'active' : ''}`}>My Projects</Link>
                     <Link to="/marketplace" className={`header-nav-item ${isActive('/marketplace') ? 'active' : ''}`}>Marketplace</Link>
                     <Link to="/manage-finance" className={`header-nav-item ${isActive('/manage-finance') ? 'active' : ''}`}>Manage Finance</Link>
