@@ -134,7 +134,7 @@ export default function Network() {
                                     <line
                                         key={`radial-${i}`}
                                         x1="600"
-                                        y1="250"
+                                        y1="220"
                                         x2={endX}
                                         y2={endY}
                                         className="radial-line"
