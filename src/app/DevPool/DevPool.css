@@ -1,10 +1,249 @@
 .devpool-page {
     min-height: 100vh;
-    background-color: #f6f8fa;
+    background-color: #f8fafc;
 }
 
 .devpool-content {
-    max-width: 1280px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 24px;
+    padding-top: 88px;
+}
+
+/* Back Link */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #64748b;
+    font-size: 14px;
+    text-decoration: none;
+    margin-bottom: 32px;
+}
+
+.back-link:hover {
+    color: #3b82f6;
+}
+
+/* Page Title */
+.page-title {
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.page-title h1 {
+    font-size: 42px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 12px 0;
+    letter-spacing: -0.5px;
+}
+
+.page-title p {
+    font-size: 18px;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Active Users */
+.active-users {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.pulse-dot {
+    width: 10px;
+    height: 10px;
+    background: #22c55e;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+    }
+}
+
+.active-users span:last-child {
+    font-size: 15px;
+    font-weight: 600;
+    color: #22c55e;
+}
+
+/* How it works - Minimal */
+.how-it-works-inline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.step-inline {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.step-inline .step-num {
+    font-size: 32px;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1;
+}
+
+.step-inline .step-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.step-divider {
+    color: #cbd5e1;
+    font-size: 20px;
+    font-weight: 300;
+}
+
+/* Selection Card */
+.selection-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 32px;
+}
+
+.selection-card h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #0f172a;
+    text-align: center;
+    margin: 0 0 8px 0;
+}
+
+.card-subtitle {
+    font-size: 14px;
+    color: #3b82f6;
+    text-align: center;
+    margin: 0 0 28px 0;
+}
+
+/* Areas Grid */
+.areas-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+.area-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px 12px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.area-card:hover {
+    border-color: #bfdbfe;
+    background: #f8fafc;
+}
+
+.area-card.selected {
+    border-color: #3b82f6;
+    background: #eff6ff;
+}
+
+.area-icon {
+    color: #94a3b8;
+    margin-bottom: 12px;
+}
+
+.area-card.selected .area-icon {
+    color: #3b82f6;
+}
+
+.area-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #0f172a;
+    margin-bottom: 4px;
+}
+
+.area-description {
+    font-size: 12px;
+    color: #94a3b8;
+    line-height: 1.4;
+}
+
+/* Submit Button */
+.submit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 200px;
+    margin: 0 auto;
+    padding: 14px 32px;
+    font-size: 15px;
+    font-weight: 600;
+    background: #64748b;
+    color: #fff;
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.submit-btn:hover:not(:disabled) {
+    background: #475569;
+}
+
+.submit-btn:disabled {
+    background: #cbd5e1;
+    cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .page-title h1 {
+        font-size: 32px;
+    }
+
+    .how-it-works-inline {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .step-arrow {
+        transform: rotate(90deg);
+    }
+
+    .areas-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .areas-grid {
+        grid-template-columns: 1fr;
+    }
 }
