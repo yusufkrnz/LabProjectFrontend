@@ -60,6 +60,7 @@ export default function Header() {
 
                 <nav className="header-nav">
                     <Link to="/hub" className={`header-nav-item ${isActive('/hub') ? 'active' : ''}`}>Hub</Link>
+                    <Link to="/network" className={`header-nav-item ${isActive('/network') ? 'active' : ''}`}>Network</Link>
                     <Link to="/my-projects" className={`header-nav-item ${isActive('/my-projects') ? 'active' : ''}`}>My Projects</Link>
                     <Link to="/marketplace" className={`header-nav-item ${isActive('/marketplace') ? 'active' : ''}`}>Marketplace</Link>
                     <Link to="/manage-finance" className={`header-nav-item ${isActive('/manage-finance') ? 'active' : ''}`}>Manage Finance</Link>

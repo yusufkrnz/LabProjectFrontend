@@ -21,6 +21,7 @@ import Listing from "./app/Listings/Listing";
 import JoinProject from "./app/JoinProject/JoinProject";
 import DevPool from "./app/DevPool/Devpool";
 import Hub from "./app/Hub/Hub";
+import Network from "./app/Network/Network";
 
 function App() {
     return (
@@ -101,6 +102,10 @@ function App() {
                     <Route
                         path="/hub"
                         element={<Hub />}
+                    />
+                    <Route
+                        path="/network"
+                        element={<Network />}
                     />
 
                     {/* Onboarding - Protected Route */}

@@ -1,0 +1,72 @@
+.user-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px 16px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.user-card:hover {
+    background: #f9fafb;
+}
+
+.user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.user-username {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.user-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1f2937;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-card:hover .user-name {
+    color: #3b82f6;
+}
+
+.user-role {
+    font-size: 13px;
+    color: #6b7280;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-stats {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.user-projects {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #6b7280;
+}
+
+.user-projects svg {
+    color: #3b82f6;
+}

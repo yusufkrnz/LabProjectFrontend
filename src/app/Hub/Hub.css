@@ -4,52 +4,27 @@
 }
 
 .hub-content {
-    max-width: 1000px;
+    max-width: 700px;
     margin: 0 auto;
     padding: 24px;
     padding-top: 88px;
 }
 
-/* Tabs */
-.hub-tabs {
-    display: flex;
-    justify-content: center;
-    gap: 0;
-    border-bottom: 1px solid #e5e7eb;
+.hub-header {
     margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e5e7eb;
 }
 
-.hub-tab {
-    padding: 14px 32px;
-    font-size: 15px;
-    font-weight: 500;
-    color: #6b7280;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    position: relative;
-    transition: color 0.15s ease;
-}
-
-.hub-tab:hover {
+.hub-header h1 {
+    font-size: 24px;
+    font-weight: 600;
     color: #1f2937;
+    margin: 0 0 6px 0;
 }
 
-.hub-tab.active {
-    color: #3b82f6;
-}
-
-.hub-tab.active::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: #3b82f6;
-}
-
-/* Body */
-.hub-body {
-    padding: 0;
+.hub-header p {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
 }
