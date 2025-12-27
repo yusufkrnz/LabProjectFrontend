@@ -19,6 +19,7 @@ import MyProjects from "./app/MyProjects/MyProject";
 import ProjectDetails from "./app/MyProjects/components/ProjectDetails";
 import Listing from "./app/Listings/Listing";
 import JoinProject from "./app/JoinProject/JoinProject";
+import DevPool from "./app/DevPool/Devpool";
 
 function App() {
     return (
@@ -91,6 +92,10 @@ function App() {
                     <Route
                         path="/join-project"
                         element={<JoinProject />}
+                    />
+                    <Route
+                        path="/developer-pool"
+                        element={<DevPool />}
                     />
 
                     {/* Onboarding - Protected Route */}

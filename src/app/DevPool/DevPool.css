@@ -1,0 +1,10 @@
+.devpool-page {
+    min-height: 100vh;
+    background-color: #f6f8fa;
+}
+
+.devpool-content {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 24px;
+}

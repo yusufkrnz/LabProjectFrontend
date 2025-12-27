@@ -1,4 +1,4 @@
-import { Search, MessageCircle, Inbox, Plus, FolderPlus, ClipboardList, UserPlus, ChevronDown } from 'lucide-react';
+import { Search, MessageCircle, Inbox, Plus, FolderPlus, ClipboardList, UserPlus, Users, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Header.css';
@@ -47,6 +47,10 @@ export default function Header() {
                             <Link to="/join-project" className="create-menu-item" onClick={() => setCreateMenuOpen(false)}>
                                 <UserPlus size={18} />
                                 <span>Join a Project</span>
+                            </Link>
+                            <Link to="/developer-pool" className="create-menu-item" onClick={() => setCreateMenuOpen(false)}>
+                                <Users size={18} />
+                                <span>Join a Pool</span>
                             </Link>
                         </div>
                     )}
