@@ -4,25 +4,34 @@
 }
 
 .topic-item {
-    padding: 24px 0;
+    padding: 16px 0;
     border-bottom: 1px solid #e5e7eb;
+    background: #ffffff;
+    display: flex;
+    gap: 16px;
 }
 
-.topic-item:last-child {
-    border-bottom: none;
+/* Avatar */
+.topic-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 6px;
+    object-fit: cover;
+    border: 1px solid #f3f4f6;
+    flex-shrink: 0;
 }
 
+.topic-body {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Header */
 .topic-header {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 14px;
-}
-
-.topic-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    justify-content: space-between;
+    margin-bottom: 4px;
 }
 
 .topic-meta {
@@ -32,61 +41,126 @@
     flex-wrap: wrap;
 }
 
-.topic-author {
-    font-size: 14px;
+.topic-author-name {
+    font-size: 15px;
     font-weight: 600;
-    color: #1f2937;
+    color: #111827;
 }
 
-.topic-author:hover {
-    color: #3b82f6;
+.topic-author-name:hover {
+    text-decoration: underline;
     cursor: pointer;
 }
 
-.topic-project {
-    font-size: 13px;
-    color: #3b82f6;
-    font-weight: 500;
+.topic-author-username {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.topic-dot {
+    color: #d1d5db;
+    font-size: 12px;
 }
 
 .topic-time {
     font-size: 13px;
-    color: #9ca3af;
+    color: #6b7280;
 }
 
+.topic-more-btn {
+    color: #9ca3af;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 2px;
+    margin-right: -2px;
+}
+
+.topic-more-btn:hover {
+    color: #374151;
+}
+
+/* Project Tag */
+.topic-project-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    background: #f0f9ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #1e40af;
+    margin-top: 2px;
+    margin-bottom: 8px;
+}
+
+.topic-project-tag strong {
+    font-weight: 600;
+    color: #1e3a8a;
+}
+
+/* Content */
 .topic-content {
     font-size: 15px;
     color: #374151;
-    line-height: 1.7;
-    margin: 0 0 16px 0;
+    line-height: 1.5;
+    margin: 0 0 12px 0;
+    white-space: pre-wrap;
 }
 
+/* Actions Bar */
 .topic-actions {
     display: flex;
-    gap: 24px;
+    align-items: center;
+    gap: 4px;
+    /* Butonlar arası boşluk azaldı çünkü hover alanları geniş */
 }
 
 .action-btn {
     display: flex;
     align-items: center;
     gap: 6px;
-    padding: 6px 0;
-    font-size: 13px;
-    color: #6b7280;
     background: transparent;
     border: none;
+    padding: 6px 12px;
+    /* Geniş hover alanı */
+    color: #6b7280;
+    font-size: 13px;
     cursor: pointer;
-    transition: color 0.15s ease;
+    border-radius: 99px;
+    /* Tam yuvarlak kapsayıcı */
+    transition: all 0.2s ease;
 }
 
-.action-btn:hover {
+/* Upvote specific styling */
+.action-btn.upvote:hover {
+    color: #d93900;
+    /* Reddit orange */
+    background: rgba(217, 57, 0, 0.08);
+}
+
+.action-btn.upvote.upvoted {
+    color: #d93900;
+}
+
+/* Comment styling */
+.action-btn.comment:hover {
     color: #3b82f6;
+    background: rgba(59, 130, 246, 0.08);
 }
 
-.action-btn.liked {
-    color: #ef4444;
+/* Share styling */
+.action-btn.share:hover {
+    color: #059669;
+    background: rgba(5, 150, 105, 0.08);
 }
 
 .action-btn span {
     font-weight: 500;
+}
+
+/* SVG Fill utility */
+.fill-current {
+    fill: currentColor;
 }

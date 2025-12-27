@@ -1,30 +1,211 @@
 .hub-page {
     min-height: 100vh;
     background-color: #ffffff;
+    padding-top: 64px;
 }
 
 .hub-content {
-    max-width: 700px;
+    max-width: 900px;
     margin: 0 auto;
-    padding: 24px;
-    padding-top: 88px;
+    padding: 0 24px;
 }
 
-.hub-header {
-    margin-bottom: 24px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #e5e7eb;
+/* Header & Search */
+.hub-header-section {
+    padding-top: 32px;
 }
 
-.hub-header h1 {
-    font-size: 24px;
-    font-weight: 600;
-    color: #1f2937;
-    margin: 0 0 6px 0;
+.hub-header-top {
+    display: flex;
+    /* Başlık ve Arama yan yana olsun mu? Şimdilik alt alta daha iyi durur feed mantığında */
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 32px;
 }
 
-.hub-header p {
-    font-size: 14px;
-    color: #6b7280;
+.hub-title {
+    font-size: 48px;
+    /* Büyütüldü */
+    color: #3b82f6;
+    /* Tema mavisi */
     margin: 0;
+    letter-spacing: -1.5px;
+    /* Harfler birbirine daha yakın */
+    line-height: 1;
+    align-self: flex-end;
+    /* Sağa hizala */
+}
+
+.hub-title .font-bold {
+    font-weight: 700;
+}
+
+.hub-title .font-light {
+    font-weight: 300;
+}
+
+/* Search Bar */
+.hub-search-input {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    /* Karesel (6px hafif yumuşak) */
+    width: 100%;
+    transition: all 0.2s ease;
+    margin-bottom: 24px;
+    /* Altındaki çizgi ile mesafe */
+}
+
+.hub-search-input:focus-within {
+    background: #ffffff;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.hub-search-input svg {
+    color: #9ca3af;
+    flex-shrink: 0;
+}
+
+.hub-search-input input {
+    border: none;
+    outline: none;
+    font-size: 15px;
+    width: 100%;
+    color: #1f2937;
+    background: transparent;
+}
+
+.hub-search-input input::placeholder {
+    color: #9ca3af;
+}
+
+/* Separator Line */
+.hub-header-separator {
+    width: 100%;
+    height: 1px;
+    background-color: #e5e7eb;
+    margin-bottom: 24px;
+}
+
+/* Create Post */
+.create-post-wrapper {
+    padding-bottom: 24px;
+    border-bottom: 1px solid #e5e7eb;
+    /* Tek ayırıcı çizgi */
+    margin-bottom: 0;
+    /* Feed ile birleşik */
+}
+
+.create-post-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.current-user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+.create-post-input-area {
+    flex: 1;
+    padding-top: 10px;
+    /* Avatar hizası */
+}
+
+.create-post-input-area textarea {
+    width: 100%;
+    border: none;
+    resize: none;
+    outline: none;
+    font-size: 18px;
+    font-family: inherit;
+    color: #1f2937;
+    background: transparent;
+    padding: 0;
+    min-height: 28px;
+}
+
+.create-post-input-area textarea::placeholder {
+    color: #6b7280;
+    font-weight: 400;
+}
+
+.create-post-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 64px;
+    /* Avatar hizası boşluğu */
+}
+
+.create-post-icons {
+    display: flex;
+    gap: 12px;
+}
+
+.icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    color: #3b82f6;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.icon-btn:hover {
+    background: #eff6ff;
+}
+
+.post-send-btn {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 99px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.post-send-btn:hover:not(:disabled) {
+    background: #2563eb;
+}
+
+.post-send-btn:disabled {
+    background: #93c5fd;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Feed Container */
+.hub-feed-container {
+    /* Border top yok çünkü create post'un border-bottom'u var */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hub-content {
+        padding: 0 16px;
+    }
+
+    .create-post-actions {
+        padding-left: 0;
+        /* Mobilde sola dayalı */
+    }
 }
