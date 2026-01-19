@@ -28,8 +28,7 @@ function App() {
                     {/* Login Sayfası */}
                     <Route path="/login" element={<Login />} />
 
-                    {/* Landing Page */}
-                    <Route path="/landingpage" element={<LandingPage />} />
+
 
                     {/* Dashboard - Protected Route */}
                     <Route
@@ -103,11 +102,12 @@ function App() {
                         }
                     />
 
-                    {/* Root path -> dashboard'a yönlendir (ProtectedRoute kontrol edecek) */}
-                    <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                    {/* Landing Page as Default Root */}
+                    <Route path="/" element={<LandingPage />} />
+                    <Route path="/landingpage" element={<Navigate to="/" replace />} />
 
-                    {/* Herhangi başka bir route -> login'e yönlendir */}
-                    <Route path="*" element={<Navigate to="/login" replace />} />
+                    {/* Catch-all redirects to Landing Page instead of Login */}
+                    <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
             </Router>
         </AuthProvider>

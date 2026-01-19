@@ -1,0 +1,183 @@
+/* ========================================
+   nowEureka Landing Page Header Styles
+   Unique namespace: noweureka-*
+   ======================================== */
+
+/* Main Header Container */
+.noweureka-landing-page-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 54px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+/* Header Content Wrapper */
+.noweureka-header-content-wrapper {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+
+/* ========================================
+   Brand Logo Section
+   ======================================== */
+
+.noweureka-brand-logo-link {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.noweureka-logo-text {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e293b;
+    letter-spacing: -0.02em;
+}
+
+.noweureka-logo-highlight {
+    font-family: 'Dancing Script', 'Brush Script MT', cursive;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 1.5em;
+    /* Increased size */
+    padding-left: 2px;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ========================================
+   Primary Navigation
+   ======================================== */
+
+.noweureka-primary-navigation {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    height: 100%;
+}
+
+.noweureka-nav-link {
+    text-decoration: none;
+    color: #64748b;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.noweureka-nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #3b82f6;
+    transition: width 0.3s ease;
+}
+
+.noweureka-nav-link:hover {
+    color: #1e293b;
+}
+
+.noweureka-nav-link:hover::after {
+    width: 100%;
+}
+
+/* ========================================
+   Authentication Buttons Container
+   ======================================== */
+
+.noweureka-auth-buttons-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    height: 100%;
+}
+
+/* Log In Button - Minimal Style */
+.noweureka-login-button {
+    text-decoration: none;
+    color: #1e293b;
+    font-weight: 500;
+    font-size: 0.85rem;
+    padding: 0.4rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background: transparent;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.noweureka-login-button:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #0f172a;
+}
+
+/* Get Started Button - Primary CTA */
+.noweureka-signup-button {
+    text-decoration: none;
+    background: transparent;
+    color: #1e293b;
+    padding: 0.4rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.noweureka-signup-button:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    transform: translateY(-1px);
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
+
+@media (max-width: 768px) {
+    .noweureka-landing-page-header {
+        padding: 0 1rem;
+    }
+
+    .noweureka-primary-navigation {
+        display: none;
+    }
+
+    .noweureka-auth-buttons-container {
+        gap: 0.75rem;
+    }
+
+    .noweureka-login-button,
+    .noweureka-signup-button {
+        font-size: 0.8rem;
+        padding: 0.35rem 0.85rem;
+    }
+}

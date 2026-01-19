@@ -36,16 +36,19 @@ export const authAPI = {
   // Login
   login: async (credentials: LoginRequest): Promise<LoginResponse> => {
     try {
-      console.log('API Call - URL:', `${API_BASE_URL}/auth/login`);
-      console.log('API Call - Credentials:', { username: credentials.username, password: '***' });
-      
-      const response = await fetch(`${API_BASE_URL}/auth/login`, {
+      console.log('API Call - URL:', `${API_BASE_URL}/auth/signin`);
+      console.log('API Call - Credentials:', { email: credentials.username, password: '***' });
+
+      const response = await fetch(`${API_BASE_URL}/auth/signin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         credentials: 'include', // Cookie'ler için gerekli
-        body: JSON.stringify(credentials)
+        body: JSON.stringify({
+          email: credentials.username,
+          password: credentials.password
+        })
       });
 
       console.log('API Response Status:', response.status, response.statusText);
@@ -66,7 +69,7 @@ export const authAPI = {
 
       const data: LoginAPIResponse | LoginResponse = await response.json();
       console.log('API Success Response:', data);
-      
+
       // Response formatını kontrol et ve normalize et
       if ('success' in data && data.success && data.data) {
         // Yeni format: { success, data: { accessToken, user } }
@@ -144,5 +147,7 @@ export const authAPI = {
 
     localStorage.removeItem('accessToken');
     return response.json();
-  }
+  },
+
+  getGoogleAuthUrl: () => `${API_BASE_URL}/auth/google`
 };

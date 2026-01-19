@@ -1,0 +1,163 @@
+.features-pinned-section {
+    position: relative;
+    background: #0f172a;
+}
+
+.pinned-scroll-wrapper {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Sol Taraf - Sabit Başlık (KALDIRILDI) */
+.pinned-header {
+    display: none;
+}
+
+.pinned-header h2 {
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 1rem;
+    opacity: 0.2;
+}
+
+.pinned-header p {
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.8rem;
+}
+
+/* Kart Container - Daha Geniş */
+.pinned-cards-container {
+    width: 100%;
+    max-width: 1200px;
+    /* Daha geniş alan */
+    height: 70vh;
+    /* Ekranın %70'ini kaplasın */
+    position: relative;
+    z-index: 20;
+    padding: 0 2rem;
+}
+
+/* Kartın Kendisi */
+.feature-pinned-card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    border-radius: 32px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    /* Visual gets more space */
+    overflow: hidden;
+    /* İlk kart hariç diğerlerini sakla/pozisyonla (JS halledecek ama başlangıç için) */
+}
+
+.card-inner-content {
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card-icon-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.card-mini-sub {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #94a3b8;
+    margin-bottom: 0.5rem;
+}
+
+.card-big-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+}
+
+.card-text-body {
+    font-size: 1.1rem;
+    color: #475569;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+}
+
+.card-stats-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.stat-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #334155;
+    background: #f1f5f9;
+    padding: 6px 12px;
+    border-radius: 8px;
+}
+
+/* Görsel Alanı */
+.card-visual-area {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid #f1f5f9;
+}
+
+.abstract-shape {
+    width: 150px;
+    height: 150px;
+    border: 2px dashed;
+    border-radius: 50%;
+    animation: rotateSlow 20s linear infinite;
+}
+
+@keyframes rotateSlow {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 1024px) {
+    .pinned-header {
+        display: none;
+    }
+
+    .pinned-cards-container {
+        width: 90%;
+        height: 70vh;
+    }
+
+    .feature-pinned-card {
+        grid-template-columns: 1fr;
+    }
+
+    .card-visual-area {
+        display: none;
+    }
+}

@@ -22,7 +22,7 @@ export default function Header() {
         <header className="dashboard-header">
             {/* Left Section - Logo & Navigation */}
             <div className="header-left">
-                <Link to="/dashboard" className="header-logo">Bridge</Link>
+                <Link to="/dashboard" className="header-logo">nowEureka</Link>
 
                 {/* Create Dropdown */}
                 <div className="create-dropdown">
