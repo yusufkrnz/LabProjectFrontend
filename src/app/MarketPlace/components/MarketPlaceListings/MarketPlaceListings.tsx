@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Heart, ThumbsDown, MapPin, Star, Users, Code, Calendar, DollarSign, Briefcase, FolderKanban, Send, X, Eye } from 'lucide-react';
+import { Heart, ThumbsDown, MapPin, Star, Users, Code, Calendar, DollarSign, Briefcase, FolderKanban, Send, X, Eye } from 'lucide-react';
 import type { TabType, FilterType, MarketplaceListing } from '../../MarketPlace';
 import { marketplaceService } from '../../MarketPlace';
+import MarketPlaceSidebar from '../MarketPlaceSidebar/MarketPlaceSidebar';
 import './MarketPlaceListings.css';
 
 type MarketPlaceListingsProps = {
@@ -95,70 +96,27 @@ export default function MarketPlaceListings({
     };
 
     return (
-        <div className="marketplace-listings">
-            {/* Search Bar */}
-            <div className="listings-search-container">
-                <div className="listings-search">
-                    <Search size={18} />
-                    <input
-                        type="text"
-                        placeholder="Search for projects..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                    />
+        <div className="marketplace-listings-layout">
+            <MarketPlaceSidebar
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                activeTab={activeTab}
+                onTabChange={onTabChange}
+                activeFilter={activeFilter}
+                onFilterChange={onFilterChange}
+            />
+
+            {/* Main Content */}
+            <div className="listings-main">
+                <div className="listings-header-section">
+                    <h1 className="listings-title">
+                        {activeTab === 'projects' ? 'Volunteer Projects' : 'Paid Opportunities'}
+                    </h1>
+                    <p className="filter-description">{getFilterDescription()}</p>
                 </div>
-            </div>
 
-            {/* Tab Buttons */}
-            <div className="tab-buttons">
-                <button
-                    className={`tab-btn ${activeTab === 'projects' ? 'active' : ''}`}
-                    onClick={() => onTabChange('projects')}
-                >
-                    <FolderKanban size={16} />
-                    Projects
-                </button>
-                <button
-                    className={`tab-btn ${activeTab === 'finance' ? 'active' : ''}`}
-                    onClick={() => onTabChange('finance')}
-                >
-                    <Briefcase size={16} />
-                    Finance
-                </button>
-            </div>
-
-            {/* Title */}
-            <h1 className="listings-title">
-                {activeTab === 'projects' ? 'Volunteer Projects' : 'Paid Opportunities'}
-            </h1>
-
-            {/* Filter Tabs */}
-            <div className="filter-tabs">
-                <button
-                    className={`filter-tab ${activeFilter === 'best-matches' ? 'active' : ''}`}
-                    onClick={() => onFilterChange('best-matches')}
-                >
-                    Best Matches
-                </button>
-                <button
-                    className={`filter-tab ${activeFilter === 'most-recent' ? 'active' : ''}`}
-                    onClick={() => onFilterChange('most-recent')}
-                >
-                    Most Recent
-                </button>
-                <button
-                    className={`filter-tab ${activeFilter === 'saved' ? 'active' : ''}`}
-                    onClick={() => onFilterChange('saved')}
-                >
-                    Saved
-                </button>
-            </div>
-
-            {/* Filter Description */}
-            <p className="filter-description">{getFilterDescription()}</p>
-
-            {/* Listings */}
-            <div className="listings-list">
+                {/* Listings */}
+                <div className="listings-list">
                 {isLoading ? (
                     <div className="empty-state">
                         <p>Loading...</p>
@@ -249,10 +207,10 @@ export default function MarketPlaceListings({
 
                             {/* Footer with Apply */}
                             <div className="listing-footer">
-                                <span className="applications-count">
-                                    <Code size={14} />
-                                    {listing.applicationCount} applications
-                                </span>
+                                <div className="applications-count">
+                                    <strong>{listing.applicationCount}</strong>
+                                    <span>Applicants</span>
+                                </div>
                                 <div className="listing-footer-actions">
                                     <Link to={`/marketplace/${listing.id}/details`} className="view-details-btn">
                                         <Eye size={16} />
@@ -270,6 +228,7 @@ export default function MarketPlaceListings({
                         </div>
                     ))
                 )}
+                </div>
             </div>
 
             {/* Apply Modal */}

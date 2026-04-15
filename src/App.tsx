@@ -7,6 +7,7 @@ import Onboarding from "./app/Onboarding";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import Discover from "./app/Discover/Discover";
+import Feed from "./app/Feed/Feed";
 import UserProfile from "./app/UserProfile/UserProfile";
 import Inbox from "./app/Inbox/Inbox";
 import Settings from "./app/Settings/Settings";
@@ -20,6 +21,7 @@ import ProjectDetails from "./app/MyProjects/components/ProjectDetails";
 import Listing from "./app/Listings/Listing";
 import JoinProject from "./app/JoinProject/JoinProject";
 
+
 function App() {
     return (
         <AuthProvider>
@@ -30,69 +32,23 @@ function App() {
 
 
 
-                    {/* Dashboard - Protected Route */}
-                    <Route
-                        path="/dashboard"
-                        element={<Dashboard />}
-                    />
-                    <Route
-                        path="/discover"
-                        element={<Discover />}
-                    />
-                    <Route
-                        path="/profile"
-                        element={<UserProfile />}
-                    />
-                    <Route
-                        path="/userprofile"
-                        element={<UserProfile />}
-                    />
-                    <Route
-                        path="/inbox"
-                        element={<Inbox />}
-                    />
-                    <Route
-                        path="/settings"
-                        element={<Settings />}
-                    />
-                    <Route
-                        path="/marketplace"
-                        element={<MarketPlace />}
-                    />
-                    <Route
-                        path="/marketplace/:id/details"
-                        element={<MarketplaceDetails />}
-                    />
-                    <Route
-                        path="/manage-finance"
-                        element={<ManageFinance />}
-                    />
-                    <Route
-                        path="/messages"
-                        element={<Messages />}
-                    />
-                    <Route
-                        path="/project"
-                        element={<Project />}
-                    />
-                    <Route
-                        path="/my-projects"
-                        element={<MyProjects />}
-                    />
-                    <Route
-                        path="/project/:id"
-                        element={<ProjectDetails />}
-                    />
-                    <Route
-                        path="/listing"
-                        element={<Listing />}
-                    />
-                    <Route
-                        path="/join-project"
-                        element={<JoinProject />}
-                    />
+                    {/* Dashboard - Protected Routes */}
+                    <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                    <Route path="/discover" element={<ProtectedRoute><Discover /></ProtectedRoute>} />
+                    <Route path="/feed" element={<ProtectedRoute><Feed /></ProtectedRoute>} />
+                    <Route path="/profile" element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
+                    <Route path="/inbox" element={<ProtectedRoute><Inbox /></ProtectedRoute>} />
+                    <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+                    <Route path="/marketplace" element={<ProtectedRoute><MarketPlace /></ProtectedRoute>} />
+                    <Route path="/marketplace/:id/details" element={<ProtectedRoute><MarketplaceDetails /></ProtectedRoute>} />
+                    <Route path="/manage-finance" element={<ProtectedRoute><ManageFinance /></ProtectedRoute>} />
+                    <Route path="/messages" element={<ProtectedRoute><Messages /></ProtectedRoute>} />
+                    <Route path="/project" element={<ProtectedRoute><Project /></ProtectedRoute>} />
+                    <Route path="/my-projects" element={<ProtectedRoute><MyProjects /></ProtectedRoute>} />
+                    <Route path="/project/:id" element={<ProtectedRoute><ProjectDetails /></ProtectedRoute>} />
+                    <Route path="/listing" element={<ProtectedRoute><Listing /></ProtectedRoute>} />
+                    <Route path="/join-project" element={<ProtectedRoute><JoinProject /></ProtectedRoute>} />
 
-                    {/* Onboarding - Protected Route */}
                     <Route
                         path="/onboarding"
                         element={

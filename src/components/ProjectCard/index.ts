@@ -1,1 +1,1 @@
-export { default as ProjectCard, type Project, formatProjectDate } from './ProjectCard';
+export { default as ProjectCard, type Project } from './ProjectCard';

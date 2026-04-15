@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import './Header.css';
+import logo from '../../../../assets/logo/image.png';
 
 export default function LandingHeader() {
     const headerRef = useRef<HTMLElement>(null);
@@ -23,9 +24,7 @@ export default function LandingHeader() {
             <div className="noweureka-header-content-wrapper">
                 {/* Logo */}
                 <Link to="/" className="noweureka-brand-logo-link">
-                    <span className="noweureka-logo-text">
-                        now<span className="noweureka-logo-highlight">Eureka</span>
-                    </span>
+                    <img src={logo} alt="nowEureka Logo" className="noweureka-logo-image" style={{ height: '40px', objectFit: 'contain' }} />
                 </Link>
 
                 {/* Navigation Links */}

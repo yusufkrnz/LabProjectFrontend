@@ -7,14 +7,7 @@ export default function Hero() {
     const containerRef = useRef<HTMLDivElement>(null);
 
     useGSAP(() => {
-        // const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-
-        // Initial setup
-        // gsap.set(titleRef.current, { y: 50, opacity: 0 });
-
-        // Animation Sequence
-        // tl.to(titleRef.current, { y: 0, opacity: 1, duration: 1, delay: 0.3 });
-
+        // Animations cleared
     }, { scope: containerRef });
 
     return (
@@ -26,7 +19,7 @@ export default function Hero() {
 
             <div className="hero-content-wrapper">
                 <div className="hero-logo-container">
-
+                    
                 </div>
             </div>
 

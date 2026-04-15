@@ -1,0 +1,406 @@
+.profile-badge-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: sticky;
+    top: 40px;
+    margin-top: 50px;
+}
+
+/* Lanyard Strap */
+.badge-strap {
+    width: 24px;
+    height: 100px;
+    background: linear-gradient(90deg, #e2e2e2 0%, #f5f5f5 30%, #e2e2e2 60%, #d4d4d4 100%);
+    /* Texture effect for fabric */
+    background-image: repeating-linear-gradient(45deg,
+            rgba(0, 0, 0, 0.05) 0px,
+            rgba(0, 0, 0, 0.05) 1px,
+            transparent 1px,
+            transparent 3px);
+    position: absolute;
+    top: -100px;
+    /* Adjust based on where you want it to hang from */
+    z-index: 1;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.badge-clip {
+    width: 40px;
+    height: 35px;
+    background: #1a1a1a;
+    border-radius: 4px;
+    position: relative;
+    z-index: 2;
+    margin-bottom: -15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.badge-clip::before {
+    content: '';
+    width: 28px;
+    height: 20px;
+    border: 3px solid #333;
+    border-bottom: none;
+    border-radius: 12px 12px 0 0;
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 0;
+}
+
+
+
+/* The Card Itself */
+.id-card {
+    width: 420px;
+    background: #ffffff;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.15),
+        0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    /* Subtle noise texture */
+    isolation: isolate;
+    padding-bottom: 20px;
+}
+
+/* Texture Overlay */
+.id-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 5;
+    mix-blend-mode: overlay;
+}
+
+/* Mesh Gradient Top */
+.card-mesh-top {
+    height: 140px;
+    width: 100%;
+    background:
+        radial-gradient(at 10% 10%, hsla(140, 60%, 75%, 1) 0px, transparent 50%),
+        radial-gradient(at 90% 0%, hsla(180, 70%, 70%, 1) 0px, transparent 50%),
+        radial-gradient(at 50% 50%, hsla(160, 60%, 85%, 1) 0px, transparent 50%),
+        radial-gradient(at 80% 80%, hsla(200, 70%, 90%, 1) 0px, transparent 50%),
+        radial-gradient(at 0% 90%, hsla(150, 60%, 80%, 1) 0px, transparent 50%);
+    background-color: #e0f2fe;
+    position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    /* subtle separation */
+}
+
+/* Hole Punch */
+.card-hole {
+    width: 36px;
+    height: 12px;
+    background: #fff;
+    border-radius: 20px;
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+/* Decorative Star */
+.card-star {
+    position: absolute;
+    top: 60px;
+    left: 30px;
+    color: #fff;
+    opacity: 0.9;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
+}
+
+/* Bottom Content */
+/* Avatar */
+.badge-avatar-container {
+    position: absolute;
+    top: 100px;
+    /* Adjust based on gradient height */
+    left: 24px;
+    /* Aligned left */
+    z-index: 10;
+}
+
+.badge-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 4px solid #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
+}
+
+/* Bottom Content */
+.card-content {
+    flex: 1;
+    padding: 70px 24px 24px;
+    /* Increased top padding for avatar space */
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    position: relative;
+    /* For absolute positioning of social icons */
+}
+
+.badge-header-info {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 12px;
+}
+
+.badge-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #94a3b8;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.badge-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+    line-height: 1.2;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.badge-username {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 2px;
+}
+
+/* Social Row - Positioned Top Right */
+.badge-social-row {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    display: flex;
+    gap: 8px;
+    /* margin-bottom removed */
+}
+
+.badge-icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    color: #64748b;
+    transition: all 0.2s;
+}
+
+.badge-icon-btn:hover {
+    background: #e2e8f0;
+    color: #3b82f6;
+}
+
+/* Meta Top Right */
+.badge-meta-top-right {
+    position: absolute;
+    top: 72px;
+    /* Below social icons */
+    right: 24px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+}
+
+/* Combined Meta Styling */
+.badge-combined-meta {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.badge-meta-pipe {
+    color: #e2e8f0;
+    margin: 0 4px;
+    font-size: 14px;
+}
+
+/* Inline Stat Item */
+.b-stat-inline {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #334155;
+}
+
+.b-stat-inline span {
+    font-weight: 400;
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.badge-meta-title {
+    color: #3b82f6;
+    font-weight: 600;
+}
+
+.badge-meta-dot {
+    color: #cbd5e1;
+}
+
+.badge-meta-rate {
+    background: #f1f5f9;
+    padding: 2px 8px;
+    border-radius: 10px;
+    color: #475569;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.badge-stats-container {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.badge-follow-btn {
+    width: 100%;
+    background: #0f172a;
+    color: white;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.badge-follow-btn:hover {
+    background: #334155;
+    transform: translateY(-1px);
+}
+
+/* Achievements / Badges */
+.badge-achievements {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.achievement-title {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #94a3b8;
+    font-weight: 600;
+    margin-left: 4px;
+}
+
+.achievement-row {
+    display: flex;
+    gap: 8px;
+}
+
+.achievement-item {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #f0f9ff;
+    color: #3b82f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e0f2fe;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.achievement-item:hover {
+    transform: translateY(-2px);
+    background: #e0f2fe;
+    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);
+}
+
+.achievement-item.empty {
+    background: transparent;
+    border: 1px dashed #cbd5e1;
+    color: #94a3b8;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.achievement-item.empty:hover {
+    border-color: #3b82f6;
+    color: #3b82f6;
+}
+
+.badge-separator {
+    height: 1px;
+    background: #f1f5f9;
+    margin: 20px 0;
+    width: 100%;
+}
+
+/* Charts */
+.badge-charts {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    justify-content: space-between;
+}
+
+.b-chart-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.b-chart-box h4 {
+    font-size: 12px;
+    text-align: center;
+    color: #64748b;
+    margin: 0 0 4px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.chart-wrapper {
+    width: 100%;
+    height: 160px;
+    /* or whatever height is needed */
+}
+
+.badge-footer-company {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 11px;
+    color: #94a3b8;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}

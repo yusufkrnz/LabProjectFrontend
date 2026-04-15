@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import { gsap } from 'gsap';
 import { Eye, EyeOff, ArrowRight, Mail, Lock } from 'lucide-react';
@@ -16,9 +17,16 @@ const Login: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isForgotOpen, setIsForgotOpen] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
-  const { login, isLoading: authLoading } = useAuth();
 
+  const { login, register, user, isLoading: authLoading } = useAuth();
+  const navigate = useNavigate();
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
 
   // Simple entrance animation
   useEffect(() => {
@@ -29,12 +37,6 @@ const Login: React.FC = () => {
       );
     }
   }, [authLoading]);
-
-  // Loading durumunda render etme
-  if (authLoading) {
-    return <div>Yükleniyor...</div>;
-  }
-
   const handleInputFocus = (element: HTMLElement) => {
     gsap.to(element.parentElement, {
       borderColor: '#2563eb',
@@ -68,16 +70,25 @@ const Login: React.FC = () => {
     if (!isFlipped) {
       try {
         await login(email, password);
-        setIsLoading(false);
+        // Login success - redirection handled by useEffect
       } catch (error: any) {
         const message = error?.message || 'Giriş başarısız! Bilgilerinizi kontrol edin.';
         setErrorMessage(message);
         setIsLoading(false);
       }
     } else {
-      setTimeout(() => {
+      try {
+        const nameParts = fullName.trim().split(' ');
+        const firstName = nameParts[0];
+        const lastName = nameParts.slice(1).join(' ') || '';
+
+        await register(firstName, lastName, email, password);
         setIsLoading(false);
-      }, 900);
+      } catch (error: any) {
+        const message = error?.message || 'Kayıt başarısız! Lütfen tekrar deneyin.';
+        setErrorMessage(message);
+        setIsLoading(false);
+      }
     }
   };
 
@@ -241,7 +252,7 @@ const Login: React.FC = () => {
             <button
               type="button"
               className="register-link"
-              onClick={() => setIsFlipped((prev) => !prev)}
+              onClick={() => setIsFlipped(prev => !prev)}
             >
               {isFlipped ? 'Giriş yap' : 'Kayıt ol'}
             </button>

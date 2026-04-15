@@ -11,6 +11,7 @@ interface User {
 interface AuthContextType {
   user: User | null;
   login: (username: string, password: string) => Promise<void>;
+  register: (username: string, surname: string, email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   isLoading: boolean;
   isAuthenticated: boolean;
@@ -26,7 +27,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Sayfa yüklendiğinde token kontrol et
     const token = localStorage.getItem('accessToken');
     const userData = localStorage.getItem('user');
-    
+
     if (token && userData) {
       try {
         // userData'nın geçerli bir JSON string olup olmadığını kontrol et
@@ -60,15 +61,37 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.log('AuthContext - Login attempt:', { username });
       const result = await authAPI.login({ username, password });
       console.log('AuthContext - Login success, saving to localStorage');
-      
+
       localStorage.setItem('accessToken', result.accessToken);
       localStorage.setItem('user', JSON.stringify(result.user));
       setUser(result.user);
-      
+
       console.log('AuthContext - User set:', result.user);
     } catch (error) {
       console.error('AuthContext - Login error:', error);
       // Hata mesajını yukarıya fırlat
+      throw error;
+    }
+  };
+
+  const register = async (username: string, surname: string, email: string, password: string) => {
+    try {
+      console.log('AuthContext - Register attempt:', { email });
+      const result = await authAPI.register({
+        username,
+        surname,
+        eMail: email,
+        password,
+        role: 'learner'
+      });
+      console.log('AuthContext - Register success');
+
+      // Register returns the same structure as login (tokens + user)
+      localStorage.setItem('accessToken', result.accessToken);
+      localStorage.setItem('user', JSON.stringify(result.user));
+      setUser(result.user);
+    } catch (error) {
+      console.error('AuthContext - Register error:', error);
       throw error;
     }
   };
@@ -90,6 +113,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     <AuthContext.Provider value={{
       user,
       login,
+      register,
       logout,
       isLoading,
       isAuthenticated: !!user

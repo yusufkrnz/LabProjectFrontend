@@ -1,6 +1,20 @@
 import { Link } from 'react-router-dom';
-import { Eye, Calendar, Users, Code, DollarSign, Heart } from 'lucide-react';
+import { Github } from 'lucide-react';
 import './ProjectCard.css';
+
+export type TeamMember = {
+    name: string;
+    role: string;
+    avatar: string;
+    rating: number;
+    initials: string;
+};
+
+export type Language = {
+    name: string;
+    percentage: number;
+    color: string;
+};
 
 export type Project = {
     id: string;
@@ -11,89 +25,69 @@ export type Project = {
     budget?: string;
     budgetType?: string;
     teamSize: number;
-    languages: string[];
+    languages: Language[];
+    technologies: string[];
+    teamMembers: TeamMember[];
     createdAt: string;
     status: 'active' | 'completed' | 'paused';
+    reviewCount: number;
+    rating: number;
+    githubUrl?: string;
 };
 
 type ProjectCardProps = {
     project: Project;
 };
 
-const TYPE_LABELS: Record<string, string> = {
-    opensource: 'Open Source',
-    commercial: 'Commercial',
-    portfolio: 'Portfolio',
-    academic: 'Academic',
-};
-
-const STATUS_COLORS: Record<string, string> = {
-    active: 'status-active',
-    completed: 'status-completed',
-    paused: 'status-paused',
-};
-
-export const formatProjectDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffTime = Math.abs(now.getTime() - date.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays === 0) return 'Today';
-    if (diffDays === 1) return 'Yesterday';
-    if (diffDays < 7) return `${diffDays} days ago`;
-    if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
-    return `${Math.floor(diffDays / 30)} months ago`;
-};
-
 export default function ProjectCard({ project }: ProjectCardProps) {
     return (
         <div className="project-card">
-            <div className="project-main">
-                <div className="project-info">
-                    <div className="project-title-row">
-                        <Link to={`/project/${project.id}`} className="project-name">{project.name}</Link>
-                        <span className={`project-type ${project.type}`}>
-                            {TYPE_LABELS[project.type]}
-                        </span>
-                        <span className={`project-status ${STATUS_COLORS[project.status]}`}>
-                            {project.status}
-                        </span>
-                    </div>
-                    <p className="project-description">{project.description}</p>
-                    <div className="project-meta">
-                        <span className="meta-item">
-                            <Code size={14} />
-                            {project.languages.join(', ')}
-                        </span>
-                        <span className="meta-item">
-                            <Users size={14} />
-                            {project.teamSize} {project.teamSize === 1 ? 'member' : 'members'}
-                        </span>
-                        <span className="meta-item">
-                            {project.workStyle === 'paid' ? (
-                                <>
-                                    <DollarSign size={14} />
-                                    Paid
-                                </>
-                            ) : (
-                                <>
-                                    <Heart size={14} />
-                                    Volunteer
-                                </>
-                            )}
-                        </span>
-                        <span className="meta-item">
-                            <Calendar size={14} />
-                            Updated {formatProjectDate(project.createdAt)}
-                        </span>
+            <div className="folder-content">
+                {/* 1. Name */}
+                <div className="folder-header">
+                    <Link to={`/project/${project.id}`} className="folder-title" title={project.name}>
+                        {project.name}
+                    </Link>
+                </div>
+
+                {/* 2. About */}
+                <div className="folder-section-about">
+                    <p className="folder-description" title={project.description}>
+                        {project.description}
+                    </p>
+                </div>
+
+                {/* 3. Tech Stack */}
+                <div className="folder-section-tech">
+                    <div className="folder-tech-stack">
+                        {project.technologies.slice(0, 3).map((tech, i) => (
+                            <span key={i} className="tech-chip">{tech}</span>
+                        ))}
+                        {project.technologies.length > 3 && (
+                            <span className="tech-chip">+{project.technologies.length - 3}</span>
+                        )}
                     </div>
                 </div>
-                <div className="project-actions">
-                    <Link to={`/project/${project.id}`} className="details-btn">
-                        <Eye size={16} />
-                        Details
-                    </Link>
+
+                {/* Footer Row: Contributors & Link */}
+                <div className="card-footer-row">
+                    <div className="folder-section-contributors">
+                        <div className="folder-contributors">
+                            {project.teamMembers.map((member, i) => (
+                                <div key={i} className="contributor-avatar" title={`${member.name} - ${member.role}`}>
+                                    {member.initials}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="folder-footer">
+                        {project.githubUrl && (
+                            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="github-link-btn" title="View on GitHub">
+                                <Github size={18} />
+                            </a>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

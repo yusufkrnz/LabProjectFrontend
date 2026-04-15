@@ -12,6 +12,13 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     return <div>Loading...</div>;
   }
 
+  // DEV_BYPASS: Geliştirme aşamasında login'i atlamak (bypass) için true yapın
+  const DEV_BYPASS = true;
+
+  if (DEV_BYPASS) {
+    return <>{children}</>;
+  }
+
   // localStorage'dan da kontrol et (state güncellenmemiş olabilir)
   const token = localStorage.getItem('accessToken');
   const userData = localStorage.getItem('user');
