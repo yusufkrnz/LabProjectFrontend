@@ -1,120 +1,86 @@
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Github, Network, BellRing, Briefcase, SearchCode, MessageSquareCode } from 'lucide-react';
+import { Sparkles, Network, BellRing } from 'lucide-react';
 import './HowItWorks.css';
 
-gsap.registerPlugin(ScrollTrigger);
-
-const flows = {
-    talent: [
-        {
-            icon: <Github size={32} />,
-            title: "Kayıt & YZ Analizi",
-            description: "Sisteme dahil olursun. Yapay zeka tüm geçmişini ve teknoloji yığınını analiz ederek gerçek yetenek modelini çıkarır.",
-            color: "#3b82f6"
-        },
-        {
-            icon: <Network size={32} />,
-            title: "Vektörel Konumlandırma",
-            description: "Yeteneklerine en uygun 'developer kümesine' (Cluster) matematiksel olarak yerleştirilirsin.",
-            color: "#8b5cf6"
-        },
-        {
-            icon: <BellRing size={32} />,
-            title: "Semantik Eşleşme",
-            description: "Sisteme düşen her yeni proje anında vektörel taranır. Tam senin alanına göre bir ilanda anında bildirim alırsın.",
-            color: "#10b981"
-        }
-    ],
-    client: [
-        {
-            icon: <Briefcase size={32} />,
-            title: "İlan veya Proje Belirleme",
-            description: "Aradığın stajyer, çalışan veya yaptırmak istediğin projeyi özellikleriyle sisteme girersin.",
-            color: "#f59e0b"
-        },
-        {
-            icon: <SearchCode size={32} />,
-            title: "YZ Küme Taraması",
-            description: "Yapay zeka motorumuz, tam aradığın teknoloji yığınına uyan adayları geniş veri tabanından anında filtreler.",
-            color: "#f43f5e"
-        },
-        {
-            icon: <MessageSquareCode size={32} />,
-            title: "Nokta Atışı Eşleşme",
-            description: "Yığınla CV incelemeden doğrudan YZ'nin belirlediği en ideal yeteneklerle iletişime geçer ve çalışmaya başlarsın.",
-            color: "#0ea5e9"
-        }
-    ]
-};
+const steps = [
+    {
+        title: "CV & GitHub Füzyonu",
+        desc: "Özgeçmişinizi GitHub repolarınızla birleştirin. AI kod kalitenizi ve teknik geçmişinizi saniyeler içinde analiz eder.",
+        color: "linear-gradient(135deg, #a1c4fd, #c2e9fb)",
+        icon: <Sparkles size={48} strokeWidth={1.5} />
+    },
+    {
+        title: "360° Vektörel Konum",
+        desc: "Hard ve Soft skill'leriniz matematiksel vektörlere dönüşür, pazarın en doğru kümesine objektif olarak yerleştirilirsiniz.",
+        color: "linear-gradient(135deg, #ff9a9e, #fecfef)",
+        icon: <Network size={48} strokeWidth={1.5} />
+    },
+    {
+        title: "Hesap Verilebilir Bağlantı",
+        desc: "Neden eşleştiğinizi bildiğiniz, her verinin doğrulanabilir olduğu şeffaf bir platformda projelerle tanışın.",
+        color: "linear-gradient(135deg, #e0c3fc, #8ec5fc)",
+        icon: <BellRing size={48} strokeWidth={1.5} />
+    }
+];
 
 export default function HowItWorks() {
-    const [activeTab, setActiveTab] = useState<'talent' | 'client'>('talent');
     const containerRef = useRef<HTMLDivElement>(null);
-    const timelineRef = useRef<HTMLDivElement>(null);
 
-    // Animasyonları tetiklemek için aktif tab değiştiğinde GSAP çalıştır
     useGSAP(() => {
-        if (!timelineRef.current) return;
-
-        const cards = gsap.utils.toArray<HTMLElement>('.hiw-horizontal-card');
-        const lineFill = timelineRef.current.querySelector('.hiw-horizontal-line-fill') as HTMLElement;
-
-        // Reset
-        gsap.set(cards, { y: 30, opacity: 0 });
-        gsap.set(lineFill, { width: "0%" });
-
-        // Tab Değişim Animasyonu
-        const tl = gsap.timeline();
-        tl.to(lineFill, { width: "100%", duration: 1, ease: "power2.inOut" }, 0)
-          .to(cards, { y: 0, opacity: 1, duration: 0.6, stagger: 0.2, ease: "back.out(1.7)" }, 0.2);
-
-    }, { scope: containerRef, dependencies: [activeTab] });
+        gsap.fromTo('.ag-card-wrapper', 
+            { opacity: 0, y: 40 },
+            { opacity: 1, y: 0, duration: 0.8, stagger: 0.2, ease: 'power3.out', scrollTrigger: {
+                trigger: containerRef.current,
+                start: 'top 70%'
+            }}
+        );
+    }, { scope: containerRef });
 
     return (
-        <section className="how-it-works-section" ref={containerRef}>
-            <div className="hiw-header">
-                <span className="hiw-eyebrow">Nasıl Çalışır?</span>
-                <h2 className="hiw-title">Yetenekten Projeye Giden Yol</h2>
-                <p className="hiw-subtitle">
-                    Yapay zeka altyapımızla sıradan özgeçmişleri ortadan kaldırıyor, doğru insanı doğru işle buluşturuyoruz.
-                </p>
-                
-                {/* Tab Switcher */}
-                <div className="hiw-tabs-container">
-                    <button 
-                        className={`hiw-tab-btn ${activeTab === 'talent' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('talent')}
-                    >
-                        Yetenekler İçin
-                    </button>
-                    <button 
-                        className={`hiw-tab-btn ${activeTab === 'client' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('client')}
-                    >
-                        İş & Proje Verenler İçin
-                    </button>
-                </div>
+        <section className="how-it-works-alterego" ref={containerRef} id="how-it-works">
+            <div className="ag-header">
+                <h2>Yetenekten Projeye Giden Yol</h2>
+                <p>Sistemin nasıl çalıştığını tek bakışta gör. Yapay zeka senin için çalışsın.</p>
             </div>
 
-            <div className="hiw-horizontal-wrapper" ref={timelineRef}>
-                <div className="hiw-horizontal-line-bg"></div>
-                <div className="hiw-horizontal-line-fill"></div>
-
-                <div className="hiw-horizontal-grid">
-                    {flows[activeTab].map((step, index) => (
-                        <div key={`${activeTab}-${index}`} className="hiw-horizontal-card">
-                            <div className="hiw-node-indicator" style={{ borderColor: step.color }}></div>
-                            <div className="hiw-icon-wrapper" style={{ backgroundColor: `${step.color}15`, color: step.color }}>
-                                {step.icon}
-                            </div>
-                            <h3 className="hiw-step-title">{step.title}</h3>
-                            <p className="hiw-step-desc">{step.description}</p>
+            <div className="ag-cards-grid">
+                {steps.map((step, index) => (
+                    <div className="ag-card-wrapper" key={index}>
+                        
+                        <div className="ag-holographic-glow"></div>
+                        
+                        <div className="ag-backdrop-silhouettes">
+                            <div className="ag-blob ag-blob-1" style={{ background: step.color }}></div>
+                            <div className="ag-blob ag-blob-2"></div>
                         </div>
-                    ))}
-                </div>
+
+                        <div className="ag-glass-panel">
+                            <div className="ag-inner-content">
+                                <div className="ag-icon-wrapper">
+                                    {step.icon}
+                                </div>
+                                <h3>{step.title}</h3>
+                                <p>{step.desc}</p>
+                            </div>
+                        </div>
+
+                        <div className="ag-notch-cutout">
+                        </div>
+                        <div className="ag-pill-btn static">
+                            ADIM 0{index + 1}
+                        </div>
+                    </div>
+                ))}
+            </div>
+            
+            <div className="ag-footer-info">
+                <span className="ag-footer-text left">
+                    <img src="/noweurekalogo.png" alt="nowEureka Logo" className="ag-mini-logo" /> 
+                    nowEureka
+                </span>
+                <span className="ag-footer-text right">YZ_Eşleşme_Sistemi</span>
             </div>
         </section>
     );

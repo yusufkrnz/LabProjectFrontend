@@ -1,148 +1,504 @@
-.hero-section {
+/* Container for the full screen */
+.ss-hero-section {
     position: relative;
-    width: 100%;
-    min-height: 100vh;
+    width: 100vw;
+    height: 100vh;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
+    background: #f7f9fa;
+    /* Matches new light global theme */
     overflow: hidden;
-    background: linear-gradient(135deg, #e8f0f7 0%, #f5f8fa 50%, #e8f4f0 100%);
-    padding-bottom: 3rem;
+    font-family: 'Inter', -apple-system, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
-.hero-background-elements {
+.ss-hero-section.perspective {
+    perspective: 1500px;
+}
+
+/* --- MONOLITHIC DOORS --- */
+.ss-doors-container {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
+    height: 100vh;
+    z-index: 50;
+    /* On top of the hero card */
+    display: flex;
+    overflow: hidden;
+    pointer-events: none;
+    /* Let scroll happen, no blocking */
+}
+
+.ss-door {
+    position: relative;
+    width: calc(50% + 1px); /* Slight overlap absolutely destroys sub-pixel gaps */
     height: 100%;
-    z-index: 0;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    transform-style: preserve-3d;
+}
+
+.ss-door.door-left {
+    justify-content: flex-end;
+    transform-origin: left center;
+}
+
+.ss-door.door-right {
+    justify-content: flex-start;
+    transform-origin: right center;
+    margin-left: -1px; /* Compensate for the +1px overlap to keep the seam perfect */
+}
+
+/* EXACT mathematical split technique */
+.ss-door.door-left .left-inner {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.ss-door.door-right .right-inner {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+/* 100vw tracking container */
+.door-content-wrapper {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 3rem; /* Space between logo and text */
+}
+
+.left-wrapper {
+    left: 0;
+}
+
+.right-wrapper {
+    left: -50vw; /* Perfect mathematical split */
+}
+
+.door-logo-img {
+    height: 120px;
+    width: auto;
+    object-fit: contain;
+    margin-bottom: 1.5rem;
+}
+
+.door-brand-name {
+    font-family: 'Outfit', sans-serif;
+    font-size: 3.8rem;
+    color: #0d1418;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+}
+
+.door-call {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.2rem;
+    color: #556670;
+    font-weight: 500;
+    margin: 0;
+    letter-spacing: 0.1em;
+    opacity: 0.8;
+}
+
+/* Delicate scroll hint at bottom */
+.scroll-door-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #1a2830;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    z-index: 60;
     pointer-events: none;
 }
 
-.gradient-sphere {
+/* --- REVEALED EUREKA SPACE --- */
+.ss-card-wrapper {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transform-origin: center center;
+}
+
+/* Base Card */
+.ss-card {
+    position: relative;
+    z-index: 2;
+    width: 100vw;
+    height: 100vh;
+    background: #0d1418;
+    /* Deep dark base */
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 2.5rem 5vw;
+    overflow: hidden;
+}
+
+/* Advanced AI Aurora Background */
+.ss-card::before,
+.ss-card::after {
+    content: '';
     position: absolute;
     border-radius: 50%;
     filter: blur(100px);
     opacity: 0.5;
+    z-index: 0;
+    pointer-events: none;
+    animation: aurora-drift 15s infinite alternate ease-in-out;
 }
 
-.sphere-1 {
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(26, 54, 93, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
-    top: -150px;
-    left: -150px;
+.ss-card::before {
+    top: -10%;
+    left: -10%;
+    width: 60%;
+    height: 60%;
+    background: radial-gradient(circle, #2a5a75, transparent 70%);
 }
 
-.sphere-2 {
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(134, 239, 172, 0.2) 0%, rgba(255, 255, 255, 0) 70%);
-    bottom: -100px;
-    right: -100px;
+.ss-card::after {
+    bottom: -10%;
+    right: -10%;
+    width: 70%;
+    height: 70%;
+    background: radial-gradient(circle, #1a3242, transparent 60%);
+    animation-delay: -5s;
 }
 
-.hero-content-wrapper {
-    text-align: center;
+@keyframes aurora-drift {
+    0% {
+        transform: scale(1) translate(0, 0);
+    }
+
+    100% {
+        transform: scale(1.1) translate(50px, -50px);
+    }
+}
+
+.ss-pinstripes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 1;
+    mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+    -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+}
+
+/* Header Inside Card */
+.ss-header {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.ss-brand-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #ffffff;
     z-index: 5;
-    max-width: 800px;
-    padding: 0 2rem;
 }
 
-.hero-logo-container {
+.ss-logo-img {
+    height: 32px;
+    object-fit: contain;
+}
+
+.ss-brand-text {
+    font-size: 1.3rem;
+    letter-spacing: -0.02em;
+}
+
+.ss-bold {
+    font-weight: 700;
+}
+
+.ss-light {
+    font-weight: 400;
+    font-style: italic;
+    color: #a3b8c2;
+}
+
+.ss-nav {
+    display: flex;
+    gap: 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    padding: 0.6rem 2rem;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ss-nav a {
+    color: #a3b8c2;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.ss-nav a:hover {
+    color: #ffffff;
+}
+
+.ss-contact-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.ss-contact-btn:hover {
+    background: #ffffff;
+    color: #1a2830;
+}
+
+/* Main Content Typography */
+.ss-content {
+    position: relative;
+    z-index: 2;
+    flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 2rem;
-    margin-bottom: 2rem;
+    text-align: center;
+    padding-bottom: 4rem;
 }
 
-.hero-logo-image {
-    width: 120px;
-    height: 120px;
-    object-fit: contain;
-    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.1));
-    animation: logoFloat 3s ease-in-out infinite;
+.waitlist-badge {
+    color: #a3b8c2;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-@keyframes logoFloat {
-
-    0%,
-    100% {
-        transform: translateY(0px);
-    }
-
-    50% {
-        transform: translateY(-10px);
-    }
+.waitlist-badge::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    background: #a3b8c2;
+    border-radius: 50%;
 }
 
-.hero-title {
-    font-size: 4rem;
-    font-weight: 800;
-    letter-spacing: -0.05em;
-    color: #1e293b;
-    margin: 0;
+.ss-main-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 4.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 1.5rem 0;
+    letter-spacing: -0.04em;
     line-height: 1.1;
 }
 
-.text-highlight {
-    font-family: 'Dancing Script', 'Brush Script MT', cursive;
-    font-style: italic;
-    font-size: 1.3em;
-    /* Increased size relative to parent */
-    background: linear-gradient(135deg, #1a365d 0%, #2563eb 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-left: 8px;
-    padding-right: 4px;
-    /* Prevent italic cut-off */
-}
-
-.hero-subtitle {
-    font-size: 1.25rem;
-    color: #64748b;
-    margin-bottom: 3rem;
+.ss-subtitle {
+    color: #a3b8c2;
+    font-size: 1.05rem;
     line-height: 1.6;
+    max-width: 600px;
+    margin-bottom: 2.5rem;
 }
 
-.cta-button {
-    padding: 1rem 2.5rem;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: white;
-    background: #1e293b;
-    border: none;
+.ss-cta-btn {
+    background: #ffffff;
+    color: #1a2830;
+    text-decoration: none;
+    padding: 0.85rem 2.5rem;
     border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    overflow: hidden;
-    position: relative;
+    font-weight: 600;
+    font-size: 0.95rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: inline-block;
 }
 
-.cta-button:hover {
-    background: #0f172a;
+.ss-cta-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-.arrow-icon {
-    font-size: 1.2em;
-    transition: transform 0.3s ease;
-}
-
-.cta-button:hover .arrow-icon {
-    transform: translateX(4px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
 }
 
 @media (max-width: 768px) {
-    .hero-title {
+    .ss-nav {
+        display: none;
+    }
+
+    .ss-main-title {
         font-size: 3rem;
+    }
+
+    .ss-card {
+        padding: 1.5rem;
+        height: 100vh;
+    }
+}
+
+/* --- SEARCH & MARKETPLACE CTA --- */
+.ss-search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    margin-top: 1rem;
+    width: 100%;
+    max-width: 650px;
+    z-index: 10;
+}
+
+.ss-search-box {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 50px;
+    padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+    width: 100%;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.ss-search-box:focus-within {
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+}
+
+.search-icon {
+    color: #a3b8c2;
+    margin-right: 0.8rem;
+}
+
+.ss-search-box input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 1rem;
+    outline: none;
+    font-family: inherit;
+    min-width: 0;
+}
+
+.ss-search-box input::placeholder {
+    color: #7a8f99;
+}
+
+.ss-search-btn {
+    background: #ffffff;
+    color: #0d1418;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ss-search-btn:hover {
+    background: #e2e8eb;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+}
+
+.ss-popular-tags {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.ss-popular-tags span {
+    color: #7a8f99;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.ss-popular-tags a {
+    color: #a3b8c2;
+    text-decoration: none;
+    font-size: 0.85rem;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.2s ease;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.ss-popular-tags a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 768px) {
+    .ss-search-box {
+        flex-direction: column;
+        border-radius: 15px;
+        padding: 1rem;
+        gap: 1rem;
+        align-items: stretch;
+    }
+    
+    .ss-search-box input {
+        text-align: center;
+        width: 100%;
+        padding: 0.5rem 0;
+    }
+    
+    .ss-search-btn {
+        width: 100%;
+        border-radius: 10px;
+        padding: 1rem;
+    }
+    
+    .search-icon {
+        display: none;
     }
 }

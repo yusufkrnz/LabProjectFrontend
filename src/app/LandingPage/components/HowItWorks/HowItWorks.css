@@ -1,184 +1,261 @@
-.how-it-works-section {
+.how-it-works-alterego {
     padding: 6rem 2rem;
-    background-color: #ffffff;
+    background-color: #f7f9fa; /* Matches page */
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
     overflow: hidden;
+    min-height: 100vh;
+    font-family: 'Inter', -apple-system, sans-serif;
 }
 
-.hiw-header {
+.ag-header {
     text-align: center;
-    max-width: 800px;
-    margin-bottom: 4rem;
+    margin-bottom: 5rem;
 }
 
-.hiw-eyebrow {
-    font-size: 0.9rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: #3b82f6;
-    display: block;
+.ag-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    color: #1a2830;
     margin-bottom: 1rem;
+    letter-spacing: -0.02em;
 }
 
-.hiw-title {
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: #1e293b;
-    margin-bottom: 1.5rem;
-    line-height: 1.2;
-}
-
-.hiw-subtitle {
+.ag-header p {
+    color: #4a636f;
     font-size: 1.1rem;
-    color: #64748b;
-    line-height: 1.6;
-    margin-bottom: 2rem;
 }
 
-/* Tabs */
-.hiw-tabs-container {
-    display: inline-flex;
-    background-color: #f1f5f9;
-    padding: 6px;
-    border-radius: 50px;
-    gap: 8px;
-}
-
-.hiw-tab-btn {
-    padding: 12px 24px;
-    border-radius: 50px;
-    border: none;
-    background: transparent;
-    color: #64748b;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.hiw-tab-btn.active {
-    background-color: #ffffff;
-    color: #1e293b;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-}
-
-/* Horizontal Wrapper */
-.hiw-horizontal-wrapper {
-    position: relative;
-    width: 100%;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding-top: 2rem;
-}
-
-/* Horizontal Line */
-.hiw-horizontal-line-bg {
-    position: absolute;
-    top: 55px; /* İkonların arkasından/üstünden geçecek hiza */
-    left: 5%;
-    width: 90%;
-    height: 4px;
-    background-color: #f1f5f9;
-    border-radius: 4px;
-    z-index: 1;
-}
-
-.hiw-horizontal-line-fill {
-    position: absolute;
-    top: 55px;
-    left: 5%;
-    height: 4px;
-    background: linear-gradient(to right, #3b82f6, #8b5cf6, #10b981);
-    border-radius: 4px;
-    z-index: 2;
-    width: 0%; /* GSAP will animate */
-}
-
-/* Grid Layout for Cards */
-.hiw-horizontal-grid {
+/* 3-Column Grid */
+.ag-cards-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+/* Alterego Card Container */
+.ag-card-wrapper {
     position: relative;
-    z-index: 3;
+    width: 100%;
+    height: 480px;
+    filter: drop-shadow(0 30px 60px rgba(0,0,0,0.06));
+    display: flex;
+    align-items: flex-end; /* To align notch */
 }
 
-.hiw-horizontal-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    padding: 2.5rem 1.5rem 1.5rem 1.5rem;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
-    text-align: center;
-    position: relative;
-    margin-top: 25px; /* Çizgi ve icon hizalaması için boşluk */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.hiw-horizontal-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.06);
-}
-
-.hiw-node-indicator {
+/* Holographic Glowing Backplate to create the rainbow rim */
+.ag-holographic-glow {
     position: absolute;
-    top: -30px; /* Çizginin hizasına çekiyoruz */
+    inset: -2px; /* Rim size */
+    background: linear-gradient(120deg, #ff9a9e, #fecfef, #a1c4fd, #c2e9fb, #e0c3fc);
+    background-size: 200% 200%;
+    animation: ag-holo-pan 6s ease infinite;
+    border-radius: 42px;
+    z-index: 1;
+    filter: blur(4px);
+    opacity: 0.9;
+}
+
+@keyframes ag-holo-pan {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Silhouettes / Blobs */
+.ag-backdrop-silhouettes {
+    position: absolute;
+    inset: 5px;
+    z-index: 2;
+    overflow: hidden;
+    border-radius: 38px;
+    background: #ffffff;
+}
+
+.ag-blob {
+    position: absolute;
+    filter: blur(50px);
+    border-radius: 50%;
+    opacity: 0.8;
+}
+
+.ag-blob-1 {
+    width: 250px;
+    height: 250px;
+    top: 50%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+    background: #a1c4fd;
+}
+
+.ag-blob-2 {
+    width: 200px;
+    height: 200px;
+    top: 60%;
+    right: 15%;
+    transform: translate(0, -50%);
+    background: rgba(0,0,0,0.03);
+}
+
+/* Main Frosted Glass Panel */
+.ag-glass-panel {
+    position: absolute;
+    inset: 0px;
+    z-index: 3;
+    border-radius: 40px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Inside Content */
+.ag-inner-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 2.5rem;
+    height: 100%;
+    justify-content: center;
+}
+
+.ag-icon-wrapper {
+    color: #1a2830;
+    margin-bottom: 2rem;
+    opacity: 0.8;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 1rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+.ag-inner-content h3 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #1a2830;
+    margin-bottom: 1rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.ag-inner-content p {
+    font-size: 0.95rem;
+    color: #3b5059;
+    line-height: 1.6;
+}
+
+/* The Notch Cutout Background Match & Button Array */
+.ag-notch-cutout {
+    position: absolute;
+    bottom: -1px; /* Hug bottom */
     left: 50%;
     transform: translateX(-50%);
-    width: 20px;
-    height: 20px;
-    background-color: #ffffff;
-    border: 4px solid;
-    border-radius: 50%;
-    z-index: 4;
+    width: 140px;
+    height: 38px;
+    background-color: #f7f9fa; /* Matches page body perfectly */
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    z-index: 10;
 }
 
-.hiw-icon-wrapper {
-    width: 60px;
-    height: 60px;
-    border-radius: 16px;
-    display: inline-flex;
+/* Reverse Corners for the Apple Dynamic Island Effect */
+.ag-notch-cutout::before, .ag-notch-cutout::after {
+    content: '';
+    position: absolute;
+    bottom: 0px;
+    width: 16px;
+    height: 16px;
+    background: transparent;
+    pointer-events: none;
+}
+
+.ag-notch-cutout::before {
+    left: -16px;
+    border-bottom-right-radius: 16px;
+    box-shadow: 8px 0 0 0 #f7f9fa;
+}
+
+.ag-notch-cutout::after {
+    right: -16px;
+    border-bottom-left-radius: 16px;
+    box-shadow: -8px 0 0 0 #f7f9fa;
+}
+
+/* The Dark Pill Button */
+.ag-pill-btn.static {
+    position: absolute;
+    bottom: 8px; /* Pops out exactly inside the notch */
+    left: 50%;
+    transform: translateX(-50%);
+    background: #111315;
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 30px;
+    padding: 6px 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.15);
+    z-index: 15;
+    white-space: nowrap;
+}
+
+.ag-footer-info {
+    margin-top: 6rem;
+    display: flex;
+    width: 100%;
+    max-width: 1300px;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    margin: 0 auto 1.5rem auto;
+    font-size: 0.85rem;
+    color: #8cb9d5;
+    font-weight: 500;
 }
 
-.hiw-step-title {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: #1e293b;
-    margin-bottom: 1rem;
+.ag-footer-text.left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.hiw-step-desc {
-    color: #64748b;
-    line-height: 1.6;
-    font-size: 0.95rem;
+.ag-mini-logo {
+    height: 20px;
+    object-fit: contain;
+    filter: brightness(0.8) contrast(1.2);
 }
 
-/* Responsive Styles */
-@media (max-width: 900px) {
-    .hiw-horizontal-grid {
+.ag-footer-text.right {
+    text-align: right;
+}
+
+@media (max-width: 1024px) {
+    .ag-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .ag-cards-grid {
         grid-template-columns: 1fr;
-        gap: 3rem;
     }
-    
-    .hiw-horizontal-line-bg,
-    .hiw-horizontal-line-fill,
-    .hiw-node-indicator {
-        display: none; /* Mobilde çizgiyi kapatıyoruz, sadece kartlar alt alta */
+    .ag-card-wrapper {
+        max-width: 90%;
+        margin: 0 auto;
     }
-    
-    .hiw-horizontal-card {
-        margin-top: 0;
-    }
-    
-    .hiw-tabs-container {
-        flex-direction: column;
-        width: 100%;
+    .ag-header h2 {
+        font-size: 2.5rem;
     }
 }
+
+/* Removed old responsive styles */

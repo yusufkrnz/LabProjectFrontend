@@ -1,8 +1,8 @@
 .landing-footer {
-    background: #f8fafc;
-    border-top: 1px solid #e2e8f0;
+    background: transparent;
+    border-top: 1px solid rgba(255,255,255,0.08);
     padding: 4rem 2rem 2rem;
-    color: #1e293b;
+    color: #ffffff;
     width: 100%;
 }
 
@@ -24,13 +24,14 @@
 }
 
 .footer-brand h3 {
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.8rem;
+    font-weight: 600;
     margin-bottom: 1rem;
 }
 
 .footer-brand p {
-    color: #64748b;
+    color: #a3b8c2;
     line-height: 1.6;
 }
 
@@ -44,60 +45,71 @@
     font-size: 0.9rem;
     font-weight: 600;
     text-transform: uppercase;
-    color: #94a3b8;
+    color: #ffffff;
     margin-bottom: 1.5rem;
     letter-spacing: 0.05em;
 }
 
 .footer-column a {
     display: block;
-    color: #475569;
+    color: #a3b8c2;
     text-decoration: none;
     margin-bottom: 0.8rem;
     transition: color 0.2s;
+    font-size: 0.95rem;
 }
 
 .footer-column a:hover {
-    color: #3b82f6;
+    color: #ffffff;
 }
 
 .footer-bottom {
     padding-top: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
     justify-content: center;
-    /* Center content since social links are gone */
     align-items: center;
 }
 
 .copyright-text {
-    color: #94a3b8;
+    color: #a3b8c2;
     font-size: 0.9rem;
 }
 
 .footer-eureka-highlight {
-    font-family: 'Dancing Script', 'Brush Script MT', cursive;
+    font-family: 'Playfair Display', Georgia, serif;
     font-style: italic;
-    font-weight: 700;
+    font-weight: 400;
     font-size: 1.1em;
-    color: #64748b;
-    /* Keep it grey but styled */
+    color: #ffffff;
     padding-left: 2px;
 }
 
-.social-links {
+.footer-logo-group {
     display: flex;
-    gap: 1.5rem;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.2rem;
 }
 
-.social-links a {
-    color: #64748b;
-    transition: color 0.2s, transform 0.2s;
+.footer-logo-img {
+    height: 38px;
+    width: auto;
+    object-fit: contain;
 }
 
-.social-links a:hover {
-    color: #3b82f6;
-    transform: translateY(-2px);
+.footer-tagline {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+    opacity: 0.9;
+}
+
+.footer-desc {
+    color: #a3b8c2;
+    line-height: 1.6;
 }
 
 @media (max-width: 768px) {

@@ -1,14 +1,17 @@
 import './Footer.css';
 
-
 export default function Footer() {
     return (
         <footer className="landing-footer">
             <div className="footer-container">
                 <div className="footer-top">
                     <div className="footer-brand">
-                        <h3>now<span className="text-highlight">Eureka</span></h3>
-                        <p>Bridging the gap between ideas and reality.</p>
+                        <div className="footer-logo-group">
+                            <img src="/noweurekalogo.png" alt="nowEureka Logo" className="footer-logo-img" />
+                            <h3>now<span className="text-highlight">Eureka</span></h3>
+                        </div>
+                        <p className="footer-tagline">YZ_Eşleşme_Sistemi</p>
+                        <p className="footer-desc">Bridging the gap between ideas and reality.</p>
                     </div>
 
                     <div className="footer-links">

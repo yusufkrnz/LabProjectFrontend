@@ -1,0 +1,31 @@
+.ne-logo-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Inter', -apple-system, sans-serif;
+    user-select: none;
+}
+
+.ne-logo-icon {
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.ne-logo-container:hover .ne-logo-icon {
+    transform: scale(1.05) rotate(-2deg);
+}
+
+.ne-logo-text {
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    line-height: 1;
+}
+
+.ne-bold {
+    font-weight: 700;
+}
+
+.ne-light {
+    font-weight: 400;
+    font-style: italic;
+}
